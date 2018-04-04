@@ -1,0 +1,162 @@
+body {
+    background-color: #FFFFE0;
+}
+
+.hat {
+    border: 0.1vw solid;
+    border-top-right-radius: 2vw;
+    border-top-left-radius: 2vw;
+    background-color: #FFFFFF;
+    height: 5vw;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5vw;
+    padding-top: 0.25vw;
+}
+
+.top {
+    border: 0.1vw solid;
+    height: 12vw;
+    width: 80%;
+    margin-left: 10%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.menu_div{
+    border: 0.1vw solid;
+    height: 3.1vw;
+    width: 80%;
+    margin-left: 10%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.body {
+    border: 0.1vw solid;
+    background-color: #FFFFFF;
+    border-bottom-right-radius: 2vw;
+    border-bottom-left-radius: 2vw;
+    height: 100vw;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.footer {
+
+}
+
+.sign_in_top{
+    float: right;
+    height: 5.25vw;
+    margin-top: -0.25vw;
+    margin-right: -0.03vw;
+    background: rgb(123, 191, 106);
+    border-top-right-radius: 1.9vw;
+    # vertical-align: bottom;
+}
+.sign_in_top img {
+    height: 100%;
+}
+/*фиксированное плавающее меню*/
+#top_nav{
+   top: 22.8vw; /*высота шапки в пикселях*/
+   position: fixed;
+   z-index: 1000;
+}
+
+
+nav{
+  width: 80%;
+  margin-left: 10%;
+  font-size: 0.95vw;
+}
+
+ul{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+ul.dropdown{
+  position: relative;
+  width: 100%;
+}
+
+ul.dropdown li{
+
+  float: left;
+  width: 19.6vw;
+  position: relative;
+  background: #ecf0f1;
+}
+
+ul.dropdown a:hover{
+  color: #000;
+}
+
+ul.dropdown li a {
+  display: block;
+  padding: 1vw 0.5vw;
+  color: #34495e;
+  position: relative;
+  z-index: 2000;
+  text-align: center;
+  text-decoration: none;
+}
+
+ul.dropdown li a:hover,
+ul.dropdown li a.hover{
+  background: #3498db;
+  position: relative;
+  color: #fff;
+}
+
+
+ul.dropdown ul{
+ display: none;
+ position: absolute;
+  top: 0;
+  left: 0;
+  width: 19.6vw;
+  z-index: 1000;
+}
+
+ul.dropdown ul li {
+  font-weight: normal;
+  background: #f6f6f6;
+  color: #000;
+  border-bottom: 0.05vw solid #ccc;
+}
+
+ul.dropdown ul li a{
+  display: block;
+  color: #34495e !important;
+  background: #eee !important;
+}
+
+ul.dropdown ul li a:hover{
+  display: block;
+  background: #3498db !important;
+  color: #fff !important;
+}
+
+.drop > a{
+  position: relative;
+}
+
+.drop > a:after{
+  content:"";
+  position: absolute;
+  right: 0.5vw;
+  top: 40%;
+  border-left: 0.2vw solid transparent;
+  border-top: 0.2vw solid #333;
+  border-right: 0.2vw solid transparent;
+  z-index: 999;
+}
+
+.drop > a:hover:after{
+  content:"";
+   border-left: 0.2vw solid transparent;
+  border-top: 0.2vw solid #fff;
+  border-right: 0.2vw solid transparent;
+}

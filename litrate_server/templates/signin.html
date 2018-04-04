@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1> Sign in </h1>
+{% from "includes/_formhelper.html" import render_field %}
+<form method="POST" action="">
+    <p> {{ render_field(form.login) }} </p>
+    <p> {{ render_field(form.password) }} </p>
+    <p> <input type="submit" value="Submit"></p>
+</form>
+{% endblock %}

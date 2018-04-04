@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelper.html" import render_field %}
+
+    <form method="POST" action="">
+        <p> {{ render_field(form.name) }} </p>
+        <p> {{ render_field(form.surname) }} </p>
+        <p> {{ render_field(form.patronymic) }} </p>
+        <p> {{ render_field(form.phone) }} </p>
+        <p> {{ render_field(form.birth) }} </p>
+        {% if session.user_type == "Creator" %}
+        <p> {{ render_field(form.country) }} </p>
+        <p> {{ render_field(form.city) }} </p>
+        {% elif session.user_type == "Publisher" %}
+        <p> {{ render_field(form.publisher_house_name) }} </p>
+        <p> {{ render_field(form.country) }} </p>
+        <p> {{ render_field(form.city) }} </p>
+        <p> {{ render_field(form.street) }} </p>
+        {% else %}
+
+        {% endif %}
+        <p> <input type="submit" value="Submit"></p>
+    </form>
+
+    {% block type_profile %}{% endblock %}
+{% endblock %}

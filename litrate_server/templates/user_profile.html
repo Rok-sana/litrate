@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelper.html" import render_field %}
+    <h1> Profile </h1> <a href={{url_for("edit_info")}}> Edit info </a>
+    <p> Id: {{session.user_info.user_id[0]}}</p>
+    <p> Login: {{session.user_info.user_login[0]}}</p>
+    <p> Name: {{session.user_info.user_name[0]}}</p>
+    <p> Surname: {{session.user_info.user_surname[0]}}</p>
+    {% block type_profile %}{% endblock %}
+{% endblock %}
