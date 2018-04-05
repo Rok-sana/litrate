@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelper.html" import render_field %}
+<form method="POST" action="" enctype="multipart/form-data">
+    <p> Name: {{ form.name }} </p>
+    <p> Choose your poem: {{ form.file }} </p>
+    <p> Choose poem types: {{ form.poem_types(rows=3, multiple=True) }}  </p>
+    <p> <input type="submit" value="Submit"></p>
+</form>
+{% endblock %}

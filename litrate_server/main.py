@@ -6,6 +6,8 @@ from mySql.update_queries import update_user_info
 from mySql.signingup import signup_user
 from passlib.hash import sha256_crypt
 from functools import wraps
+from werkzeug.datastructures import CombinedMultiDict
+from mySql.file_adding import *
 app = Flask(__name__)
 
 
@@ -33,6 +35,19 @@ def get_edit_form(req_form=None):
         pass
 
 
+#
+def normalize_compositions(compositions, number_of_compositions=5):
+    res = []
+    for i in range(min(len(compositions["composition_id"]), number_of_compositions)):
+        composition = dict()
+        composition["composition_id"] = compositions["composition_id"][i]
+        composition["composition_name"] = compositions["composition_name"][i]
+        composition["rating"] = compositions["rating"][i]
+        composition["composition_type"] = compositions["composition_type"][i]
+        res.append(composition)
+    return res
+
+
 # Функция, которая будет использоваться как декоратор
 # Если пользователь вошел в систему, то вернет страницу, на которую пользователь переходил
 # В другом случае предложит авторизироваться
@@ -44,6 +59,19 @@ def is_logged_in(f):
         else:
             flash("Unauthorized, please sign in")
             return redirect(url_for("signin"))
+    return wrap
+
+
+# Возвращает страницу, если пользователь является писателем,
+# иначе переведет его на начальную страницу
+def is_creator(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if session["user_type"] == USER_TYPES.CREATOR:
+            return f(*args, **kwargs)
+        else:
+            flash("You are not creator!")
+            return redirect(url_for("index"))
     return wrap
 
 
@@ -65,7 +93,7 @@ def signup():
         if not find_user(email, login):
             # Если пользователь в базе не найден, регистрируем его
             signup_user(login, email, password, type)
-            return redirect(url_for("index"))
+            return redirect(url_for("signin"))
         else:
             # Иначе возвращаемся на страницу регистрации
             if find_user(email=email):
@@ -121,7 +149,8 @@ def signout():
 def profile():
     update_session_user_info()
     if session["user_type"] == "Creator":
-        return render_template("creator_profile.html")
+        compositions = normalize_compositions(get_creators_compositions(session["user_id"]))
+        return render_template("creator_profile.html", compositions=compositions)
     elif session["user_type"] == "Publisher":
         return render_template("publisher_profile.html")
     else:
@@ -149,6 +178,48 @@ def edit_info():
         form = get_edit_form()
         form.change_info(session["user_info"])
         return render_template("edit_user_info.html", form=form)
+
+
+# Страница добавления стихов
+@app.route('/poem_adding', methods=['GET', 'POST'])
+@is_logged_in
+@is_creator
+def poem_adding():
+    if request.method == 'POST':
+        form = usefull_classes.forms.AddPoemForm(CombinedMultiDict((request.files, request.form)))
+        if form.validate():
+            add_poem(form.file.data, form.name.data, form.poem_types.data, session["user_id"])
+            flash("Poem added")
+            update_session_user_info()
+            return render_template("creator_profile.html", form=form)
+        else:
+            flash("Something go wrong")
+            # !!!!
+            return render_template("poem_adding.html", form=form)
+    else:
+        form = usefull_classes.forms.AddPoemForm()
+        return render_template("poem_adding.html", form=form)
+
+
+# Страница добавления прозаических произведений
+@app.route('/prose_adding', methods=['GET', 'POST'])
+@is_logged_in
+@is_creator
+def prose_adding():
+    if request.method == 'POST':
+        form = usefull_classes.forms.AddProseForm(CombinedMultiDict((request.files, request.form)))
+        if form.validate():
+            add_prose(form.file.data, form.name.data, form.prose_types.data, session["user_id"])
+            flash("Prose added")
+            update_session_user_info()
+            return render_template("creator_profile.html", form=form)
+        else:
+            flash("Something go wrong")
+            # !!!!
+            return render_template("prose_adding.html", form=form)
+    else:
+        form = usefull_classes.forms.AddProseForm()
+        return render_template("prose_adding.html", form=form)
 
 
 # Получить какой-нибудь статический файл (js, css, ico...)

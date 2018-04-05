@@ -39,3 +39,31 @@ def find_publisher(publisher_id):
             "WHERE publisher_id={0};".format(publisher_id)
     return database.execute_query(query)
 
+
+# Жанры прозаических произведений
+def get_prose_types():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Prose_types;"
+    return database.execute_query(query)["prose_type"]
+
+
+# Жанры стихотворений
+def get_poem_types():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Poem_types;"
+    return database.execute_query(query)["poem_type"]
+
+
+#
+def get_creators_compositions(creator_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Compositions " \
+            "WHERE creator_id={0};".format(creator_id)
+    return database.execute_query(query)
+
+
+
+

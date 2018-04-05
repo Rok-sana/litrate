@@ -1,5 +1,9 @@
 {% extends "user_profile.html" %}
 {% block type_profile %}
 <h1> Creator  </h1>
+{% from "includes/_formhelper.html" import render_composition %}
+{% for comp in compositions %}
+    {{ render_composition(comp) }}
+{% endfor %}
 <p> Rating: {{session.user_info.rating[0]}}</p>
 {% endblock %}

@@ -1,15 +1,17 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, FieldList, SelectField
+from wtforms import Form, StringField, TextAreaField, PasswordField, \
+     validators, FieldList, SelectField, SelectMultipleField
+from flask_wtf.file import FileField, FileRequired
 from passlib.hash import sha256_crypt
 #from wtforms.ext.dateutil.fields import DateField
 from wtforms.fields.html5 import DateField
 import dateutil
-
+from mySql.check_queries import get_prose_types, get_poem_types
 
 # Форма регистрации
 class SignupForm(Form):
     login = StringField('Login', [validators.length(min=6, max=60),
                                   validators.InputRequired(),
-                                  validators.Regexp(regex="^[a-zA-z0-9а-яА-я]+$", message='You can only use '
+                                  validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                           'letters or numbers')]
                         )
     password = PasswordField('Password', [validators.length(min=6, max=60),
@@ -31,7 +33,7 @@ class SignupForm(Form):
 class SigninForm(Form):
     login = StringField('Login or Email', [validators.length(min=6, max=60),
                                            validators.InputRequired(),
-                                           validators.Regexp(regex="^[.@a-zA-z0-9а-яА-я]+$",
+                                           validators.Regexp(regex="^[.@a-zA-z0-9а-яА-яіїІЇ]+$",
                                                              message='You can only use '
                                                                      'letters or numbers'
                                                                      'and symbols @ and .')]
@@ -48,19 +50,19 @@ class SigninForm(Form):
 # Форма для редактирования основных данных пользователя
 class EditUserInfoForm(Form):
     name = StringField("user_name", [validators.length(min=0, max=60),
-                                validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                   'english letters '
                                                                                   'or numbers'),
                                 validators.Optional()]
                        )
     surname = StringField("user_surname", [validators.length(min=0, max=60),
-                                      validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                         'english letters '
                                                                                         'or numbers'),
                                       validators.Optional()]
                           )
     patronymic = StringField("user_patronymic", [validators.length(min=0, max=60),
-                                            validators.Regexp(regex="^[a-zA-z0-9]+$",
+                                            validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$",
                                                               message='You can only use '
                                                                       'english letters '
                                                                       'or numbers'),
@@ -123,22 +125,22 @@ class EditCreatorInfoForm(EditUserInfoForm):
 
 class EditPublisherInfoForm(EditUserInfoForm):
     country = StringField("country", [validators.length(min=0, max=60),
-                                      validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                        'english letters '
                                                                                        'or numbers'),
                                      validators.Optional()])
     city = StringField("city", [validators.length(min=0, max=60),
-                                      validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                         'english letters '
                                                                                         'or numbers'),
                                       validators.Optional()])
     street = StringField("street", [validators.length(min=0, max=60),
-                                    validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                    validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                       'english letters '
                                                                                       'or numbers'),
                                     validators.Optional()])
     publisher_house_name = StringField("publisher_house_name", [validators.length(min=0, max=60),
-                                    validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                    validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                       'english letters '
                                                                                       'or numbers'),
                                     validators.Optional()])
@@ -161,4 +163,29 @@ class EditPublisherInfoForm(EditUserInfoForm):
         yield self.publisher_house_name.label, "\'" + self.publisher_house_name.data + "\'" \
                                                if self.publisher_house_name.data else "\'\'"
         raise StopIteration
+
+
+class AddPoemForm(Form):
+    name = StringField("Name of poem", [validators.length(min=0, max=60),
+                                     validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
+                                                                                                 ' letters '
+                                                                                                 'or numbers')]
+                       )
+
+    file = FileField(validators=[FileRequired()])
+    poem_types = SelectMultipleField(choices=[(i, i) for i in get_poem_types()])
+
+
+class AddProseForm(Form):
+    name = StringField("Name of prose", [validators.length(min=0, max=60),
+                                     validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
+                                                                                                 ' letters '
+                                                                                                 'or numbers')]
+                       )
+
+    file = FileField(validators=[FileRequired()])
+    prose_types = SelectMultipleField(choices=[(i, i) for i in get_prose_types()])
+
+
+
 

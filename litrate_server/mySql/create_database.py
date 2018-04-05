@@ -4,7 +4,7 @@ from mySql.basic_information_add import add_information
 import os
 import shutil
 
-tables = ['Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections', 'Accepted_Proses', 'Offer_Statuses', 'Issues', 'Sent_Collections', 'Sent_Proses', 'Poems_Collections', 'Collections',
+tables = ['Types_Proses', 'Types_Poems', 'Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections', 'Accepted_Proses', 'Offer_Statuses', 'Issues', 'Sent_Collections', 'Sent_Proses', 'Poems_Collections', 'Collections',
           'Comments', 'Proses', 'Poems', 'Poem_types', 'Prose_types', 'Compositions',
           'Moderators', 'Publishers', 'Creators', 'Users', 'User_types']
 
@@ -81,6 +81,8 @@ def _create_table_compositions(db: MySqlDatabase):
             "creator_id INT NOT NULL, " \
             "rating INT NOT NULL, " \
             "posting_date DATE NOT NULL, " \
+            "composition_type VARCHAR(60) CHARACTER SET utf8 NOT NULL, " \
+            "modifier VARCHAR(60) NOT NULL, " \
             "FOREIGN KEY (creator_id) " \
             "REFERENCES Creators(creator_id) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
@@ -101,22 +103,38 @@ def _create_table_poem_types(db: MySqlDatabase):
 def _create_table_poems(db: MySqlDatabase):
     query = "CREATE TABLE Poems ( " \
             "poem_id INT NOT NULL PRIMARY KEY, " \
-            "poem_type VARCHAR(40) CHARACTER SET utf8 NOT NULL, " \
             "FOREIGN KEY (poem_id) " \
-            "REFERENCES Compositions(composition_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
-            "FOREIGN KEY (poem_type) " \
-            "REFERENCES Poem_types(poem_type) ON UPDATE CASCADE ON DELETE CASCADE );"
+            "REFERENCES Compositions(composition_id) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
 
 def _create_table_proses(db: MySqlDatabase):
     query = "CREATE TABLE Proses ( " \
             "prose_id INT NOT NULL PRIMARY KEY, " \
+            "FOREIGN KEY (prose_id) " \
+            "REFERENCES Compositions(composition_id) ON UPDATE CASCADE ON DELETE CASCADE );"
+    db.execute_query(query)
+
+
+def _create_table_types_proses(db: MySqlDatabase):
+    query = "CREATE TABLE Types_Proses ( " \
+            "prose_id INT NOT NULL, " \
             "prose_type VARCHAR(40) CHARACTER SET utf8 NOT NULL, " \
             "FOREIGN KEY (prose_id) " \
-            "REFERENCES Compositions(composition_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
+            "REFERENCES Proses(prose_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
             "FOREIGN KEY (prose_type) " \
             "REFERENCES Prose_types(prose_type) ON UPDATE CASCADE ON DELETE CASCADE );"
+    db.execute_query(query)
+
+
+def _create_table_types_poems(db: MySqlDatabase):
+    query = "CREATE TABLE Types_Poems ( " \
+            "poem_id INT NOT NULL, " \
+            "poem_type VARCHAR(40) CHARACTER SET utf8 NOT NULL, " \
+            "FOREIGN KEY (poem_id) " \
+            "REFERENCES Poems(poem_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
+            "FOREIGN KEY (poem_type) " \
+            "REFERENCES Poem_types(poem_type) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
 
@@ -266,6 +284,8 @@ def _create_database(db: MySqlDatabase):
     _create_table_poem_types(db)
     _create_table_poems(db)
     _create_table_proses(db)
+    _create_table_types_proses(db)
+    _create_table_types_poems(db)
     _create_table_comments(db)
     _create_table_collections(db)
     _create_table_poems_collections(db)

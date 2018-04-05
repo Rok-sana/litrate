@@ -7,3 +7,11 @@
         {% endfor %}
     {% endif %}
 {% endmacro %}
+
+
+{% macro render_composition(comp) %}
+        <p>id: {{ comp.composition_id }}</p>
+        <p>Name: {{ comp.composition_name }}</p>
+        <p>Rating: {{ comp.rating }}</p>
+        <p>Type: {{ comp.composition_type }}</p>
+{% endmacro %}
