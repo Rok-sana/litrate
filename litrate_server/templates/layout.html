@@ -25,61 +25,52 @@
             <a href={{url_for("index")}}><img src="/static/images/logo.png" alt="litrate.com" height="90%"></a>
         </div>
         <div class="sign_in_top">
-            {% if session.signedin %}
-            <a href={{url_for("signout")}}><img src="/static/images/sign_in_v2.png" alt="выход"></a>
-            <a href={{url_for("profile")}}><img src="/static/images/sign_in_v2.png" alt="профиль"></a>
+             {% if session.signedin %}
+            <a href={{url_for("profile")}}><img src="/static/images/profile_icon.png" alt="профиль"></a>
+
+            <a href={{url_for("signout")}}><img src="/static/images/exit_icon.png" alt="выход"></a>
             {% else %}
-            <a href={{url_for("signin")}}><img src="/static/images/settings_v2.png" alt="вход"></a>
+            <a href={{url_for("signin")}}><img src="/static/images/sign_in_v2.png" alt="вход"></a>
+            <!--<a href={{url_for("signup")}}><img src="/static/images/sign_in_v2.png" alt="регистрация"></a>-->
             {% endif %}
         </div>
-
     </div>
     <div class="top">
              {% include "includes/_messages.html" %}
     </div>
-    <div class="menu_div">
-    </div>
-    <div>
-    <nav id="top_nav">
-        <ul class="dropdown">
-                <li class="drop"><a href="#">Really Tall Menu</a>
-                    <ul class="sub_menu">
-                                <li><a href="#">Lorem</a></li>
-                                <li><a href="#">Ipsum</a></li>
-                                <li><a href="#">Dolor</a></li>
-                                <li><a href="#">Lipsum</a></li>
-
-
-                    </ul>
-                </li>
-                <li class="drop"><a href="#">Kinda Tall Menu</a>
-                    <ul class="sub_menu">
-                        <li><a href="#">Lorem</a></li>
-                                <li><a href="#">Ipsum</a></li>
-                                <li><a href="#">Dolor</a></li>
-                                <li><a href="#">Lipsum</a></li>
-
-
-                    </ul>
-                </li>
-                <li class="drop"><a href="#">Average Menu</a>
-                    <ul class="sub_menu">
-                        <li><a href="#">Lorem</a></li>
-                                <li><a href="#">Ipsum</a></li>
-                                <li><a href="#">Dolor</a></li>
-                                <li><a href="#">Lipsum</a></li>
-                                <li><a href="#">Consectetur </a></li>
-                    </ul>
-                </li>
-                <li><a href="#">No Menu</a>
-                </li>
-            </ul>
-    </nav>
-    </div>
         <div class="body">
+            <div style="float:left; width:25%; height: 100%; border-right: 0.01vw solid;">
+                <div >
+                    <ul>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Прайс</a></li>
+                        <li><a href="#">Услуги</a>
+                            <ul>
+                                <li><a href="#">Услуга 1</a></li>
+                                <li><a href="#">Услуга 2</a></li>
+                                <li><a href="#">Услуга 3</a>
+                                    <ul>
+                                        <li><a href="#">Услуга 1</a></li>
+                                        <li><a href="#">Услуга 2</a></li>
+                                        <li><a href="#">Услуга 3</a></li>
+                                        <li><a href="#">Услуга 4</a></li>
+                                        <li><a href="#">Услуга 5</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Услуга 4</a></li>
+                                <li><a href="#">Услуга 5</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="width: 75%">
         {% block body %}
-
+        Hello
         {% endblock %}
+            </div>
         </div>
     <script>
         padding_page();

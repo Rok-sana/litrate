@@ -12,7 +12,7 @@ class SignupForm(Form):
     login = StringField('Login', [validators.length(min=6, max=60),
                                   validators.InputRequired(),
                                   validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
-                                                                                          'letters or numbers')]
+                                                                                          'letters or numbers') ]
                         )
     password = PasswordField('Password', [validators.length(min=6, max=60),
                                           validators.InputRequired(),

@@ -4,18 +4,21 @@ from mySql.basic_information_add import add_information
 import os
 import shutil
 
-tables = ['Types_Proses', 'Types_Poems', 'Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections', 'Accepted_Proses', 'Offer_Statuses', 'Issues', 'Sent_Collections', 'Sent_Proses', 'Poems_Collections', 'Collections',
+tables = ['Types_Proses', 'Types_Poems', 'Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections',
+          'Accepted_Proses', 'Offer_Statuses', 'Issues', 'Sent_Collections', 'Sent_Proses', 'Poems_Collections', 'Collections',
           'Comments', 'Proses', 'Poems', 'Poem_types', 'Prose_types', 'Compositions',
           'Moderators', 'Publishers', 'Creators', 'Users', 'User_types']
 
 
 def _delete_all_tables(db: MySqlDatabase):
+    db.execute_query("SET FOREIGN_KEY_CHECKS=0;")
     for table in tables:
+        print(table)
         query = "DROP TABLE IF EXISTS {0} CASCADE;".format(table)
         db.execute_query(query)
+    db.execute_query("SET FOREIGN_KEY_CHECKS=1;")
 
-
-def _create_table_user_types(db: MySqlDatabase):
+*8def _create_table_user_types(db: MySqlDatabase):
     query = "CREATE TABLE User_types ( " \
             "user_type VARCHAR(30) CHARACTER SET utf8 NOT NULL PRIMARY KEY );"
     db.execute_query(query)

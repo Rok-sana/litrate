@@ -38,13 +38,18 @@ def get_edit_form(req_form=None):
 #
 def normalize_compositions(compositions, number_of_compositions=5):
     res = []
-    for i in range(min(len(compositions["composition_id"]), number_of_compositions)):
-        composition = dict()
-        composition["composition_id"] = compositions["composition_id"][i]
-        composition["composition_name"] = compositions["composition_name"][i]
-        composition["rating"] = compositions["rating"][i]
-        composition["composition_type"] = compositions["composition_type"][i]
-        res.append(composition)
+    # Need fix!!!!!
+    try:
+        for i in range(min(len(compositions["composition_id"]), number_of_compositions)):
+            composition = dict()
+            composition["composition_id"] = compositions["composition_id"][i]
+            composition["composition_name"] = compositions["composition_name"][i]
+            composition["rating"] = compositions["rating"][i]
+            composition["composition_type"] = compositions["composition_type"][i]
+            res.append(composition)
+    except:
+        print("123")
+        res = []
     return res
 
 
