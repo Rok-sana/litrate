@@ -1,5 +1,6 @@
-{% macro render_field(field, class) %}
-    {{ field(class_=class, **kwargs)|safe }}
+{% macro render_field(field) %}
+    {{ field.label }}
+    {{ field(**kwargs)|safe }}
     {% if field.errors %}
         {% for error in field.errors %}
             <span > {{ error }} </span>
@@ -7,16 +8,14 @@
     {% endif %}
 {% endmacro %}
 
-
 {% macro render_composition(comp) %}
-
-        <a href={{url_for('like_composition',composition_id=comp.id)}} >+</a>
-<a href={{url_for('dislike_composition',composition_id=comp.id)}} >-</a>
-<a href={{url_for('delete_composition',composition_id=comp.id)}} >Delete</a>
-        <a href={{url_for('composition_page',composition_id=comp.id)}} >
+    <a href={{url_for('like_composition',composition_id=comp.id)}} >+</a>
+    <a href={{url_for('dislike_composition',composition_id=comp.id)}} >-</a>
+    <a href={{url_for('delete_composition',composition_id=comp.id)}} >Delete</a>
+    <a href={{url_for('composition_page',composition_id=comp.id)}} >
         <p>id: {{ comp.id }}</p>
         <p>Name: {{ comp.name }}</p>
         <p>Rating: {{ comp.rating }}</p>
         <p>Type: {{ comp.composition_type }}</p>
-            </a>
+    </a>
 {% endmacro %}

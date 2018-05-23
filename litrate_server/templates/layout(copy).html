@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/static/menu.js"></script>
+
+    {% block title %}
+    {% endblock %}
+
+</head>
+<body>
+<!--<p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='block';">Открыть</p>
+<div id="parent_popup">
+  <div id="popup">
+    <p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='none';">Закрыть</p>
+    <p>Текст в окне</p>
+  </div>
+</div>!-->
+    <!--<header>
+            <a href={{url_for("index")}}> Index </a>
+            {% if session.signedin %}
+            <a href={{url_for("profile")}}> Profile </a>
+            <a href={{url_for("signout")}}> Sign out </a>
+            {% else %}
+            <a href={{url_for("signin")}}> Sign in </a>
+            <a href={{url_for("signup")}}> Sign up </a>
+            {% endif %}
+        {% include "includes/_messages.html" %}
+    </header>!-->
+    <div class="hat">
+        <div style="float: left; height: 100%">
+            <a href={{url_for("index")}}><img src="/static/images/logo.png" alt="litrate.com" height="90%"></a>
+        </div>
+        <div class="sign_in_top">
+             {% if session.signedin %}
+            <a href={{url_for("profile")}}><img src="/static/images/profile_icon.png" alt="профиль"></a>
+
+            <a href={{url_for("signout")}}><img src="/static/images/exit_icon.png" alt="выход"></a>
+            {% else %}
+            <a href={{url_for("signin")}}><img src="/static/images/sign_in_v2.png" alt="вход"></a>
+            <!--<a href={{url_for("signup")}}><img src="/static/images/sign_in_v2.png" alt="регистрация"></a>-->
+            {% endif %}
+        </div>
+    </div>
+    <div class="top">
+             {% include "includes/_messages.html" %}
+    </div>
+        <div class="body">
+            <div style="float:left; width:25%; height: 100%; border-right: 0.01vw solid;">
+                <div >
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Прайс</a></li>
+                        <li><a href="#">Услуги</a>
+                            <ul>
+                                <li><a href="#">Услуга 1</a></li>
+                                <li><a href="#">Услуга 2</a></li>
+                                <li><a href="#">Услуга 3</a>
+                                    <ul>
+                                        <li><a href="#">Услуга 1</a></li>
+                                        <li><a href="#">Услуга 2</a></li>
+                                        <li><a href="#">Услуга 3</a></li>
+                                        <li><a href="#">Услуга 4</a></li>
+                                        <li><a href="#">Услуга 5</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Услуга 4</a></li>
+                                <li><a href="#">Услуга 5</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="width: 100%">
+        {% block body %}
+        Hello
+        {% endblock %}
+            </div>
+        </div>
+    <script>
+        padding_page();
+        menu_height();
+    </script>
+    </body>
+    <div class="footer">
+    </div>
+</html>

@@ -1,15 +1,25 @@
-{% extends "layout.html" %}
-{% block body %}
+{% extends "base_profile.html" %}
+
 {% from "includes/_formhelper.html" import render_field %}
-    <h1> Profile </h1>
-    {% if session.user_type == "Creator" %}
-        <a href={{url_for("poem_adding")}}> Add poem </a>
-        <a href={{url_for("prose_adding")}}> Add prose </a>
-    {% endif %}
-    <a href={{url_for("edit_info")}}> Edit info </a>
-    <p> Id: {{session.user.user_id}}</p>
-    <p> Email: {{session.user.user_mail}}</p>
-    <p> Name: {{session.user.user_name}}</p>
-    <p> Surname: {{session.user.user_surname}}</p>
-    {% block type_profile %}{% endblock %}
+
+{% block body %}
+    <div class="img_profile">
+        <img style="width: 100%; height: 100%;" src="/static/images/temp.jpg" />
+        <a style="margin: 25px;" href={{url_for("edit_info")}}>Редактировать информацию</a>
+    </div>
+    <h1 style="font-size: 30px; padding-left: 20px; color: rgb(0,0,0); font-weight: bold">
+        {{session.user.user_name[0]}} {{session.user.user_surname}}
+        <span>
+            [Id:{{session.user.user_id}}]
+        </span>
+        {% block type_profile %}
+        {% endblock %}
+    </h1>
+
+    <div class="profile_info">
+        <p>Проза(8)</p>
+        <p>Жанры: Фантастика(5), Фэнтези(3)</p>
+        <p>Поэзия(19)</p>
+        <p>Жанры: Любовная лирика(3), Гражданская лирика(2), Гражданская лирика(2), Гражданская лирика(2), Гражданская лирика(2), Гражданская лирика(2), Гражданская лирика(2), Гражданская лирика(2), Гражданская лирика(2)</p>
+    </div>
 {% endblock %}

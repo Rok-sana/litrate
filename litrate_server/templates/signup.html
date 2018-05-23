@@ -1,12 +1,22 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1> Sign up </h1>
 {% from "includes/_formhelper.html" import render_field %}
-<form method="POST" action="">
-    <p> {{ render_field(form.email) }} </p>
-    <p> {{ render_field(form.password) }} </p>
-    <p> {{ render_field(form.confirm) }} </p>
-    <p> {{ render_field(form.type) }} </p>
-    <p> <input type="submit" value="Submit"></p>
-</form>
+<div class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+        <button data-remodal-action="close" class="remodal-close" aria-label="Закрыть"></button>
+        <div>
+            <h2 id="modal1Title">Авторизация</h2>
+            <p id="modal1Desc">
+                <form name="login-form" class="login-form" action="" method="post">
+                    <p> {{ render_field(form.email) }} </p>
+                    <p> {{ render_field(form.password) }} </p>
+                    <p> {{ render_field(form.confirm) }} </p>
+                    <p> {{ render_field(form.type) }} </p>
+                    <input type="submit" name="submit" value="ЗАРЕГИСТРИРОВАТЬСЯ">
+                </form>
+            </p>
+        </div>
+        <br>
+                    <!--<button data-remodal-action="cancel" class="remodal-cancel">Отмена</button>
+                    <button data-remodal-action="confirm" class="remodal-confirm">Ок</button>!-->
+    </div>
 {% endblock %}

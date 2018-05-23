@@ -1,0 +1,131 @@
+body {
+    background-color: #FFFFE0;
+}
+
+.hat {
+    background-color: #FFFFFF;
+    height: 5vw;
+    width: 100%;
+    padding-top: 0.25vw;
+    margin-top: -1vw;
+}
+
+.menu_div{
+    border: 0.1vw solid;
+    height: 3.1vw;
+    width: 80%;
+    margin-left: 10%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.body {
+    border: 0.05vw solid;
+    background-color: rgb(236,236,236);
+    height: 100vw;
+    width: 100%;
+}
+
+.footer {
+
+}
+
+.sign_in_top{
+    float: right;
+    height: 5.25vw;
+    margin-top: -0.25vw;
+    margin-right: -0.03vw;
+    background: rgb(123, 191, 106);
+    border-top-right-radius: 1.9vw;
+    # vertical-align: bottom;
+}
+.sign_in_top img {
+    height: 100%;
+}
+
+
+
+
+ul{
+	list-style: none;
+	background-color: rgb(225,225,225);
+	width: 15vw;
+	border-bottom: 0.01vw solid #2a323f;
+	border-bottom: none;
+    padding-left: 0vw;
+    width: 99.9%;
+    margin-top: 0vw;
+
+}
+ul li{
+	border-bottom: 0.01vw solid rgb(200,200,200);
+	position: relative;
+}
+ul li:hover{
+	background-color: rgb(200,200,200);
+}
+ul li:hover ul{
+	display: block;
+}
+ul li:hover ul li ul{
+	display: none;
+}
+ul li a{
+	color: #484f61;
+	padding: 1vw 2vw;
+	display: block;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.5vw;
+}
+ul li a:hover{
+	background-color: #5d99cf;
+	color: #fff;
+}
+ul li ul li:hover ul{
+	display: block;
+}
+ul li ul{
+	position: absolute;
+	left: 15vw;
+	top: 0vw;
+	display: none;
+}
+
+
+.img_profile {
+    height: 14vw;
+    width: 14vw;
+    float: left;
+    border: 0.02vw solid rgb(0,0,0);
+    box-shadow: 0 0 1vw rgba(0,0,0,0.5);
+    margin-left: 1vw;
+    margin-top: 0.5vw;
+}
+
+.profile_hat {
+    width: 100%;
+    height: 15vw;
+    border: 0.02vw solid rgb(0,0,0);
+    background: rgb(100,100,100);
+    background: linear-gradient(to left, rgba(255,255,255,0), rgba(0,0,0,1));
+}
+
+#parent_popup {
+  background: #000;
+  height: 100%;
+  opacity: 0.9;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+#popup {
+  background-color: #00f;
+  height: 200px;
+  position: fixed;
+  top: 100px;
+  left: 40%;
+  color: #f00;
+  width: 300px;
+}

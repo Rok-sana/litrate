@@ -1,5 +1,11 @@
 {% extends "user_profile.html" %}
 {% block type_profile %}
-<h1> Publisher  </h1>
-<p> Rating: {{session.user_info.rating[0]}}</p>
+<span style="float: right; margin-right: 20px;"> Издатель [Рейтинг: {{session.user_info.rating}}]</span>
+
+
+
+{% endblock %}
+
+{% block title %}
+    <title> Издатель</title>
 {% endblock %}

@@ -3,80 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="stylesheet" type="text/css" href="/static/remodal.css">
+    <link rel="stylesheet" type="text/css" href="/static/remodal-default-theme.css">
     <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="/static/menu.js"></script>
-    <title>Litrate</title>
+
+    {% block title %}
+    {% endblock %}
+
 </head>
-<body>
-    <!--<header>
-            <a href={{url_for("index")}}> Index </a>
-            {% if session.signedin %}
-            <a href={{url_for("profile")}}> Profile </a>
-            <a href={{url_for("signout")}}> Sign out </a>
+{% from "includes/_formhelper.html" import render_field %}
+
+    <div class="header">
+        <div class="header_inner">
+
+
+
+            <div class="header__item header__left">
+                <a href="/" class="header__logo">
+                    <img src="/static/images/logo.png" alt="Litrate">
+                </a>
+            </div>
+
+
+
+            <div class="header__item header__menu">
+              <div class="header__search header-search hidden">
+                <div class="header-search__field">
+                  <form action="/search" method="post" novalidate="">
+                    <input type="hidden" name="_token" value="5Zt9EOsOuI3t1vyjRUgVXohCE2PcbvjeTRLVJRVc">
+                    <input type="text" name="q" class="header-search__input" placeholder="Быстрый поиск..." autocomplete="off">
+                    <button type="submit" class="header-search__find"><i class="fa fa-search"></i></button>
+                    <div class="header-search__close">
+                      <svg width="34" height="34" viewBox="0 0 34 34">
+                        <line x1="11" y1="11" x2="23" y2="23"></line>
+                        <line x1="11" y1="23" x2="23" y2="11"></line>
+                      </svg>
+                    </div>
+                    <div class="loader-circle loader-circle_small"></div>
+                  </form>
+                </div>
+              <div class="autocomplete-suggestions header-autocomplete" style="left: 0px; top: 1px; width: 0px;"></div></div>
+              <div class="header-menu">
+                <div class="header-menu__item dropdown">
+
+                      <div class="droplink">
+                  <h3><a href="#"> Каталог</a></h3>
+                    <ul>
+                        <li ><a href="#" target="_blank">Проза</a></li>
+                        <li ><a href="#" target="_blank">Поэзия</a></li>
+                        <li ><a href="#" target="_blank">Издательства</a></li>
+                        <li ><a href="#" target="_blank">Авторы</a></li>
+                    </ul>
+                      </div>
+                </div>
+                <div class="header-menu__item">
+                  <a style="font-size:18px;" href="" title="Поиск"><i class="fa fa-comments-o"></i>Поиск</a>
+                </div>
+                <div class="header-menu__item dropdown header-button">
+                  <div class="header-button__icon" data-dropdown="" data-tippy="">
+                    <i class="fa fa-ellipsis-h"></i>
+                  </div>
+                  <div class="menu-template">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="header__item header-right-menu">
+                {% if session.signedin %}
+            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("profile")}}><img width="35px" height="110%" src="/static/images/profile_icon.png" alt="профиль"></a>
+            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("index")}}><img width="35px" height="110%" src="/static/images/new_icon.png" alt="новое произведение"></a>
+            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("index")}}><img width="55px" height="110%" src="/static/images/mail_icon.png" alt="письма"></a>
+            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("signout")}}><img width="35px" height="110%"  src="/static/images/exit_icon.png" alt="выход"></a>
             {% else %}
-            <a href={{url_for("signin")}}> Sign in </a>
-            <a href={{url_for("signup")}}> Sign up </a>
+                <a href={{url_for("signin")}} class="flat2">Вход</a>
+                <a href={{url_for("signup")}} class="flat3">Регистрация</a>
             {% endif %}
-        {% include "includes/_messages.html" %}
-    </header>!-->
-    <div class="hat">
+
+          </div>
+<!--
         <div style="float: left; height: 100%">
             <a href={{url_for("index")}}><img src="/static/images/logo.png" alt="litrate.com" height="90%"></a>
+        </div>
+        <div style="width: 10%; float: left;">
+            <span>&nbsp;</span>
+        </div>
+        <div style="float: left; height: 5vw; margin-right: 2vw;">
+            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
+                <p style="margin-top: 1.5vw;">Главная</p>
+            </div>
+            </a>
+        </div>
+
+        <div style="float: left; height: 5vw; margin-right: 2vw;">
+            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
+                <p style="margin-top: 1.5vw;">Произведения</p>
+            </div>
+            </a>
+        </div>
+        <div style="float: left; height: 5vw; margin-right: 2vw;">
+            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
+                <p style="margin-top: 1.5vw;">Авторы</p>
+            </div>
+            </a>
+        </div>
+        <div style="float: left; height: 5vw; margin-right: 2vw;">
+            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
+                <p style="margin-top: 1.5vw;">Издательства</p>
+            </div>
+            </a>
         </div>
         <div class="sign_in_top">
              {% if session.signedin %}
             <a href={{url_for("profile")}}><img src="/static/images/profile_icon.png" alt="профиль"></a>
+            <a href={{url_for("index")}}><img src="/static/images/new_icon.png" alt="новое произведение"></a>
+            <a href={{url_for("index")}}><img src="/static/images/mail_icon.png" alt="письма"></a>
 
             <a href={{url_for("signout")}}><img src="/static/images/exit_icon.png" alt="выход"></a>
             {% else %}
             <a href={{url_for("signin")}}><img src="/static/images/sign_in_v2.png" alt="вход"></a>
             <!--<a href={{url_for("signup")}}><img src="/static/images/sign_in_v2.png" alt="регистрация"></a>-->
-            {% endif %}
+            <!--{% endif %}
+        </div>!-->
         </div>
-    </div>
-    <div class="top">
-             {% include "includes/_messages.html" %}
     </div>
         <div class="body">
-            <div style="float:left; width:25%; height: 100%; border-right: 0.01vw solid;">
-                <div >
-                    <ul>
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Новости</a></li>
-                        <li><a href="#">Прайс</a></li>
-                        <li><a href="#">Услуги</a>
-                            <ul>
-                                <li><a href="#">Услуга 1</a></li>
-                                <li><a href="#">Услуга 2</a></li>
-                                <li><a href="#">Услуга 3</a>
-                                    <ul>
-                                        <li><a href="#">Услуга 1</a></li>
-                                        <li><a href="#">Услуга 2</a></li>
-                                        <li><a href="#">Услуга 3</a></li>
-                                        <li><a href="#">Услуга 4</a></li>
-                                        <li><a href="#">Услуга 5</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Услуга 4</a></li>
-                                <li><a href="#">Услуга 5</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Контакты</a></li>
-                    </ul>
+        <div style="height: 100%; width: 75%; float: left;">
+            <!--Main!-->
+            <div style="text-align: center; margin-top: 20px;">
+                <img height="300px" width="600px" src="/static/images/back_main.jpg" alt="задний фон">
+
+
+                 <a href="#modal" class="btn btn-primary">Модальное окно №1</a>
+
+
+
+    {% block signin %}
+
+
+    {% endblock %}
+
+
+            </div>
+
+            {% block body %}
+             {% endblock %}
+        </div>
+            <!-- Топ !-->
+        <div style="height: 100%; width: 25%; float: left;">
+            <p style="font-weight: 900; font-size: 2.5vw; text-align: center; height: 3vw;">Топ-3</p>
+
+            <!-- Топ 1!-->
+            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
+                <div style="width: 20%; float: left;">
+                    <div style="width: 5vw;">
+                        <img  width="100%" src="/static/images/1.png" alt="топ 1">
+                    </div>
+
+                </div>
+                <div style="width: 65%; float: left; margin-left: 5%;">
+                      <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
+                       <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
+                    <span>
+                         Сонце гріє, вітер віє<br/>
+                         З поля на долину,<br/>
+                         Над водою гне з вербою...<br/>
+                     </span>
+                       </a>
+                     <span style="font-weight: 900; font-size: 1.2vw;">
+                         Автор:
+                     </span>
+                     <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
+                         <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
+                     </span>
                 </div>
             </div>
-            <div style="width: 75%">
-        {% block body %}
-        Hello
-        {% endblock %}
+
+            <!-- Топ 2!-->
+            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
+                <div style="width: 20%; float: left;">
+                    <div style="width: 5vw;">
+                        <img  width="100%" src="/static/images/2.png" alt="топ 2">
+                    </div>
+                </div>
+                <div style="width: 65%; float: left; margin-left: 5%;">
+                      <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
+ <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
+                    <span>
+                         Сонце гріє, вітер віє<br/>
+                         З поля на долину,<br/>
+                         Над водою гне з вербою...<br/>
+                     </span>
+                       </a>
+                     <span style="font-weight: 900; font-size: 1.2vw;">
+                         Автор:
+                     </span>
+                     <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
+                         <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
+                     </span>
+                </div>
+            </div>
+
+            <!-- Топ 3!-->
+            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
+                <div style="width: 20%; float: left;">
+                    <div style="width: 5vw;">
+                        <img  width="100%" src="/static/images/3.png" alt="топ 3">
+                    </div>
+                </div>
+                <div style="width: 65%; float: left; margin-left: 5%;">
+                    <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
+                     <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
+                    <span>
+                         Сонце гріє, вітер віє<br/>
+                         З поля на долину,<br/>
+                         Над водою гне з вербою...<br/>
+                     </span>
+                       </a>
+                    <span style="font-weight: 900; font-size: 1.2vw;">
+                         Автор:
+                    </span>
+                    <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
+                        <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
+                    </span>
+                </div>
             </div>
         </div>
-    <script>
+
+        </div>
+
+            </div>
+        </div>
+
+    <!--<script>
         padding_page();
         menu_height();
-    </script>
-    </body>
+    </script>!-->
+<body>
+<script>
+    var articleLink = '/scripts/lightbox_dialog_overlay/483-modalnoe-okno.html';
+  </script>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="/static/remodal.min.js"></script>
+
+<script>
+    $(document).on('opening', '.remodal', function () {
+      console.log('opening');
+    });
+
+    $(document).on('opened', '.remodal', function () {
+      console.log('opened');
+    });
+
+    $(document).on('closing', '.remodal', function (e) {
+      console.log('closing' + (e.reason ? ', reason: ' + e.reason : ''));
+    });
+
+    $(document).on('closed', '.remodal', function (e) {
+      console.log('closed' + (e.reason ? ', reason: ' + e.reason : ''));
+    });
+
+    $(document).on('confirmation', '.remodal', function () {
+      console.log('confirmation');
+    });
+
+    $(document).on('cancellation', '.remodal', function () {
+      console.log('cancellation');
+    });
+
+  //  Usage:
+  //  $(function() {
+  //
+  //    // In this case the initialization function returns the already created instance
+  //    var inst = $('[data-remodal-id=modal]').remodal();
+  //
+  //    inst.open();
+  //    inst.close();
+  //    inst.getState();
+  //    inst.destroy();
+  //  });
+
+    //  The second way to initialize:
+    $('[data-remodal-id=modal2]').remodal({
+      modifier: 'with-red-theme'
+    });
+  </script>
+</body>
     <div class="footer">
     </div>
 </html>
