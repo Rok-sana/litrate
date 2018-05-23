@@ -1,6 +1,6 @@
-from usefull_classes.database import MySqlDatabase
+from classes.database import MySqlDatabase
 from misc.configs import DATABASE_CONFIG
-from usefull_classes.forms import *
+from classes.forms import *
 from misc.configs import USER_TYPES
 
 

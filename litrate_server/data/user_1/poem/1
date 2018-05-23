@@ -1,0 +1,171 @@
+const
+  dim=200; //макс. количество вершин
+  dim2=2010; //макс. количество ребер
+  inf=2000000000;
+var
+  D:array[1..dim2] of record //описание ребер
+                        a,b, //концы ребра
+                        l:longint; //длина ребра
+
+                        nexta,nextb:longint; //указатели на следующие ребра в списках смежности
+                                             //соответствующих вершин
+                      end;
+  flow:array[1..dim2] of longint; //текущий поток через ребро в направлении a->b
+  first, //первое ребро в списке смежности
+  a,   //пометка дл€ алг. ƒейкстры (1-верш. обработана, 0-не обработана)
+  b,   //рассто€ние от начальной вершины (алг. ƒейкстры)
+  c,   //номер вершины с которой пришли (алг. ƒейкстры)
+  cr,  //номер ребра по которому пришли (алг. ƒейкстры)
+
+// *********************************************************
+  phi:array[1..dim] of longint; //это и есть тот загадочный массив
+// *********************************************************
+
+  n, //число вершин
+  m, //число ребер
+  k:longint; //количество искомых путей
+
+// јлгоритм ƒейкстры
+procedure deikstra;
+var
+  i,j,min,curr,v,f,new:longint;
+begin
+// инициализаци€
+  for i:=1 to n do
+    begin
+      a[i]:=0;
+      b[i]:=inf;
+      c[i]:=0;
+      cr[i]:=0;
+    end;
+
+  b[1]:=0; //путь в первую вершину 0
+  for i:=1 to n do
+    begin
+      // ищем минимум b[i] среди a[i]=0 (т.е. не обработаных вершин)
+      min:=0;
+      for j:=1 to n do
+        if (a[j]=0) and ((min=0) or (b[min]>b[j])) then min:=j;
+
+      if (min=0) or (b[min]=inf) then exit; //если не нашли то выйти
+      a[min]:=1; //пометить текущую вершину
+
+      curr:=first[min]; //первое ребро ведущее из min
+      while curr<>0 do //пока еще есть ребра
+        begin
+          v:=d[curr].a+d[curr].b-min; // вершина смежна€ с min через ребро curr
+
+          // f - поток через ребро
+          if min=d[curr].a then f:=flow[curr]
+                           else f:=-flow[curr];
+
+          //new - возможно лучша€ оценка дл€ b[v]
+{          new:=d[curr].l+b[min];} //нормальный алг. ƒейкстры
+
+//***********************************************************
+          //непон€тна€ модификаци€
+          new:=b[min]+phi[min]-phi[v];
+	  if f<0 then dec(new,d[curr].l)
+                 else inc(new,d[curr].l);
+//***********************************************************
+
+	  //—ообственно стандартный шаг процесса релаксации
+          if (a[v]=0) and (1-f<>0) and (new<b[v]) then
+            begin
+              b[v]:=new;
+              c[v]:=min;
+              cr[v]:=curr;
+            end;
+          //следующее ребро в списке смежности
+          if min=d[curr].a then curr:=d[curr].nexta
+                           else curr:=d[curr].nextb;
+        end;
+    end;
+end;
+
+var
+  i,e,v,f,j:longint;
+  len:extended;
+  res:array[0..dim2] of longint;
+begin
+  assign(input,'brides.in'); reset(input);
+  assign(output,'brides.out'); rewrite(output);
+
+  //„итаем данные
+  read(n,m,k);
+  for i:=1 to m do with D[i] do
+    begin
+      read(a,b,l);
+
+      nexta:=first[a];
+      first[a]:=i;
+
+      nextb:=first[b];
+      first[b]:=i;
+    end;
+
+  //—ам алгоритм
+  for i:=1 to k do
+    begin
+      deikstra; //находим очередной дополн€ющий путь
+
+      if (a[n]=0) then //≈сли пут€ нет - то вывод -1
+        begin
+          writeln(-1);
+          close(output);
+          halt;
+        end;
+
+      // изменение потока вдоль найденого пут€
+      v:=n;
+      while v<>1 do
+        begin
+          if d[cr[v]].a=c[v] then inc(flow[cr[v]])
+                             else dec(flow[cr[v]]);
+          v:=c[v];
+        end;
+
+//*******************************************************************
+      //ѕроцесс обновлени€ массива phi
+      for j:=1 to n do
+        inc(phi[j],b[j]);
+//*******************************************************************
+
+    end;
+
+  //ѕодсчет длины найденых путей
+  for i:=1 to m do
+    if flow[i]<>0 then len:=len+d[i].l;
+  writeln(len/k:0:10); //вывод среднего значени€
+
+
+  //вывод самих путей
+  for i:=1 to k do
+    begin
+      v:=1; //строим путь с первой вершины
+      //сначало пишем путь в массив res
+      fillchar(res,sizeof(res),0);
+      while v<>n do //пока не дошли до пункта назначени€
+        begin
+          //ищем любое ребро инцидентное v, по которому поток
+          //в нужном направлении равен 1
+          e:=first[v];
+          while (flow[e]=0) or ((d[e].a=v) and (flow[e]<>1))
+                            or ((d[e].b=v) and (flow[e]<>-1)) do
+             if v=d[e].a then e:=d[e].nexta
+                         else e:=d[e].nextb;
+          flow[e]:=0; //обнул€ем поток по найденому ребру
+
+          //добавл€ем ребро в результат
+          inc(res[0]);
+          res[res[0]]:=e;
+
+          //ѕроходим по ребру
+          v:=d[e].a+d[e].b-v;
+        end;
+      //¬ывод пути
+      for j:=0 to res[0]-1 do write(res[j],' '); writeln(res[res[0]]);
+    end;
+
+  close(output);
+end.

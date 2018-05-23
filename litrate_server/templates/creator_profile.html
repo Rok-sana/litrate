@@ -5,5 +5,5 @@
 {% for comp in compositions %}
     {{ render_composition(comp) }}
 {% endfor %}
-<p> Rating: {{session.user_info.rating[0]}}</p>
+<p> Rating: {{session.user.rating}}</p>
 {% endblock %}

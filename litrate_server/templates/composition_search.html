@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelper.html" import render_composition %}
+    {% for comp in compositions %}
+    {{ render_composition(comp) }}
+    <br>
+    -------------------
+    <br>
+    {% endfor %}
+{% endblock %}

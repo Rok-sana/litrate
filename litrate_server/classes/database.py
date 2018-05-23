@@ -28,6 +28,7 @@ class MySqlDatabase:
             return result
         except Error as e:
             print("!!!Error!!!")
+            print(query)
             print(e)
             return {}
         finally:

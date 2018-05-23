@@ -1,23 +1,25 @@
 from flask import Flask, request, render_template, flash, url_for, redirect, session, send_from_directory
-import usefull_classes.forms
+import classes.forms
 from misc.configs import SECRET_KEY, USER_TYPES
-from mySql.check_queries import *
-from mySql.update_queries import update_user_info
-from mySql.signingup import signup_user
+from db_queries.get_queries import *
+import db_queries.delete_queries
+from db_queries.update_queries import update_user_info
+from db_queries.signingup import signup_user
 from passlib.hash import sha256_crypt
 from functools import wraps
 from werkzeug.datastructures import CombinedMultiDict
-from mySql.file_adding import *
+from db_queries.file_adding import *
 app = Flask(__name__)
 
 
 # Обновлении информации о пользователе, который сейчас в системе
 def update_session_user_info():
-    session["user_info"].update(find_user(login=session["user_info"]["user_login"][0]))
+    session["user"].update(find_user(email=session["user"]["user_mail"]))
     if session["user_type"] == USER_TYPES.CREATOR:
-        session["user_info"].update(find_creator(session["user_id"]))
+        session["user"].update(find_creator_info(session["user_id"]))
+        session["user"]["rating"] = get_creator_rating(session["user_id"])
     elif session["user_type"] == USER_TYPES.PUBLISHER:
-        session["user_info"].update(find_publisher(session["user_id"]))
+        session["user"].update(find_publisher_info(session["user_id"]))
     else:
         pass
 
@@ -25,12 +27,12 @@ def update_session_user_info():
 def get_edit_form(req_form=None):
     if session["user_type"] == USER_TYPES.CREATOR:
         if req_form:
-            return usefull_classes.forms.EditCreatorInfoForm(req_form)
-        return usefull_classes.forms.EditCreatorInfoForm()
+            return classes.forms.EditCreatorInfoForm(req_form)
+        return classes.forms.EditCreatorInfoForm()
     elif session["user_type"] == USER_TYPES.PUBLISHER:
         if req_form:
-            return usefull_classes.forms.EditPublisherInfoForm(req_form)
-        return usefull_classes.forms.EditPublisherInfoForm()
+            return classes.forms.EditPublisherInfoForm(req_form)
+        return classes.forms.EditPublisherInfoForm()
     else:
         pass
 
@@ -38,18 +40,8 @@ def get_edit_form(req_form=None):
 #
 def normalize_compositions(compositions, number_of_compositions=5):
     res = []
-    # Need fix!!!!!
-    try:
-        for i in range(min(len(compositions["composition_id"]), number_of_compositions)):
-            composition = dict()
-            composition["composition_id"] = compositions["composition_id"][i]
-            composition["composition_name"] = compositions["composition_name"][i]
-            composition["rating"] = compositions["rating"][i]
-            composition["composition_type"] = compositions["composition_type"][i]
-            res.append(composition)
-    except:
-        print("123")
-        res = []
+    for i in range(min(len(compositions), number_of_compositions)):
+        res.append(compositions[i])
     return res
 
 
@@ -76,7 +68,7 @@ def is_creator(f):
             return f(*args, **kwargs)
         else:
             flash("You are not creator!")
-            return redirect(url_for("index"))
+            return redirect(url_for("profile"))
     return wrap
 
 
@@ -89,15 +81,14 @@ def index():
 # Страница регистрации пользователя
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
-    form = usefull_classes.forms.SignupForm(request.form)
+    form = classes.forms.SignupForm(request.form)
     if request.method == 'POST' and form.validate():
-        login = form.login.data
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))  # Шифруем пароль
         type = form.type.data
-        if not find_user(email, login):
+        if not find_user(email):
             # Если пользователь в базе не найден, регистрируем его
-            signup_user(login, email, password, type)
+            signup_user(email, password, type)
             return redirect(url_for("signin"))
         else:
             # Иначе возвращаемся на страницу регистрации
@@ -111,22 +102,19 @@ def signup():
 # Страница входа в систему
 @app.route("/signin", methods=['GET', 'POST'])
 def signin():
-    form = usefull_classes.forms.SigninForm(request.form)
+    form = classes.forms.SigninForm(request.form)
     if request.method == 'POST' and form.validate():
-        login = form.login.data
+        email = form.email.data
         password_try = str(form.password.data)
         # Поиск совпадение в БД по почте
-        found_user = find_user(email=login)
-        # Поиск совпадения по логину
-        if not found_user:
-            found_user = find_user(login=login)
+        found_user = find_user(email)
         if not found_user:
             # Если совпадения не найдено, то вернуться на страницу входа
-            flash("User with this login or email not found", "error")
+            flash("User with this email not found", "error")
             return render_template("signin.html", form=form)
 
-        # Если пользователь с такой почтой или логином найден, то проверяем на совпадение пароли
-        if not sha256_crypt.verify(password_try, found_user['user_password'][0]):
+        # Если пользователь с такой почтой найден, то проверяем на совпадение пароли
+        if not sha256_crypt.verify(password_try, found_user["user_password"]):
             # Пароли не совпали - возвращаемся на страницу входа
             flash("Password do not match", "error")
             return render_template("signin.html", form=form)
@@ -134,10 +122,10 @@ def signin():
         # Пользователь вошел в систему, перенаправленно на начальную страницу
         flash("You successfully signed in", "success")
         session["signedin"] = True
-        session["user_id"] = found_user["user_id"][0]
-        session["user_type"] = found_user["user_type"][0]
-        session["user_info"] = found_user
-        return redirect(url_for("index"))
+        session["user_id"] = found_user["user_id"]
+        session["user_type"] = found_user["user_type"]
+        session["user"] = found_user
+        return redirect(url_for("profile"))
     return render_template("signin.html", form=form)
 
 
@@ -153,10 +141,10 @@ def signout():
 @is_logged_in
 def profile():
     update_session_user_info()
-    if session["user_type"] == "Creator":
+    if session["user_type"] == USER_TYPES.CREATOR:
         compositions = normalize_compositions(get_creators_compositions(session["user_id"]))
         return render_template("creator_profile.html", compositions=compositions)
-    elif session["user_type"] == "Publisher":
+    elif session["user_type"] == USER_TYPES.PUBLISHER:
         return render_template("publisher_profile.html")
     else:
         return render_template("moderator_profile.html")
@@ -172,7 +160,7 @@ def edit_info():
         if form.validate():
             update_user_info(session["user_id"], form, session["user_type"])
             update_session_user_info()
-            form.change_info(session["user_info"])
+            form.change_info(session["user"])
             flash("Change confirmed successfully")
             return render_template("edit_user_info.html", form=form)
         else:
@@ -181,7 +169,7 @@ def edit_info():
             return render_template("edit_user_info.html", form=form)
     else:
         form = get_edit_form()
-        form.change_info(session["user_info"])
+        form.change_info(session["user"])
         return render_template("edit_user_info.html", form=form)
 
 
@@ -191,18 +179,18 @@ def edit_info():
 @is_creator
 def poem_adding():
     if request.method == 'POST':
-        form = usefull_classes.forms.AddPoemForm(CombinedMultiDict((request.files, request.form)))
+        form = classes.forms.AddPoemForm(CombinedMultiDict((request.files, request.form)))
         if form.validate():
             add_poem(form.file.data, form.name.data, form.poem_types.data, session["user_id"])
             flash("Poem added")
             update_session_user_info()
-            return render_template("creator_profile.html", form=form)
+            return redirect(url_for("profile"))
         else:
             flash("Something go wrong")
             # !!!!
             return render_template("poem_adding.html", form=form)
     else:
-        form = usefull_classes.forms.AddPoemForm()
+        form = classes.forms.AddPoemForm()
         return render_template("poem_adding.html", form=form)
 
 
@@ -212,19 +200,76 @@ def poem_adding():
 @is_creator
 def prose_adding():
     if request.method == 'POST':
-        form = usefull_classes.forms.AddProseForm(CombinedMultiDict((request.files, request.form)))
+        form = classes.forms.AddProseForm(CombinedMultiDict((request.files, request.form)))
         if form.validate():
             add_prose(form.file.data, form.name.data, form.prose_types.data, session["user_id"])
             flash("Prose added")
             update_session_user_info()
-            return render_template("creator_profile.html", form=form)
+            return redirect(url_for("profile"))
         else:
             flash("Something go wrong")
             # !!!!
             return render_template("prose_adding.html", form=form)
     else:
-        form = usefull_classes.forms.AddProseForm()
+        form = classes.forms.AddProseForm()
         return render_template("prose_adding.html", form=form)
+
+
+# Перейти на страничку с произведением
+@app.route('/composition/<int:composition_id>')
+def composition_page(composition_id):
+    return render_template("composition.html",
+                           composition=get_composition(composition_id))
+
+
+#
+@app.route('/composition/<int:composition_id>/like')
+@is_logged_in
+def like_composition(composition_id):
+    mark = get_like_to_composition_from_user(composition_id, session["user_id"])
+    if not mark:
+        insert_compositions_marks(composition_id, session["user_id"], 1)
+    else:
+        db_queries.delete_queries.delete_compositions_marks(composition_id, session["user_id"])
+        if mark == -1:
+            insert_compositions_marks(composition_id, session["user_id"], 1)
+
+    return redirect(url_for('composition_page',composition_id=composition_id))
+
+
+#
+@app.route('/composition/<int:composition_id>/dislike')
+@is_logged_in
+def dislike_composition(composition_id):
+    mark = get_like_to_composition_from_user(composition_id, session["user_id"])
+    if not mark:
+        insert_compositions_marks(composition_id, session["user_id"], -1)
+    else:
+        db_queries.delete_queries.delete_compositions_marks(composition_id, session["user_id"])
+        if mark == 1:
+            insert_compositions_marks(composition_id, session["user_id"], -1)
+    return redirect(url_for('composition_page',composition_id=composition_id))
+
+
+#
+@app.route('/composition/<int:composition_id>/delete')
+@is_logged_in
+def delete_composition(composition_id):
+    composition = get_composition(composition_id)
+    if composition and composition.creator_id == session["user_id"]:
+        if composition.modifier == "Private":
+            db_queries.delete_queries.delete_composition(composition_id)
+        else:
+            flash("Невозможно удалить произведение. Оно имеет статус 'Публичный'")
+
+    return redirect(url_for('profile'))
+
+
+#
+@app.route('/search/compositions')
+def composition_search():
+    compositions = get_all_compositions()
+    return render_template("composition_search.html", compositions=compositions)
 
 
 # Получить какой-нибудь статический файл (js, css, ico...)

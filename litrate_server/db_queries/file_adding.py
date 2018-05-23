@@ -1,4 +1,4 @@
-from mySql.insertion_queries import *
+from db_queries.insertion_queries import *
 import datetime
 
 

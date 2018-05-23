@@ -1,11 +1,11 @@
-from mySql.insertion_queries import *
+from db_queries.insertion_queries import *
 import os
 
 
 # Регистрация пользователя (добавление в базу данных соответствующие записи)
-def signup_user(login, email, password, user_type):
+def signup_user(email, password, user_type):
     user_id = find_minimum_unused_user_id()
-    insert_user(user_id, login, password, email, user_type)
+    insert_user(user_id, password, email, user_type)
     if user_type == 'Creator':
         insert_creator(user_id)
         create_user_dir(user_id, True)

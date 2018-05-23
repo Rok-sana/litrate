@@ -1,24 +1,22 @@
-from usefull_classes.database import MySqlDatabase
+from classes.database import MySqlDatabase
 from misc.configs import DATABASE_CONFIG
-from mySql.basic_information_add import add_information
+from db_queries.basic_information_add import add_information
 import os
 import shutil
 
 tables = ['Types_Proses', 'Types_Poems', 'Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections',
           'Accepted_Proses', 'Offer_Statuses', 'Issues', 'Sent_Collections', 'Sent_Proses', 'Poems_Collections', 'Collections',
-          'Comments', 'Proses', 'Poems', 'Poem_types', 'Prose_types', 'Compositions',
+          'Comments', 'Proses', 'Poems', 'Poem_types', 'Prose_types', 'Compositions_Marks', 'Compositions',
           'Moderators', 'Publishers', 'Creators', 'Users', 'User_types']
 
 
 def _delete_all_tables(db: MySqlDatabase):
-    db.execute_query("SET FOREIGN_KEY_CHECKS=0;")
     for table in tables:
-        print(table)
         query = "DROP TABLE IF EXISTS {0} CASCADE;".format(table)
         db.execute_query(query)
-    db.execute_query("SET FOREIGN_KEY_CHECKS=1;")
 
-*8def _create_table_user_types(db: MySqlDatabase):
+
+def _create_table_user_types(db: MySqlDatabase):
     query = "CREATE TABLE User_types ( " \
             "user_type VARCHAR(30) CHARACTER SET utf8 NOT NULL PRIMARY KEY );"
     db.execute_query(query)
@@ -31,14 +29,12 @@ def _create_table_users(db: MySqlDatabase):
             "user_surname VARCHAR(60) CHARACTER SET utf8, " \
             "user_patronymic VARCHAR(60) CHARACTER SET utf8, " \
             "user_mail VARCHAR(60) CHARACTER SET utf8 NOT NULL, " \
-            "user_login VARCHAR(60) NOT NULL, " \
             "user_password VARCHAR(320) NOT NULL, " \
             "user_additional_info VARCHAR(100), " \
             "user_phone VARCHAR(15), " \
             "user_birth DATE, " \
             "banned BOOL DEFAULT FALSE, " \
             "user_type VARCHAR(30) CHARACTER SET utf8 NOT NULL," \
-            "UNIQUE(user_login), " \
             "UNIQUE(user_mail), " \
             "FOREIGN KEY (user_type) " \
             "REFERENCES User_types(user_type) ON UPDATE CASCADE ON DELETE CASCADE );"
@@ -48,7 +44,6 @@ def _create_table_users(db: MySqlDatabase):
 def _create_table_creators(db: MySqlDatabase):
     query = "CREATE TABLE Creators ( " \
             "creator_id INT NOT NULL PRIMARY KEY, " \
-            "rating INT NOT NULL, " \
             "country VARCHAR(60) CHARACTER SET utf8, " \
             "city VARCHAR(60) CHARACTER SET utf8, " \
             "FOREIGN KEY (creator_id) " \
@@ -82,12 +77,24 @@ def _create_table_compositions(db: MySqlDatabase):
             "composition_id INT NOT NULL PRIMARY KEY, " \
             "composition_name VARCHAR(60) CHARACTER SET utf8 NOT NULL, " \
             "creator_id INT NOT NULL, " \
-            "rating INT NOT NULL, " \
             "posting_date DATE NOT NULL, " \
             "composition_type VARCHAR(60) CHARACTER SET utf8 NOT NULL, " \
             "modifier VARCHAR(60) NOT NULL, " \
             "FOREIGN KEY (creator_id) " \
             "REFERENCES Creators(creator_id) ON UPDATE CASCADE ON DELETE CASCADE );"
+    db.execute_query(query)
+
+
+def _create_table_compositions_marks(db: MySqlDatabase):
+    query = "CREATE TABLE Compositions_Marks ( " \
+            "composition_id INT NOT NULL ," \
+            "user_id INT NOT NULL , " \
+            "mark INT NOT NULL, " \
+            "PRIMARY KEY(composition_id, user_id), " \
+            "FOREIGN KEY (composition_id) " \
+            "REFERENCES Compositions(composition_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
+            "FOREIGN KEY (user_id) " \
+            "REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
 
@@ -140,7 +147,7 @@ def _create_table_types_poems(db: MySqlDatabase):
             "REFERENCES Poem_types(poem_type) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
-
+'''
 def _create_table_comments(db: MySqlDatabase):
     query = "CREATE TABLE Comments ( " \
             "comment_id INT NOT NULL PRIMARY KEY, " \
@@ -274,6 +281,7 @@ def _create_table_accepted_collections_dialogs(db: MySqlDatabase):
             "FOREIGN KEY (user_id) " \
             "REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
+'''
 
 
 def _create_database(db: MySqlDatabase):
@@ -283,12 +291,14 @@ def _create_database(db: MySqlDatabase):
     _create_table_publishers(db)
     _create_table_moderators(db)
     _create_table_compositions(db)
+    _create_table_compositions_marks(db)
     _create_table_prose_types(db)
     _create_table_poem_types(db)
     _create_table_poems(db)
     _create_table_proses(db)
     _create_table_types_proses(db)
     _create_table_types_poems(db)
+    '''
     _create_table_comments(db)
     _create_table_collections(db)
     _create_table_poems_collections(db)
@@ -300,6 +310,7 @@ def _create_database(db: MySqlDatabase):
     _create_table_accepted_collections(db)
     _create_table_accepted_proses_dialogs(db)
     _create_table_accepted_collections_dialogs(db)
+    '''
 
 
 def create_dir_for_files():

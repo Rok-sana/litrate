@@ -1,4 +1,4 @@
-from mySql.insertion_queries import insert_user_type, insert_poem_type, insert_prose_type
+from db_queries.insertion_queries import insert_user_type, insert_poem_type, insert_prose_type
 
 
 def _add_user_types():

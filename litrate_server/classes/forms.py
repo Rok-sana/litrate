@@ -5,15 +5,10 @@ from passlib.hash import sha256_crypt
 #from wtforms.ext.dateutil.fields import DateField
 from wtforms.fields.html5 import DateField
 import dateutil
-from mySql.check_queries import get_prose_types, get_poem_types
+from db_queries.get_queries import get_prose_types, get_poem_types
 
 # Форма регистрации
 class SignupForm(Form):
-    login = StringField('Login', [validators.length(min=6, max=60),
-                                  validators.InputRequired(),
-                                  validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
-                                                                                          'letters or numbers') ]
-                        )
     password = PasswordField('Password', [validators.length(min=6, max=60),
                                           validators.InputRequired(),
                                           validators.EqualTo('confirm', message='Passwords do not match'),
@@ -31,13 +26,7 @@ class SignupForm(Form):
 
 # Форма входа в систему
 class SigninForm(Form):
-    login = StringField('Login or Email', [validators.length(min=6, max=60),
-                                           validators.InputRequired(),
-                                           validators.Regexp(regex="^[.@a-zA-z0-9а-яА-яіїІЇ]+$",
-                                                             message='You can only use '
-                                                                     'letters or numbers'
-                                                                     'and symbols @ and .')]
-                        )
+    email = StringField('Email', [validators.length(min=6, max=60), validators.Email()])
     password = PasswordField('Password', [validators.length(min=6, max=60),
                                           validators.InputRequired(),
                                           validators.Regexp(regex="^[a-zA-z0-9]+$",
@@ -78,16 +67,16 @@ class EditUserInfoForm(Form):
                       )
 
     def change_info(self, user_info):
-        if user_info["user_name"][0]:
-            self.name.data = user_info["user_name"][0]
-        if user_info["user_surname"][0]:
-            self.surname.data = user_info["user_surname"][0]
-        if user_info["user_patronymic"][0]:
-            self.patronymic.data = user_info["user_patronymic"][0]
-        if user_info["user_phone"][0]:
-            self.phone.data = user_info["user_phone"][0]
-        if user_info["user_birth"][0]:
-            self.birth.data = user_info["user_birth"][0]
+        if user_info["user_name"]:
+            self.name.data = user_info["user_name"]
+        if user_info["user_surname"]:
+            self.surname.data = user_info["user_surname"]
+        if user_info["user_patronymic"]:
+            self.patronymic.data = user_info["user_patronymic"]
+        if user_info["user_phone"]:
+            self.phone.data = user_info["user_phone"]
+        if user_info["user_birth"]:
+            self.birth.data = user_info["user_birth"]
 
     def fields(self):
         yield self.name.label, "\'" + self.name.data + "\'" if self.name.data else "\'\'"
@@ -112,10 +101,10 @@ class EditCreatorInfoForm(EditUserInfoForm):
 
     def change_info(self, user_info):
         super(EditCreatorInfoForm, self).change_info(user_info)
-        if user_info["country"][0]:
-            self.country.data = user_info["country"][0]
-        if user_info["city"][0]:
-            self.city.data = user_info["city"][0]
+        if user_info["country"]:
+            self.country.data = user_info["country"]
+        if user_info["city"]:
+            self.city.data = user_info["city"]
 
     def fields(self):
         yield self.country.label, "\'" + self.country.data + "\'" if self.country.data else "\'\'"

@@ -1,4 +1,4 @@
-from usefull_classes.database import MySqlDatabase
+from classes.database import MySqlDatabase
 from misc.configs import DATABASE_CONFIG
 
 
@@ -35,26 +35,26 @@ def find_minimum_unused_composition_id():
 
 
 # Добавления пользователя
-def insert_user(user_id, user_login, user_password, user_email, user_type):
-    query = "INSERT INTO Users(user_id, user_login, user_password, user_mail, user_type) " \
-            "VALUES({0}, \'{1}\', \'{2}\', \'{3}\', \'{4}\');".format(user_id, user_login,
-                                                                      user_password, user_email, user_type)
+def insert_user(user_id, user_password, user_email, user_type):
+    query = "INSERT INTO Users(user_id, user_password, user_mail, user_type) " \
+            "VALUES({0}, \'{1}\', \'{2}\', \'{3}\');".format(user_id, user_password,
+                                                             user_email, user_type)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
 
 # Добавления писателя
 def insert_creator(user_id):
-    query = "INSERT INTO Creators(creator_id, rating) " \
-            "VALUES({0}, {1});".format(user_id, 0)
+    query = "INSERT INTO Creators(creator_id) " \
+            "VALUES({0});".format(user_id)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
 
 # Добавление издателя
 def insert_publisher(user_id):
-    query = "INSERT INTO Publishers(publisher_id, rating) " \
-            "VALUES({0}, {1});".format(user_id, 0)
+    query = "INSERT INTO Publishers(publisher_id) " \
+            "VALUES({0});".format(user_id)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
@@ -70,9 +70,9 @@ def insert_user_type(user_type):
 # Добавление произведения
 def insert_composition(composition_id, name, creator_id, date, type):
     query = "INSERT INTO Compositions(composition_id, composition_name, creator_id, " \
-            "rating, posting_date, modifier, composition_type) " \
-            "VALUES({0}, \'{1}\', {2}, {3}, \'{4}\', \'Private\', \'{5}\'); ".format(composition_id, name,
-                                                                            creator_id, 0, date, type)
+            "posting_date, modifier, composition_type) " \
+            "VALUES({0}, \'{1}\', {2}, \'{3}\', \'Private\', \'{4}\'); ".format(composition_id, name,
+                                                                            creator_id, date, type)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
@@ -124,3 +124,10 @@ def insert_poem_composition_type(poem_id, poem_type):
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
+
+# Добавление оценки от пользователя
+def insert_compositions_marks(composition_id, user_id, mark):
+    query = "INSERT INTO Compositions_Marks(composition_id, user_id, mark) " \
+            "VALUES({0}, {1}, {2}); ".format(composition_id, user_id, mark)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
