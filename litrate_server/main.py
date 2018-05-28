@@ -143,7 +143,16 @@ def profile():
     update_session_user_info()
     if session["user_type"] == USER_TYPES.CREATOR:
         compositions = normalize_compositions(get_creators_compositions(session["user_id"]))
-        return render_template("creator_profile.html", compositions=compositions)
+        poems = get_creator_poem(session["user_id"])
+        proses = get_creator_prose(session["user_id"])
+        poem_types, prose_types = get_creator_all_types(session["user_id"])
+        all_types=poem_types.copy()
+        all_types.update(prose_types)
+        print(prose_types)
+        print(poem_types)
+        return render_template("creator_profile.html", compositions=compositions,
+                               poems=poems, proses=proses,
+                               poem_types=poem_types, prose_types=prose_types, types=all_types)
     elif session["user_type"] == USER_TYPES.PUBLISHER:
         return render_template("publisher_profile.html")
     else:

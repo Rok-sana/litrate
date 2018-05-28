@@ -1,8 +1,44 @@
 {% extends "user_profile.html" %}
 {% block type_profile %}
-<span style="float: right; margin-right: 20px;"> Издатель [Рейтинг: {{session.user_info.rating}}]</span>
+<div style="float: right; ">
+    <h1> <span style="float: right; margin-right: 20px;"> Издатель [Рейтинг: {{session.user.rating}}]</span></h1>
+</div>
+
+<div style="margin-bottom: 60px;">
+</div>
 
 
+    <div class="profile_info">
+        <div class="wrapper_o">
+
+	<!--Horizontal Tab-->
+	<div  id="horizontalTab">
+            <ul>
+                <li><a href="#tab-1">Профиль</a></li>
+                <li><a href="#tab-2">Поэзия</a></li>
+                <li><a href="#tab-3">Проза</a></li>
+                <li><a href="#tab-4">Сборники</a></li>
+            </ul>
+
+            <div id="tab-1">
+                <p>Информация о себе</p>
+            </div>
+            <div id="tab-2">
+                <p>Тут проза</p>
+            </div>
+            <div id="tab-3">
+                <p>Тут поэзия</p>
+            </div>
+            <div id="tab-4">
+                <p>Тут сборники</p>
+            </div>
+        </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+    </div>
 
 {% endblock %}
 

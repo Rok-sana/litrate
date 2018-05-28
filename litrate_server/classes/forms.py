@@ -136,14 +136,14 @@ class EditPublisherInfoForm(EditUserInfoForm):
 
     def change_info(self, user_info):
         super(EditPublisherInfoForm, self).change_info(user_info)
-        if user_info["country"][0]:
-            self.country.data = user_info["country"][0]
-        if user_info["city"][0]:
-            self.city.data = user_info["city"][0]
-        if user_info["street"][0]:
-            self.street.data = user_info["street"][0]
-        if user_info["publisher_house_name"][0]:
-            self.publisher_house_name.data = user_info["publisher_house_name"][0]
+        if user_info.get("country"):
+            self.country.data = user_info["country"]
+        if user_info.get("city"):
+            self.city.data = user_info["city"]
+        if user_info.get("street"):
+            self.street.data = user_info["street"]
+        if user_info.get("publisher_house_name"):
+            self.publisher_house_name.data = user_info["publisher_house_name"]
 
     def fields(self):
         yield self.country.label, "\'" + self.country.data + "\'" if self.country.data else "\'\'"

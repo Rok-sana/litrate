@@ -9,13 +9,21 @@
 {% endmacro %}
 
 {% macro render_composition(comp) %}
-    <a href={{url_for('like_composition',composition_id=comp.id)}} >+</a>
-    <a href={{url_for('dislike_composition',composition_id=comp.id)}} >-</a>
-    <a href={{url_for('delete_composition',composition_id=comp.id)}} >Delete</a>
-    <a href={{url_for('composition_page',composition_id=comp.id)}} >
-        <p>id: {{ comp.id }}</p>
-        <p>Name: {{ comp.name }}</p>
-        <p>Rating: {{ comp.rating }}</p>
+<div style="">
+    <span>
+        <a href={{url_for('composition_page',composition_id=comp.id)}} >
+        {{ comp.name }} [id:{{ comp.id }}]</a>
+        <span style="">(Рейтинг: {{ comp.rating }})</span>
+        <span style="float: right;">
+            (<a href={{url_for('like_composition',composition_id=comp.id)}} class="icon-plus-sign"></a> |
+            <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-minus-sign"></a>)
+            <a href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
+        </span>
+        <hr>
+    </span>
+</div>
+
+    <!--<a href={{url_for('composition_page',composition_id=comp.id)}} >
         <p>Type: {{ comp.composition_type }}</p>
-    </a>
+    </a>!-->
 {% endmacro %}

@@ -108,3 +108,37 @@ def get_true_composition(comp):
                     comp.modifier, get_poem_types(comp.id))
 
 
+def get_creator_prose(creator_id):
+    compositions = get_creators_compositions(creator_id)
+    prose = []
+    for comp in compositions:
+        if comp.composition_type == "Prose":
+            prose.append(comp)
+    return prose
+
+
+def get_creator_poem(creator_id):
+    compositions = get_creators_compositions(creator_id)
+    poem = []
+    for comp in compositions:
+        if comp.composition_type == "Poem":
+            poem.append(comp)
+    return poem
+
+
+def get_creator_all_types(creator_id):
+    compositions = get_creators_compositions(creator_id)
+    poem_types = dict()
+    prose_types = dict()
+    for comp in compositions:
+        if comp.composition_type == "Prose":
+            for prose_type in comp.prose_type:
+                if not prose_types.get(prose_type):
+                    prose_types[prose_type] = 0
+                prose_types[prose_type] += 1
+        else:
+            for poem_type in comp.poem_type:
+                if not poem_types.get(poem_type):
+                    poem_types[poem_type] = 0
+                poem_types[poem_type] += 1
+    return poem_types, prose_types

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/style.css" >
     <link rel="stylesheet" type="text/css" href="/static/remodal.css">
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
     <link rel="stylesheet" type="text/css" href="/static/remodal-default-theme.css">
     <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -49,7 +50,7 @@
                 <div class="header-menu__item dropdown">
 
                       <div class="droplink">
-                  <h3><a href="#"> Каталог</a></h3>
+                  <h3><a style="font-size: 18px;" href="#"> Каталог</a></h3>
                     <ul>
                         <li ><a href="#" target="_blank">Проза</a></li>
                         <li ><a href="#" target="_blank">Поэзия</a></li>
@@ -76,60 +77,22 @@
 
             <div class="header__item header-right-menu">
                 {% if session.signedin %}
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("profile")}}><img width="35px" height="110%" src="/static/images/profile_icon.png" alt="профиль"></a>
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("index")}}><img width="35px" height="110%" src="/static/images/new_icon.png" alt="новое произведение"></a>
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("index")}}><img width="55px" height="110%" src="/static/images/mail_icon.png" alt="письма"></a>
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("signout")}}><img width="35px" height="110%"  src="/static/images/exit_icon.png" alt="выход"></a>
+                    <div id="dd" class="wrapper-dropdown-5" tabindex="1"> {{session.user.user_name}} {{session.user.user_surname}}
+                        <ul class="dropdown">
+                            <li><a href={{url_for("profile")}}><i class="icon-user"></i>Профиль</a></li>
+                            <li><a href={{url_for("prose_adding")}}><i class="icon-book"></i>Новая проза</a></li>
+                            <li><a href={{url_for("poem_adding")}}><i class="icon-pencil"></i>Новая поэзия</a></li>
+                            <li><a href="#"><i class="icon-envelope-alt"></i>Почта</a></li>
+                            <li><a href="#"><i class="icon-cog"></i>Настройки</a></li>
+                            <li><a href={{url_for("signout")}}><i class="icon-signout"></i>Выйти</a></li>
+                        </ul>
+                    </div>
             {% else %}
-                <a href={{url_for("signin")}} class="flat2">Вход</a>
-                <a href={{url_for("signup")}} class="flat3">Регистрация</a>
+                <a href='{{url_for("signin")}}#modal' class="flat2">Вход</a>
+                <a href='{{url_for("signup")}}#modal' class="flat3">Регистрация</a>
             {% endif %}
 
           </div>
-<!--
-        <div style="float: left; height: 100%">
-            <a href={{url_for("index")}}><img src="/static/images/logo.png" alt="litrate.com" height="90%"></a>
-        </div>
-        <div style="width: 10%; float: left;">
-            <span>&nbsp;</span>
-        </div>
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Главная</p>
-            </div>
-            </a>
-        </div>
-
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Произведения</p>
-            </div>
-            </a>
-        </div>
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Авторы</p>
-            </div>
-            </a>
-        </div>
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Издательства</p>
-            </div>
-            </a>
-        </div>
-        <div class="sign_in_top">
-             {% if session.signedin %}
-            <a href={{url_for("profile")}}><img src="/static/images/profile_icon.png" alt="профиль"></a>
-            <a href={{url_for("index")}}><img src="/static/images/new_icon.png" alt="новое произведение"></a>
-            <a href={{url_for("index")}}><img src="/static/images/mail_icon.png" alt="письма"></a>
-
-            <a href={{url_for("signout")}}><img src="/static/images/exit_icon.png" alt="выход"></a>
-            {% else %}
-            <a href={{url_for("signin")}}><img src="/static/images/sign_in_v2.png" alt="вход"></a>
-            <!--<a href={{url_for("signup")}}><img src="/static/images/sign_in_v2.png" alt="регистрация"></a>-->
-            <!--{% endif %}
-        </div>!-->
         </div>
     </div>
         <div class="body">
@@ -139,12 +102,7 @@
                 <img height="300px" width="600px" src="/static/images/back_main.jpg" alt="задний фон">
 
 
-                 <a href="#modal" class="btn btn-primary">Модальное окно №1</a>
-
-
-
     {% block signin %}
-
 
     {% endblock %}
 
@@ -293,6 +251,38 @@
       modifier: 'with-red-theme'
     });
   </script>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			function DropDown(el) {
+				this.dd = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});
+				}
+			}
+
+			$(function() {
+
+				var dd = new DropDown( $('#dd') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-5').removeClass('active');
+				});
+
+			});
+
+		</script>
 </body>
     <div class="footer">
     </div>

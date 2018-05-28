@@ -6,18 +6,25 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="/static/menu.js"></script>
-
+    <link type="text/css" rel="stylesheet" href="/static/responsive-tabs.css" />
+    <link type="text/css" rel="stylesheet" href="/static/style_o.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
     {% block title %}
     {% endblock %}
 </head>
 <body>
     <div class="header">
         <div class="header_inner">
+
+
+
             <div class="header__item header__left">
                 <a href="/" class="header__logo">
                     <img src="/static/images/logo.png" alt="Litrate">
                 </a>
             </div>
+
+
 
             <div class="header__item header__menu">
               <div class="header__search header-search hidden">
@@ -40,19 +47,17 @@
                 <div class="header-menu__item dropdown">
 
                       <div class="droplink">
-                  <h3><a href="#"> Каталог</a></h3>
-                    <ul>
-                        <li ><a href="#" target="_blank">Произведения</a></li>
-                        <li ><a href="#" target="_blank">Авторы</a></li>
-                        <li ><a href="#" target="_blank">Издательства</a></li>
-                    </ul>
+                          <h3><a style="font-size: 18px; " href="#"> Каталог</a></h3>
+                        <ul>
+                            <li ><a href="#" target="_blank">Проза</a></li>
+                            <li ><a href="#" target="_blank">Поэзия</a></li>
+                            <li ><a href="#" target="_blank">Издательства</a></li>
+                            <li ><a href="#" target="_blank">Авторы</a></li>
+                        </ul>
                       </div>
                 </div>
                 <div class="header-menu__item">
                   <a style="font-size:18px;" href="" title="Поиск"><i class="fa fa-comments-o"></i>Поиск</a>
-                </div>
-                <div class="header-menu__item">
-                  <a style="font-size:18px;" href="" title="Форум"><i class="fa fa-comments-o"></i>Форум</a>
                 </div>
                 <div class="header-menu__item dropdown header-button">
                   <div class="header-button__icon" data-dropdown="" data-tippy="">
@@ -69,60 +74,22 @@
 
             <div class="header__item header-right-menu">
                 {% if session.signedin %}
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("profile")}}><img width="35px" height="110%" src="/static/images/profile_icon.png" alt="профиль"></a>
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("index")}}><img width="35px" height="110%" src="/static/images/new_icon.png" alt="новое произведение"></a>
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("index")}}><img width="55px" height="110%" src="/static/images/mail_icon.png" alt="письма"></a>
-            <a style="padding-bottom: 4px;" class="flat2" href={{url_for("signout")}}><img width="35px" height="110%"  src="/static/images/exit_icon.png" alt="выход"></a>
+            <div id="dd" class="wrapper-dropdown-5" tabindex="1"> {{session.user.user_name}} {{session.user.user_surname}}
+                    <ul class="dropdown">
+                        <li><a href={{url_for("profile")}}><i class="icon-user"></i>Профиль</a></li>
+                        <li><a href={{url_for("prose_adding")}}><i class="icon-book"></i>Новая проза</a></li>
+                        <li><a href={{url_for("poem_adding")}}><i class="icon-pencil"></i>Новая поэзия</a></li>
+                        <li><a href="#"><i class="icon-envelope-alt"></i>Почта</a></li>
+                        <li><a href="#"><i class="icon-cog"></i>Настройки</a></li>
+                        <li><a href={{url_for("signout")}}><i class="icon-signout"></i>Выйти</a></li>
+                    </ul>
+                </div>
             {% else %}
-                <a href={{url_for("signin")}} class="flat2">Вход</a>
-                <a href={{url_for("signup")}} class="flat3">Регистрация</a>
+                <a href='{{url_for("signin")}}#modal' class="flat2">Вход</a>
+                <a href='{{url_for("signup")}}#modal' class="flat3">Регистрация</a>
             {% endif %}
 
           </div>
-<!--
-        <div style="float: left; height: 100%">
-            <a href={{url_for("index")}}><img src="/static/images/logo.png" alt="litrate.com" height="90%"></a>
-        </div>
-        <div style="width: 10%; float: left;">
-            <span>&nbsp;</span>
-        </div>
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Главная</p>
-            </div>
-            </a>
-        </div>
-
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Произведения</p>
-            </div>
-            </a>
-        </div>
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Авторы</p>
-            </div>
-            </a>
-        </div>
-        <div style="float: left; height: 5vw; margin-right: 2vw;">
-            <a href={{url_for("index")}}><div style="height: 50%; color: white; font-weight: 900; font-size: 2vw;">
-                <p style="margin-top: 1.5vw;">Издательства</p>
-            </div>
-            </a>
-        </div>
-        <div class="sign_in_top">
-             {% if session.signedin %}
-            <a href={{url_for("profile")}}><img src="/static/images/profile_icon.png" alt="профиль"></a>
-            <a href={{url_for("index")}}><img src="/static/images/new_icon.png" alt="новое произведение"></a>
-            <a href={{url_for("index")}}><img src="/static/images/mail_icon.png" alt="письма"></a>
-
-            <a href={{url_for("signout")}}><img src="/static/images/exit_icon.png" alt="выход"></a>
-            {% else %}
-            <a href={{url_for("signin")}}><img src="/static/images/sign_in_v2.png" alt="вход"></a>
-            <!--<a href={{url_for("signup")}}><img src="/static/images/sign_in_v2.png" alt="регистрация"></a>-->
-            <!--{% endif %}
-        </div>!-->
         </div>
     </div>
 
@@ -136,6 +103,86 @@
         </div>
 
     </body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Responsive Tabs JS -->
+<script src="/static/jquery.responsiveTabs.js" type="text/javascript"></script>
+<script type="text/javascript">
+//----------------Вкладки--------------------
+	$(document).ready(function () {
+		var $tabs = $('#horizontalTab');
+		$tabs.responsiveTabs({
+			rotate: false,
+			startCollapsed: 'accordion',
+			collapsible: 'accordion',
+			setHash: true,
+			disabled: [4],
+			click: function(e, tab) {
+				$('.info').html('Tab <strong>' + tab.id + '</strong> clicked!');
+			},
+			activate: function(e, tab) {
+				$('.info').html('Tab <strong>' + tab.id + '</strong> activated!');
+			},
+			activateState: function(e, state) {
+				//console.log(state);
+				$('.info').html('Switched from <strong>' + state.oldState + '</strong> state to <strong>' + state.newState + '</strong> state!');
+			}
+		});
+
+		$('#start-rotation').on('click', function() {
+			$tabs.responsiveTabs('startRotation', 1000);
+		});
+		$('#stop-rotation').on('click', function() {
+			$tabs.responsiveTabs('stopRotation');
+		});
+		$('#start-rotation').on('click', function() {
+			$tabs.responsiveTabs('active');
+		});
+		$('#enable-tab').on('click', function() {
+			$tabs.responsiveTabs('enable', 3);
+		});
+		$('#disable-tab').on('click', function() {
+			$tabs.responsiveTabs('disable', 3);
+		});
+		$('.select-tab').on('click', function() {
+			$tabs.responsiveTabs('activate', $(this).val());
+		});
+
+	});
+
+
+//-----------Меню-------------------
+
+			function DropDown(el) {
+				this.dd = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});
+				}
+			}
+
+			$(function() {
+
+				var dd = new DropDown( $('#dd') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-5').removeClass('active');
+				});
+
+			});
+
+</script>
+
     <div class="footer">
     </div>
 </html>

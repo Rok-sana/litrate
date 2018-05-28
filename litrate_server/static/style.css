@@ -233,6 +233,7 @@ element.style {
 
 .wrapper{margin:0 auto;position:relative;width:250px;height:200px;background-color:#eee;margin-top:100px}
 .droplink {width:200px;position:relative;border-radius:3px;margin:-10px 0 0 25px}
+.droplink {width:200px;position:relative;border-radius:3px;margin:-10px 0 0 25px}
 .droplink ul,.droplink h3,.droplink h3 a{padding:0 0 15px;margin:0}
 .droplink:hover {height:auto;background-color: rgba(242,117,85, 0.9);border:solid 1px #3A3C39}
 
@@ -354,7 +355,7 @@ element.style {
 }
 
 .profile_info{
-    margin-left: 300px;
+    margin-left: 250px;
 }
 .profile_info p{
     font-weight: 800;
@@ -392,3 +393,288 @@ a {
 
 
 
+
+/* Tabs container */
+.r-tabs {
+	position: relative;
+
+	background-color: #00c5ad;
+
+	border-top: 1px solid #00c5ad;
+	border-right: 1px solid #00c5ad;
+	border-left: 1px solid #00c5ad;
+	border-bottom: 4px solid #00c5ad;
+	border-radius: 4px;
+
+}
+
+/* Tab element */
+.r-tabs .r-tabs-nav .r-tabs-tab {
+	position: relative;
+	background-color: #00c5ad;
+}
+
+/* Tab anchor */
+.r-tabs .r-tabs-nav .r-tabs-anchor {
+	display: inline-block;
+	padding: 10px 12px;
+
+	text-decoration: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+}
+
+/* Disabled tab */
+.r-tabs .r-tabs-nav .r-tabs-state-disabled {
+	opacity: 0.5;
+}
+
+/* Active state tab anchor */
+.r-tabs .r-tabs-nav .r-tabs-state-active .r-tabs-anchor {
+	color: #00c5ad;
+	text-shadow: none;
+
+	background-color: white;
+
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+
+/* Tab panel */
+.r-tabs .r-tabs-panel {
+	background-color: white;
+
+	border-bottom: 4px solid white;
+
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+
+}
+
+/* Accordion anchor */
+.r-tabs .r-tabs-accordion-title .r-tabs-anchor {
+	display: block;
+	padding: 10px;
+
+	background-color: #00c5ad;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+	font-size: 14px;
+
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+
+/* Active accordion anchor */
+.r-tabs .r-tabs-accordion-title.r-tabs-state-active .r-tabs-anchor {
+	background-color: #fff;
+	color: #00c5ad;
+	text-shadow: none;
+}
+
+/* Disabled accordion button */
+.r-tabs .r-tabs-accordion-title.r-tabs-state-disabled {
+	opacity: 0.5;
+}
+
+
+
+
+
+.wrapper-dropdown-5 {
+    /* Size & position */
+    position: relative;
+    width: 290px;
+    margin: 0 auto;
+    padding: 12px 15px;
+
+    /* Styles */
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease-out;
+}
+.wrapper-dropdown-5:after { /* Little arrow */
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: #4cbeff transparent;
+}
+
+
+.wrapper-dropdown-5 .dropdown {
+    /* Size & position */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    /* Styles */
+    background: #fff;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-top: none;
+    border-bottom: none;
+    list-style: none;
+    transition: all 0.3s ease-out;
+    /* Hiding */
+    max-height: 0;
+    overflow: hidden;
+}
+
+
+.wrapper-dropdown-5 .dropdown li {
+    padding: 0 10px ;
+}
+
+.wrapper-dropdown-5 .dropdown li a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 0;
+    transition: all 0.3s ease-out;
+    border-bottom: 1px solid #e6e8ea;
+}
+
+.wrapper-dropdown-5 .dropdown li:last-of-type a {
+    border: none;
+}
+
+.wrapper-dropdown-5 .dropdown li i {
+    margin-right: 5px;
+    color: inherit;
+    vertical-align: middle;
+}
+
+/* Hover state */
+.wrapper-dropdown-5 .dropdown li:hover a {
+    color: #57a9d9;
+}
+
+
+/* Active state */
+
+.wrapper-dropdown-5.active {
+    border-radius: 5px 5px 0 0;
+    background: #4cbeff;
+    box-shadow: none;
+    border-bottom: none;
+    color: white;
+}
+
+.wrapper-dropdown-5.active:after {
+    border-color: #82d1ff transparent;
+}
+.wrapper-dropdown-5.active .dropdown {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    max-height: 400px;
+}
+
+
+
+   input[type="text1"] {
+        display: none;
+        background: rgb(200,200,200);
+}
+.dropdown_c {
+  position: relative;
+  display: table;
+  margin: 10px auto;
+  color: #333;
+  min-width: 220px;
+}
+.dropdown_c a {
+  display: block;
+  text-decoration: none;
+  color: rgb(0,0,0);
+  background: rgb(255,255,255);
+  padding: 12px 20px 10px;
+  border-radius: 20px;
+  border: 1px solid #cecece;
+  text-transform: uppercase;
+  font-size: .95em;
+  text-align: center;
+}
+.dropdown_c ul {
+  position: relative;
+  list-style: none;
+  background: #eee;
+  margin-top: 10px;
+  padding: 5px 0;
+  border-radius: 20px;
+  font-size: .9em;
+}
+.dropdown_c ul:before {
+  content: '';
+  position: absolute;
+  right: 20px;
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 7px 6px 7px;
+  border-color: transparent transparent #eeeeee transparent;
+}
+.dropdown_c ul li {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.dropdown_c ul li:last-child {
+  border: none;
+}
+.dropdown_c input[type="checkbox"] {
+  display: none;
+}
+.dropdown_c label {
+  display: block;
+  position: relative;
+  padding-left: 22px;
+  cursor: pointer;
+}
+.dropdown_c label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #666;
+  border-radius: 4px;
+}
+.dropdown_c input[type="checkbox"]:checked ~ label:before {
+  background: #666;
+}
+.dropdown_c label:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 5px;
+  height: 12px;
+  top: -5px;
+  left: 6px;
+  border: 2px solid #fff;
+  box-shadow: 1px 2px 2px #555;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+}
+.dropdown_c input[type="checkbox"]:checked ~ label:after {
+  opacity: 1;
+  visibility: visible;
+}
