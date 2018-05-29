@@ -54,7 +54,8 @@ textarea {
   $(document).ready(function() {
 
   // Добавляем значения
-  var val_data = {
+  var val_data = JSON.parse('{{prose_types|safe}}');
+  /*{
     "val1": "вестерн",
     "val2": "детектив",
     "val3": "исторический",
@@ -66,7 +67,7 @@ textarea {
     "val9": "фантастика",
     "val10": "фэнтези",
     "val11": "юмор"
-  };
+  };*/
 
   var input = $('[name="other1"]');
 

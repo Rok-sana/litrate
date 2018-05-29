@@ -54,14 +54,7 @@ textarea {
   $(document).ready(function() {
 
   // Добавляем значения
-  var val_data = {
-    "val1": "гражданская",
-    "val2": "любовно-пейзажная",
-    "val3": "медитативная",
-    "val4": "пейзажная",
-    "val5": "патриотическая",
-    "val6": "философская"
-  };
+  var val_data =  JSON.parse('{{poem_types|safe}}');
 
   var input = $('[name="other1"]');
 

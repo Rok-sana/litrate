@@ -17,7 +17,11 @@ def get_prose_types(prose_id=None):
         query = "SELECT prose_type " \
                 "FROM Types_Proses " \
                 "WHERE prose_id={0};".format(prose_id)
-        return database.execute_query(query)["prose_type"]
+        res = database.execute_query(query)
+        if res:
+            return res["prose_type"]
+        else:
+            return res
     else:
         database = MySqlDatabase(DATABASE_CONFIG)
         query = "SELECT * " \
@@ -32,7 +36,11 @@ def get_poem_types(poem_id=None):
         query = "SELECT poem_type " \
                 "FROM Types_Poems " \
                 "WHERE poem_id={0};".format(poem_id)
-        return database.execute_query(query)["poem_type"]
+        res = database.execute_query(query)
+        if res:
+            return res["poem_type"]
+        else:
+            return res
     else:
         database = MySqlDatabase(DATABASE_CONFIG)
         query = "SELECT * " \

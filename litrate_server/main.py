@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request, render_template, flash, url_for, redirect, session, send_from_directory
 import classes.forms
 from misc.configs import SECRET_KEY, USER_TYPES
@@ -14,7 +16,7 @@ app = Flask(__name__)
 
 # Обновлении информации о пользователе, который сейчас в системе
 def update_session_user_info():
-    session["user"].update(find_user(email=session["user"]["user_mail"]))
+    session["user"].update(find_user_by_email(email=session["user"]["user_mail"]))
     if session["user_type"] == USER_TYPES.CREATOR:
         session["user"].update(find_creator_info(session["user_id"]))
         session["user"]["rating"] = get_creator_rating(session["user_id"])
@@ -86,13 +88,13 @@ def signup():
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))  # Шифруем пароль
         type = form.type.data
-        if not find_user(email):
+        if not find_user_by_email(email):
             # Если пользователь в базе не найден, регистрируем его
             signup_user(email, password, type)
             return redirect(url_for("signin"))
         else:
             # Иначе возвращаемся на страницу регистрации
-            if find_user(email=email):
+            if find_user_by_email(email=email):
                 flash("Another user with same email found", "error")
             else:
                 flash("Another user with same login found", "error")
@@ -107,7 +109,7 @@ def signin():
         email = form.email.data
         password_try = str(form.password.data)
         # Поиск совпадение в БД по почте
-        found_user = find_user(email)
+        found_user = find_user_by_email(email)
         if not found_user:
             # Если совпадения не найдено, то вернуться на страницу входа
             flash("User with this email not found", "error")
@@ -140,6 +142,7 @@ def signout():
 @app.route("/profile")
 @is_logged_in
 def profile():
+    print(1)
     update_session_user_info()
     if session["user_type"] == USER_TYPES.CREATOR:
         compositions = normalize_compositions(get_creators_compositions(session["user_id"]))
@@ -148,8 +151,6 @@ def profile():
         poem_types, prose_types = get_creator_all_types(session["user_id"])
         all_types=poem_types.copy()
         all_types.update(prose_types)
-        print(prose_types)
-        print(poem_types)
         return render_template("creator_profile.html", compositions=compositions,
                                poems=poems, proses=proses,
                                poem_types=poem_types, prose_types=prose_types, types=all_types)
@@ -157,6 +158,31 @@ def profile():
         return render_template("publisher_profile.html")
     else:
         return render_template("moderator_profile.html")
+
+
+# Страница пользователя
+@app.route("/profile/<int:user_id>")
+def user_profile(user_id):
+    if session["signedin"] and session["user_id"] == user_id:
+        return profile()
+    user = find_user_by_id(user_id)
+    if not user:
+        return render_template("user_error.html")
+
+    if user["user_type"] == USER_TYPES.CREATOR:
+        compositions = normalize_compositions(get_creators_compositions(user["user_id"]))
+        poems = get_creator_poem(user["user_id"])
+        proses = get_creator_prose(user["user_id"])
+        poem_types, prose_types = get_creator_all_types(user["user_id"])
+        all_types=poem_types.copy()
+        all_types.update(prose_types)
+        return render_template("user_creator_profile.html", compositions=compositions,
+                               poems=poems, proses=proses,
+                               poem_types=poem_types, prose_types=prose_types, types=all_types)
+    elif user["user_type"] == USER_TYPES.PUBLISHER:
+        return render_template("user_publisher_profile.html")
+    else:
+        return render_template("user_moderator_profile.html")
 
 
 # Страница редактирования данных пользователя
@@ -197,10 +223,12 @@ def poem_adding():
         else:
             flash("Something go wrong")
             # !!!!
-            return render_template("poem_adding.html", form=form)
+            types_json = json.dumps({x: x for x in get_poem_types()})
+            return render_template("poem_adding.html", form=form, poem_types=types_json)
     else:
         form = classes.forms.AddPoemForm()
-        return render_template("poem_adding.html", form=form)
+        types_json = json.dumps({x: x for x in get_poem_types()})
+        return render_template("poem_adding.html", form=form, poem_types=types_json)
 
 
 # Страница добавления прозаических произведений
@@ -218,10 +246,12 @@ def prose_adding():
         else:
             flash("Something go wrong")
             # !!!!
-            return render_template("prose_adding.html", form=form)
+            types_json = json.dumps({x: x for x in get_prose_types()})
+            return render_template("prose_adding.html", form=form, prose_types=types_json)
     else:
         form = classes.forms.AddProseForm()
-        return render_template("prose_adding.html", form=form)
+        types_json = json.dumps({x: x for x in get_prose_types()})
+        return render_template("prose_adding.html", form=form, prose_types=types_json)
 
 
 # Перейти на страничку с произведением

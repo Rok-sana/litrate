@@ -4,11 +4,32 @@ from db_queries.simple_get import *
 
 
 # Поиск пользователя по почте
-def find_user(email):
+def find_user_by_email(email):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT * " \
             "FROM Users " \
             "WHERE user_mail=\'{0}\';".format(email)
+    res = database.execute_query(query)
+    if res:
+        res["user_id"] = res["user_id"][0]
+        res["user_name"] = res["user_name"][0]
+        res["user_surname"] = res["user_surname"][0]
+        res["user_patronymic"] = res["user_patronymic"][0]
+        res["user_mail"] = res["user_mail"][0]
+        res["user_additional_info"] = res["user_additional_info"][0]
+        res["user_phone"] = res["user_phone"][0]
+        res["user_birth"] = res["user_birth"][0]
+        res["banned"] = bool(res["banned"][0])
+        res["user_type"] = res["user_type"][0]
+        res["user_password"] = res["user_password"][0]
+    return res
+
+
+def find_user_by_id(user_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Users " \
+            "WHERE user_id={0};".format(user_id)
     res = database.execute_query(query)
     if res:
         res["user_id"] = res["user_id"][0]
