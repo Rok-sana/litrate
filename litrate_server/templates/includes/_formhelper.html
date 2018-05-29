@@ -17,7 +17,10 @@
         <span style="float: right;">
             (<a href={{url_for('like_composition',composition_id=comp.id)}} class="icon-thumbs-up"></a> |
             <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-minus-sign"></a>)
-            <a href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
+
+            {% if session.signedin and session.user_id == comp.creator_id %}
+                <a href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
+            {% endif %}
         </span>
         <hr>
     </span>
@@ -26,4 +29,17 @@
     <!--<a href={{url_for('composition_page',composition_id=comp.id)}} >
         <p>Type: {{ comp.composition_type }}</p>
     </a>!-->
+{% endmacro %}
+
+{% macro render_user(user) %}
+    <a href={{url_for('user_profile', user_id=user.user_id)}}>
+        <p> Name: {{user.user_name}}  Surname: {{user.user_surname}} Rating: {{user.rating}}</p>
+    </a>
+
+{% endmacro %}
+{% macro render_users_for_search(users) %}
+    {% for user in users %}
+        {{render_user(user)}}
+    {% endfor %}
+
 {% endmacro %}

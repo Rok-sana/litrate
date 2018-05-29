@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% from "includes/_formhelper.html" import render_users_for_search %}
+{% block body %}
+    {{render_users_for_search(users)}}
+{% endblock %}
+{% block title %}
+    <title> Litrate</title>
+{% endblock %}

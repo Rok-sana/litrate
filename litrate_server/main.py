@@ -142,29 +142,13 @@ def signout():
 @app.route("/profile")
 @is_logged_in
 def profile():
-    print(1)
     update_session_user_info()
-    if session["user_type"] == USER_TYPES.CREATOR:
-        compositions = normalize_compositions(get_creators_compositions(session["user_id"]))
-        poems = get_creator_poem(session["user_id"])
-        proses = get_creator_prose(session["user_id"])
-        poem_types, prose_types = get_creator_all_types(session["user_id"])
-        all_types=poem_types.copy()
-        all_types.update(prose_types)
-        return render_template("creator_profile.html", compositions=compositions,
-                               poems=poems, proses=proses,
-                               poem_types=poem_types, prose_types=prose_types, types=all_types)
-    elif session["user_type"] == USER_TYPES.PUBLISHER:
-        return render_template("publisher_profile.html")
-    else:
-        return render_template("moderator_profile.html")
+    return user_profile(session["user_id"])
 
 
-# Страница пользователя
+# Страница пользователя по id
 @app.route("/profile/<int:user_id>")
 def user_profile(user_id):
-    if session["signedin"] and session["user_id"] == user_id:
-        return profile()
     user = find_user_by_id(user_id)
     if not user:
         return render_template("user_error.html")
@@ -174,11 +158,12 @@ def user_profile(user_id):
         poems = get_creator_poem(user["user_id"])
         proses = get_creator_prose(user["user_id"])
         poem_types, prose_types = get_creator_all_types(user["user_id"])
-        all_types=poem_types.copy()
+        all_types = poem_types.copy()
         all_types.update(prose_types)
         return render_template("user_creator_profile.html", compositions=compositions,
                                poems=poems, proses=proses,
-                               poem_types=poem_types, prose_types=prose_types, types=all_types)
+                               poem_types=poem_types, prose_types=prose_types, types=all_types,
+                               user=user)
     elif user["user_type"] == USER_TYPES.PUBLISHER:
         return render_template("user_publisher_profile.html")
     else:
@@ -216,7 +201,8 @@ def poem_adding():
     if request.method == 'POST':
         form = classes.forms.AddPoemForm(CombinedMultiDict((request.files, request.form)))
         if form.validate():
-            add_poem(form.file.data, form.name.data, form.poem_types.data, session["user_id"])
+            add_poem(form.file.data, form.name.data,
+                     request.form.getlist("poem_types"), session["user_id"])
             flash("Poem added")
             update_session_user_info()
             return redirect(url_for("profile"))
@@ -239,7 +225,8 @@ def prose_adding():
     if request.method == 'POST':
         form = classes.forms.AddProseForm(CombinedMultiDict((request.files, request.form)))
         if form.validate():
-            add_prose(form.file.data, form.name.data, form.prose_types.data, session["user_id"])
+            add_prose(form.file.data, form.name.data,
+                      request.form.getlist("prose_types"), session["user_id"])
             flash("Prose added")
             update_session_user_info()
             return redirect(url_for("profile"))
@@ -261,7 +248,7 @@ def composition_page(composition_id):
                            composition=get_composition(composition_id))
 
 
-#
+# Поставить произведению лайк
 @app.route('/composition/<int:composition_id>/like')
 @is_logged_in
 def like_composition(composition_id):
@@ -273,10 +260,11 @@ def like_composition(composition_id):
         if mark == -1:
             insert_compositions_marks(composition_id, session["user_id"], 1)
 
+    return redirect(request.referrer)
     return redirect(url_for('composition_page',composition_id=composition_id))
 
 
-#
+# Поставить произведению дизлайк
 @app.route('/composition/<int:composition_id>/dislike')
 @is_logged_in
 def dislike_composition(composition_id):
@@ -287,10 +275,12 @@ def dislike_composition(composition_id):
         db_queries.delete_queries.delete_compositions_marks(composition_id, session["user_id"])
         if mark == 1:
             insert_compositions_marks(composition_id, session["user_id"], -1)
+
+    return redirect(request.referrer)
     return redirect(url_for('composition_page',composition_id=composition_id))
 
 
-#
+# Удаление произведения
 @app.route('/composition/<int:composition_id>/delete')
 @is_logged_in
 def delete_composition(composition_id):
@@ -304,11 +294,38 @@ def delete_composition(composition_id):
     return redirect(url_for('profile'))
 
 
-#
+# Страница поиска произведений
 @app.route('/search/compositions')
 def composition_search():
     compositions = get_all_compositions()
     return render_template("composition_search.html", compositions=compositions)
+
+
+# Страница поиска пользователей
+@app.route('/search/user')
+def default_user_search():
+    return user_search("name=")
+
+
+# Найти пользователей по параметрам
+@app.route('/search/user/<string:search_string>')
+def user_search(search_string="name="):
+    try:
+        params = dict(item.split("=") for item in search_string.split("&"))
+        print(params)
+        users = find_users_by_param_set(user_name=params.get("name"),
+                                        user_surname=params.get("surname"))
+
+        return render_template("user_search.html", users=users)
+    except ValueError:
+        return render_template("user_search.html", users=[])
+
+
+# Написать сообщение пользователю по id
+@app.route('/write/<int:user_id>')
+@is_logged_in
+def write_message(user_id):
+    return redirect(request.referrer)
 
 
 # Получить какой-нибудь статический файл (js, css, ico...)

@@ -1,6 +1,7 @@
 from classes.Poem import *
 from classes.Prose import *
 from db_queries.simple_get import *
+from misc.configs import USER_TYPES
 
 
 # Поиск пользователя по почте
@@ -10,40 +11,56 @@ def find_user_by_email(email):
             "FROM Users " \
             "WHERE user_mail=\'{0}\';".format(email)
     res = database.execute_query(query)
+    user = dict()
     if res:
-        res["user_id"] = res["user_id"][0]
-        res["user_name"] = res["user_name"][0]
-        res["user_surname"] = res["user_surname"][0]
-        res["user_patronymic"] = res["user_patronymic"][0]
-        res["user_mail"] = res["user_mail"][0]
-        res["user_additional_info"] = res["user_additional_info"][0]
-        res["user_phone"] = res["user_phone"][0]
-        res["user_birth"] = res["user_birth"][0]
-        res["banned"] = bool(res["banned"][0])
-        res["user_type"] = res["user_type"][0]
-        res["user_password"] = res["user_password"][0]
-    return res
+        for k in res:
+            user[k] = res[k][0]
+    return user
 
 
+#
 def find_user_by_id(user_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT * " \
             "FROM Users " \
             "WHERE user_id={0};".format(user_id)
     res = database.execute_query(query)
+    user = dict()
     if res:
-        res["user_id"] = res["user_id"][0]
-        res["user_name"] = res["user_name"][0]
-        res["user_surname"] = res["user_surname"][0]
-        res["user_patronymic"] = res["user_patronymic"][0]
-        res["user_mail"] = res["user_mail"][0]
-        res["user_additional_info"] = res["user_additional_info"][0]
-        res["user_phone"] = res["user_phone"][0]
-        res["user_birth"] = res["user_birth"][0]
-        res["banned"] = bool(res["banned"][0])
-        res["user_type"] = res["user_type"][0]
-        res["user_password"] = res["user_password"][0]
-    return res
+        for k in res:
+            user[k] = res[k][0]
+    return user
+
+
+#
+def find_users_by_param_set(user_name=None, user_surname=None, rating_desc=True):
+    values = ''
+    if user_name is not None:
+        values += "user_name LIKE \'%" + user_name + "%\' AND "
+    if user_surname is not None:
+        values += "user_surname LIKE \'%" + user_surname + "%\' AND "
+    if values:
+        values = values[:-4]
+        database = MySqlDatabase(DATABASE_CONFIG)
+        query = "SELECT * " \
+                "FROM Users " \
+                "WHERE {0};".format(values)
+        res = database.execute_query(query)
+        users = []
+        if res:
+            for i in range(len(res["user_id"])):
+                users.append(dict())
+                for k in res:
+                    users[i][k] = res[k][i]
+                if users[i]["user_type"] == USER_TYPES.CREATOR:
+                    users[i].update(find_creator_info(users[i]["user_id"]))
+                    users[i]["rating"] = get_creator_rating(users[i]["user_id"])
+                else:
+                    users[i].update(find_publisher_info(users[i]["user_id"]))
+            if rating_desc:
+                users.sort(key=lambda user: -user["rating"])
+        return users
+    return []
 
 
 #

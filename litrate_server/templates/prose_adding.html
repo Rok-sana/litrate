@@ -82,7 +82,7 @@ textarea {
   var ul = document.createElement('ul');
 
   for (elem in val_data) {
-    $(ul).append("<li><input type='checkbox' value='" + elem + "' id='" + elem + "'><label for='" + elem + "'>" + val_data[elem] + "</label></li>");
+    $(ul).append("<li><input type='checkbox'  name='prose_types' value='" + elem + "' id='" + elem + "'><label for='" + elem + "'>" + val_data[elem] + "</label></li>");
   }
   $(ul).appendTo(val_cont);
   $(ul).hide();

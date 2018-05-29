@@ -47,17 +47,17 @@
                 <div class="header-menu__item dropdown">
 
                       <div class="droplink">
-                          <h3><a style="font-size: 18px; " href="#"> Каталог</a></h3>
+                          <h3><a style="font-size: 18px; " href="#"> Поиск</a></h3>
                         <ul>
-                            <li ><a href="#" target="_blank">Проза</a></li>
-                            <li ><a href="#" target="_blank">Поэзия</a></li>
-                            <li ><a href="#" target="_blank">Издательства</a></li>
-                            <li ><a href="#" target="_blank">Авторы</a></li>
+                            <li ><a href={{url_for('composition_search')}}>Произведения</a></li>
+                            <!--<li ><a href="#" target="_blank">Поэзия</a></li>-->
+                            <li ><a href="#" >Издательства</a></li>
+                            <li ><a href={{url_for('default_user_search')}}>Авторы</a></li>
                         </ul>
                       </div>
                 </div>
                 <div class="header-menu__item">
-                  <a style="font-size:18px;" href="" title="Поиск"><i class="fa fa-comments-o"></i>Поиск</a>
+                  <a style="font-size:18px;" href="" title="Каталог"><i class="fa fa-comments-o"></i>Каталог</a>
                 </div>
                 <div class="header-menu__item dropdown header-button">
                   <div class="header-button__icon" data-dropdown="" data-tippy="">

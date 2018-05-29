@@ -36,9 +36,12 @@ def find_minimum_unused_composition_id():
 
 # Добавления пользователя
 def insert_user(user_id, user_password, user_email, user_type):
-    query = "INSERT INTO Users(user_id, user_password, user_mail, user_type) " \
-            "VALUES({0}, \'{1}\', \'{2}\', \'{3}\');".format(user_id, user_password,
-                                                             user_email, user_type)
+    query = "INSERT INTO Users(user_id, user_password, user_mail, user_type, " \
+            "                  user_name, user_surname, user_patronymic, user_additional_info) " \
+            "VALUES({0}, \'{1}\', \'{2}\', \'{3}\', " \
+            "       \'{4}\', \'{5}\', \'{6}\', \'{7}\');".format(user_id, user_password,
+                                                                 user_email, user_type,
+                                                                 '', '', '', '')
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 

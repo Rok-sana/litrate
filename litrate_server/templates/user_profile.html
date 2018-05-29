@@ -6,7 +6,11 @@
 
     <div class="img_profile">
         <img style="width: 100%; height: 100%;" src="/static/images/temp.jpg" />
-        <a style="margin: 25px;" href={{url_for("edit_info")}}>Редактировать информацию</a>
+        {% if session.signedin and session.user_id == user.user_id %}
+            <a style="margin: 25px;" href={{url_for("edit_info")}}> Редактировать информацию </a>
+        {% elif session.signedin %}
+            <a style="margin: 25px;" href={{url_for("write_message", user_id=user.user_id)}}> Написать сообщение </a>
+        {% endif %}
     </div>
 <div style="float: left;">
     <h1 style="font-size: 30px; padding-left: 20px; color: rgb(0,0,0); font-weight: bold">
