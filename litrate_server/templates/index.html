@@ -1,7 +1,208 @@
 {% extends "layout.html" %}
-{% block body %}
-
-{% endblock %}
 {% block title %}
     <title> Litrate</title>
+{% endblock %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="stylesheet" type="text/css" href="/static/remodal.css">
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+    <link rel="stylesheet" type="text/css" href="/static/remodal-default-theme.css">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/static/menu.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="body">
+        <div style="height: 100%; width: 75%; float: left;">
+            <!--Main!-->
+            <div style="text-align: center; margin-top: 20px;">
+                <img height="300px" width="600px" src="/static/images/back_main.jpg" alt="задний фон">
+
+
+    {% block signin %}
+
+    {% endblock %}
+
+
+            </div>
+
+        </div>
+            <!-- Топ !-->
+        <div style="height: 100%; width: 25%; float: left;">
+            <p style="font-weight: 900; font-size: 2.5vw; text-align: center; height: 3vw;">Топ-3</p>
+
+            <!-- Топ 1!-->
+            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
+                <div style="width: 20%; float: left;">
+                    <div style="width: 5vw;">
+                        <img  width="100%" src="/static/images/1.png" alt="топ 1">
+                    </div>
+
+                </div>
+                <div style="width: 65%; float: left; margin-left: 5%;">
+                      <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
+                       <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
+                    <span>
+                         Сонце гріє, вітер віє<br/>
+                         З поля на долину,<br/>
+                         Над водою гне з вербою...<br/>
+                     </span>
+                       </a>
+                     <span style="font-weight: 900; font-size: 1.2vw;">
+                         Автор:
+                     </span>
+                     <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
+                         <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
+                     </span>
+                </div>
+            </div>
+
+            <!-- Топ 2!-->
+            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
+                <div style="width: 20%; float: left;">
+                    <div style="width: 5vw;">
+                        <img  width="100%" src="/static/images/2.png" alt="топ 2">
+                    </div>
+                </div>
+                <div style="width: 65%; float: left; margin-left: 5%;">
+                      <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
+ <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
+                    <span>
+                         Сонце гріє, вітер віє<br/>
+                         З поля на долину,<br/>
+                         Над водою гне з вербою...<br/>
+                     </span>
+                       </a>
+                     <span style="font-weight: 900; font-size: 1.2vw;">
+                         Автор:
+                     </span>
+                     <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
+                         <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
+                     </span>
+                </div>
+            </div>
+
+            <!-- Топ 3!-->
+            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
+                <div style="width: 20%; float: left;">
+                    <div style="width: 5vw;">
+                        <img  width="100%" src="/static/images/3.png" alt="топ 3">
+                    </div>
+                </div>
+                <div style="width: 65%; float: left; margin-left: 5%;">
+                    <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
+                     <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
+                    <span>
+                         Сонце гріє, вітер віє<br/>
+                         З поля на долину,<br/>
+                         Над водою гне з вербою...<br/>
+                     </span>
+                       </a>
+                    <span style="font-weight: 900; font-size: 1.2vw;">
+                         Автор:
+                    </span>
+                    <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
+                        <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+
+    <!--<script>
+        padding_page();
+        menu_height();
+    </script>!-->
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    var articleLink = '/scripts/lightbox_dialog_overlay/483-modalnoe-okno.html';
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="/static/remodal.min.js"></script>
+
+<script>
+    $(document).on('opening', '.remodal', function () {
+      console.log('opening');
+    });
+
+    $(document).on('opened', '.remodal', function () {
+      console.log('opened');
+    });
+
+    $(document).on('closing', '.remodal', function (e) {
+      console.log('closing' + (e.reason ? ', reason: ' + e.reason : ''));
+    });
+
+    $(document).on('closed', '.remodal', function (e) {
+      console.log('closed' + (e.reason ? ', reason: ' + e.reason : ''));
+    });
+
+    $(document).on('confirmation', '.remodal', function () {
+      console.log('confirmation');
+    });
+
+    $(document).on('cancellation', '.remodal', function () {
+      console.log('cancellation');
+    });
+
+  //  Usage:
+  //  $(function() {
+  //
+  //    // In this case the initialization function returns the already created instance
+  //    var inst = $('[data-remodal-id=modal]').remodal();
+  //
+  //    inst.open();
+  //    inst.close();
+  //    inst.getState();
+  //    inst.destroy();
+  //  });
+
+    //  The second way to initialize:
+    $('[data-remodal-id=modal2]').remodal({
+      modifier: 'with-red-theme'
+    });
+
+    function DropDown(el) {
+				this.dd = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});
+				}
+			}
+
+			$(function() {
+
+				var dd = new DropDown( $('#dd') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-5').removeClass('active');
+				});
+
+			});
+  </script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+</script>
 {% endblock %}

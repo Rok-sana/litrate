@@ -15,9 +15,6 @@
 <body>
     <div class="header">
         <div class="header_inner">
-
-
-
             <div class="header__item header__left">
                 <a href="/" class="header__logo">
                     <img src="/static/images/logo.png" alt="Litrate">
@@ -105,83 +102,7 @@
     </body>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<!-- Responsive Tabs JS -->
-<script src="/static/jquery.responsiveTabs.js" type="text/javascript"></script>
-<script type="text/javascript">
-//----------------Вкладки--------------------
-	$(document).ready(function () {
-		var $tabs = $('#horizontalTab');
-		$tabs.responsiveTabs({
-			rotate: false,
-			startCollapsed: 'accordion',
-			collapsible: 'accordion',
-			setHash: true,
-			disabled: [4],
-			click: function(e, tab) {
-				$('.info').html('Tab <strong>' + tab.id + '</strong> clicked!');
-			},
-			activate: function(e, tab) {
-				$('.info').html('Tab <strong>' + tab.id + '</strong> activated!');
-			},
-			activateState: function(e, state) {
-				//console.log(state);
-				$('.info').html('Switched from <strong>' + state.oldState + '</strong> state to <strong>' + state.newState + '</strong> state!');
-			}
-		});
-
-		$('#start-rotation').on('click', function() {
-			$tabs.responsiveTabs('startRotation', 1000);
-		});
-		$('#stop-rotation').on('click', function() {
-			$tabs.responsiveTabs('stopRotation');
-		});
-		$('#start-rotation').on('click', function() {
-			$tabs.responsiveTabs('active');
-		});
-		$('#enable-tab').on('click', function() {
-			$tabs.responsiveTabs('enable', 3);
-		});
-		$('#disable-tab').on('click', function() {
-			$tabs.responsiveTabs('disable', 3);
-		});
-		$('.select-tab').on('click', function() {
-			$tabs.responsiveTabs('activate', $(this).val());
-		});
-
-	});
-
-
-//-----------Меню-------------------
-
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-5').removeClass('active');
-				});
-
-			});
-
-</script>
 
     <div class="footer">
     </div>

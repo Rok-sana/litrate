@@ -1,211 +1,104 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/static/style.css" >
-    <link rel="stylesheet" type="text/css" href="/static/remodal.css">
-    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
-    <link rel="stylesheet" type="text/css" href="/static/remodal-default-theme.css">
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="/static/menu.js"></script>
+    <head>
+        {% block title %}
+        {% endblock %}
 
-    {% block title %}
+        {% block headscripts %}
+        {% endblock %}
+        {% block head %}
+        {% endblock %}
+        {% block style %}
+        {% endblock %}
+    </head>
+
+    <body>
+
+        <div class="header">
+            <div class="header_inner">
+
+                <div class="header__item header__left">
+                    <a href="/" class="header__logo">
+                        <img src="/static/images/logo.png" alt="Litrate">
+                    </a>
+                </div>
+
+
+
+                    <div class="header__item header__menu">
+                      <div class="header__search header-search hidden">
+                            <div class="header-search__field">
+                              <form action="/search" method="post" novalidate="">
+                                <input type="hidden" name="_token" value="5Zt9EOsOuI3t1vyjRUgVXohCE2PcbvjeTRLVJRVc">
+                                <input type="text" name="q" class="header-search__input" placeholder="Быстрый поиск..." autocomplete="off">
+                                <button type="submit" class="header-search__find"><i class="fa fa-search"></i></button>
+                                <div class="header-search__close">
+                                  <svg width="34" height="34" viewBox="0 0 34 34">
+                                    <line x1="11" y1="11" x2="23" y2="23"></line>
+                                    <line x1="11" y1="23" x2="23" y2="11"></line>
+                                  </svg>
+                                </div>
+                                <div class="loader-circle loader-circle_small"></div>
+                              </form>
+                            </div>
+                        <div class="autocomplete-suggestions header-autocomplete" style="left: 0px; top: 1px; width: 0px;"></div>
+                      </div>
+                      <div class="header-menu">
+                        <div class="header-menu__item dropdown">
+
+                              <div class="droplink">
+                                  <h3><a style="font-size: 18px; " href="#"> Поиск</a></h3>
+                                <ul>
+                                    <li ><a href={{url_for('composition_search')}}>Произведения</a></li>
+                                    <!--<li ><a href="#" target="_blank">Поэзия</a></li>-->
+                                    <li ><a href="#" >Издательства</a></li>
+                                    <li ><a href={{url_for('default_user_search')}}>Авторы</a></li>
+                                </ul>
+                              </div>
+                        </div>
+                        <div class="header-menu__item">
+                          <a style="font-size:18px;" href="" title="Каталог"><i class="fa fa-comments-o"></i>Каталог</a>
+                        </div>
+                        <div class="header-menu__item dropdown header-button">
+                          <div class="header-button__icon" data-dropdown="" data-tippy="">
+                            <i class="fa fa-ellipsis-h"></i>
+                          </div>
+                          <div class="menu-template">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+            <div class="header__item header-right-menu">
+                {% if session.signedin %}
+                    <div id="dd" class="wrapper-dropdown-5" tabindex="1"> {{session.user.user_name}} {{session.user.user_surname}}
+                        <ul class="dropdown">
+                            <li><a href={{url_for("profile")}}><i class="icon-user"></i>Профиль</a></li>
+                            <li><a href={{url_for("prose_adding")}}><i class="icon-book"></i>Новая проза</a></li>
+                            <li><a href={{url_for("poem_adding")}}><i class="icon-pencil"></i>Новая поэзия</a></li>
+                            <li><a href="#"><i class="icon-envelope-alt"></i>Почта</a></li>
+                            <li><a href="#"><i class="icon-cog"></i>Настройки</a></li>
+                            <li><a href={{url_for("signout")}}><i class="icon-signout"></i>Выйти</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href='{{url_for("signin")}}#modal' class="flat2">Вход</a>
+                    <a href='{{url_for("signup")}}#modal' class="flat3">Регистрация</a>
+                {% endif %}
+
+          </div>
+        </div>
+    </div>
+
+    {% block body %}
     {% endblock %}
+    </body>
 
-</head>
-{% from "includes/_formhelper.html" import render_field %}
-{% block menu %}
-{% endblock %}
-        <div class="body">
-        <div style="height: 100%; width: 75%; float: left;">
-            <!--Main!-->
-            <div style="text-align: center; margin-top: 20px;">
-                <img height="300px" width="600px" src="/static/images/back_main.jpg" alt="задний фон">
-
-
-    {% block signin %}
-
+    {% block scripts %}
     {% endblock %}
-
-
-            </div>
-
-            {% block body %}
-             {% endblock %}
-        </div>
-            <!-- Топ !-->
-        <div style="height: 100%; width: 25%; float: left;">
-            <p style="font-weight: 900; font-size: 2.5vw; text-align: center; height: 3vw;">Топ-3</p>
-
-            <!-- Топ 1!-->
-            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
-                <div style="width: 20%; float: left;">
-                    <div style="width: 5vw;">
-                        <img  width="100%" src="/static/images/1.png" alt="топ 1">
-                    </div>
-
-                </div>
-                <div style="width: 65%; float: left; margin-left: 5%;">
-                      <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
-                       <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
-                    <span>
-                         Сонце гріє, вітер віє<br/>
-                         З поля на долину,<br/>
-                         Над водою гне з вербою...<br/>
-                     </span>
-                       </a>
-                     <span style="font-weight: 900; font-size: 1.2vw;">
-                         Автор:
-                     </span>
-                     <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
-                         <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
-                     </span>
-                </div>
-            </div>
-
-            <!-- Топ 2!-->
-            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
-                <div style="width: 20%; float: left;">
-                    <div style="width: 5vw;">
-                        <img  width="100%" src="/static/images/2.png" alt="топ 2">
-                    </div>
-                </div>
-                <div style="width: 65%; float: left; margin-left: 5%;">
-                      <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
- <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
-                    <span>
-                         Сонце гріє, вітер віє<br/>
-                         З поля на долину,<br/>
-                         Над водою гне з вербою...<br/>
-                     </span>
-                       </a>
-                     <span style="font-weight: 900; font-size: 1.2vw;">
-                         Автор:
-                     </span>
-                     <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
-                         <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
-                     </span>
-                </div>
-            </div>
-
-            <!-- Топ 3!-->
-            <div style=" width: 90%; margin-left: 5%; margin-top: 2vh; height: 10vw;">
-                <div style="width: 20%; float: left;">
-                    <div style="width: 5vw;">
-                        <img  width="100%" src="/static/images/3.png" alt="топ 3">
-                    </div>
-                </div>
-                <div style="width: 65%; float: left; margin-left: 5%;">
-                    <a href={{url_for("index")}} style="font-weight: 900; font-size: 1.5vw; text-align: center; margin-top: -1vw; height: 1vw; color: rgb(0,0,0)">Сонце гріє, вітер віє</a>
-                     <a href={{url_for("index")}} style="font-size: 1.2vw; color: rgb(0,0,0); height: 3vw; line-height: 1em;">
-                    <span>
-                         Сонце гріє, вітер віє<br/>
-                         З поля на долину,<br/>
-                         Над водою гне з вербою...<br/>
-                     </span>
-                       </a>
-                    <span style="font-weight: 900; font-size: 1.2vw;">
-                         Автор:
-                    </span>
-                    <span style="font-weight: 900; font-size: 1.2vw; color: rgb(242,117,85)">
-                        <a href={{url_for("index")}} style="color: rgb(242,117,85)">Великий Кобзарь</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        </div>
-
-            </div>
-        </div>
-
-    <!--<script>
-        padding_page();
-        menu_height();
-    </script>!-->
-<body>
-<script>
-    var articleLink = '/scripts/lightbox_dialog_overlay/483-modalnoe-okno.html';
-  </script>
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="/static/remodal.min.js"></script>
-
-<script>
-    $(document).on('opening', '.remodal', function () {
-      console.log('opening');
-    });
-
-    $(document).on('opened', '.remodal', function () {
-      console.log('opened');
-    });
-
-    $(document).on('closing', '.remodal', function (e) {
-      console.log('closing' + (e.reason ? ', reason: ' + e.reason : ''));
-    });
-
-    $(document).on('closed', '.remodal', function (e) {
-      console.log('closed' + (e.reason ? ', reason: ' + e.reason : ''));
-    });
-
-    $(document).on('confirmation', '.remodal', function () {
-      console.log('confirmation');
-    });
-
-    $(document).on('cancellation', '.remodal', function () {
-      console.log('cancellation');
-    });
-
-  //  Usage:
-  //  $(function() {
-  //
-  //    // In this case the initialization function returns the already created instance
-  //    var inst = $('[data-remodal-id=modal]').remodal();
-  //
-  //    inst.open();
-  //    inst.close();
-  //    inst.getState();
-  //    inst.destroy();
-  //  });
-
-    //  The second way to initialize:
-    $('[data-remodal-id=modal2]').remodal({
-      modifier: 'with-red-theme'
-    });
-  </script>
-
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script type="text/javascript">
-
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-5').removeClass('active');
-				});
-
-			});
-
-		</script>
-</body>
     <div class="footer">
     </div>
 </html>

@@ -1,8 +1,24 @@
-{% extends "base.html" %}
-{% block body %}
-{% from "includes/_formhelper.html" import render_field %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% extends "layout.html" %}
 
+{% from "includes/_formhelper.html" import render_field %}
+
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.matchHeight.js"></script>
+    <script src="/static/jquery.selectric.min.js"></script>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery.selectric.js"></script>
+    <script src="/static/menu.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block style %}
 <style>
 input {
 	width: 300px;
@@ -33,23 +49,32 @@ textarea {
 }
 
 </style>
+{% endblock %}
 
-<p style="margin: 50px auto -50px auto; padding-right: 50px; width: 300px; font-size: 24px">Добавление прозы</p>
-<form method="POST" action="" enctype="multipart/form-data">
-   <div style="font-size: 18px; margin: 50px auto; width: 670px;">
-        <div style="width: 420px; float:left;">
-            <p style="margin-top: 50px;"> Название: &nbsp;{{ form.name }}  </p>
-            <!--<p> Категория: {{ form.prose_types(rows=3, multiple=True) }}  </p>!-->
-            <p> Загрузить: {{ form.file }} </p>
-            <textarea></textarea>
-            <p> <input style="width: 200px; height: 40px; margin-left: 100px;" type="submit" value="Добавить"></p>
-        </div>
-        <div style="width: 250px; float: left; margin-top: 20px;">
 
-            <p><input name="other1" value="val1, val11" type="text1"></p>
-        </div>
+{% block body %}
+    <div class="pbody">
+        <p style="margin: 50px auto -50px auto; padding-right: 50px; width: 300px; font-size: 24px">Добавление прозы</p>
+        <form method="POST" action="" enctype="multipart/form-data">
+           <div style="font-size: 18px; margin: 50px auto; width: 670px;">
+                <div style="width: 420px; float:left;">
+                    <p style="margin-top: 50px;"> Название: &nbsp;{{ form.name }}  </p>
+                    <!--<p> Категория: {{ form.prose_types(rows=3, multiple=True) }}  </p>!-->
+                    <p> Загрузить: {{ form.file }} </p>
+                    <textarea></textarea>
+                    <p> <input style="width: 200px; height: 40px; margin-left: 100px;" type="submit" value="Добавить"></p>
+                </div>
+                <div style="width: 250px; float: left; margin-top: 20px;">
+
+                    <p><input name="other1" value="val1, val11" type="text1"></p>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+{% endblock %}
+
+
+{% block scripts %}
 <script>
   $(document).ready(function() {
 
@@ -148,5 +173,31 @@ textarea {
     });
   });
 });
+
+    function DropDown(el) {
+        this.dd = el;
+        this.initEvents();
+    }
+    DropDown.prototype = {
+        initEvents : function() {
+            var obj = this;
+
+            obj.dd.on('click', function(event){
+                $(this).toggleClass('active');
+                event.stopPropagation();
+            });
+        }
+    }
+
+    $(function() {
+
+        var dd = new DropDown( $('#dd') );
+
+        $(document).click(function() {
+            // all dropdowns
+            $('.wrapper-dropdown-5').removeClass('active');
+        });
+
+    });
 </script>
 {% endblock %}

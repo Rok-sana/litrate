@@ -1,6 +1,50 @@
-{% extends "base_profile.html" %}
-{% block body %}
-{% from "includes/_formhelper.html" import render_composition_for_page %}
+{% extends "layout.html" %}
 
-    {{ render_composition_for_page(composition, text) }}
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/static/menu.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/responsive-tabs.css" />
+    <link type="text/css" rel="stylesheet" href="/static/style_o.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+{% endblock %}
+
+{% block body %}
+    <div class="pbody">
+        {% from "includes/_formhelper.html" import render_composition_for_page %}
+
+        {{ render_composition_for_page(composition, text) }}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function DropDown(el) {
+				this.dd = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});
+				}
+			}
+
+			$(function() {
+
+				var dd = new DropDown( $('#dd') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-5').removeClass('active');
+				});
+
+			});
+    </script>
 {% endblock %}
