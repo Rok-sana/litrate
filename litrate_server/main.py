@@ -80,6 +80,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/menu")
+def menu():
+    return render_template("menu.html")
+
+
 # Страница регистрации пользователя
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -165,9 +170,9 @@ def user_profile(user_id):
                                poem_types=poem_types, prose_types=prose_types, types=all_types,
                                user=user)
     elif user["user_type"] == USER_TYPES.PUBLISHER:
-        return render_template("user_publisher_profile.html")
+        return render_template("user_publisher_profile.html", user=user)
     else:
-        return render_template("user_moderator_profile.html")
+        return render_template("user_moderator_profile.html", user=user)
 
 
 # Страница редактирования данных пользователя
@@ -354,7 +359,6 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('/errors/500.html'), 500
-
 
 
 if __name__ == "__main__":
