@@ -1,11 +1,16 @@
 from wtforms import Form, StringField, TextAreaField, PasswordField, \
      validators, FieldList, SelectField, SelectMultipleField
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from passlib.hash import sha256_crypt
 #from wtforms.ext.dateutil.fields import DateField
 from wtforms.fields.html5 import DateField
 import dateutil
 from db_queries.get_queries import get_prose_types, get_poem_types
+
+
+IMAGES = tuple('jpg jpe jpeg png gif svg bmp'.split())
+DOCUMENTS = tuple('rtf odf ods gnumeric abw doc docx xls xlsx'.split())
+TEXT = ('txt',)
 
 # Форма регистрации
 class SignupForm(Form):
@@ -38,6 +43,8 @@ class SigninForm(Form):
 
 # Форма для редактирования основных данных пользователя
 class EditUserInfoForm(Form):
+    avatar = FileField(validators=[FileAllowed(IMAGES)])
+
     name = StringField("user_name", [validators.length(min=0, max=60),
                                 validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
                                                                                   'english letters '
@@ -161,7 +168,7 @@ class AddPoemForm(Form):
                                                                                                  'or numbers')]
                        )
 
-    file = FileField(validators=[FileRequired()])
+    file = FileField(validators=[FileRequired(), FileAllowed(DOCUMENTS + TEXT)])
     poem_types = SelectMultipleField(choices=[(i, i) for i in get_poem_types()])
 
 
@@ -172,7 +179,7 @@ class AddProseForm(Form):
                                                                                                  'or numbers')]
                        )
 
-    file = FileField(validators=[FileRequired()])
+    file = FileField(validators=[FileRequired(), FileAllowed(DOCUMENTS + TEXT)])
     prose_types = SelectMultipleField(choices=[(i, i) for i in get_prose_types()])
 
 

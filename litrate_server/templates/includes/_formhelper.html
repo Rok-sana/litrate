@@ -8,6 +8,28 @@
     {% endif %}
 {% endmacro %}
 
+{% macro render_user(user) %}
+<div class="items-container simple-items">
+        <div class="repa">
+          <div class="repa-top">
+              <a href={{url_for('user_profile', user_id=user.user_id)}} title="Профиль пользователя">
+                <img class="search_img" src="/data/user_{{user.user_id}}/avatar" class="repa-top-img"></a>
+              <p class="repa-top-angle">{{user.user_type}}</p>
+              <p class="repa-top-skoka" title="Репутация"><span> {{user.rating}}</span></p>
+          </div>
+          <div class="repa-content">
+              <a href={{url_for('user_profile', user_id=user.user_id)}} title="Профиль пользователя"><h3>{{user.user_name}}</h3></a>
+              <p style="text-align: center;">{{user.user_surname}}</p>
+          </div>
+        </div>
+</div>
+<!--
+    <a href={{url_for('user_profile', user_id=user.user_id)}}>
+        <p> Name: {{user.user_name}} Surname: {{user.user_surname}} Rating: {{user.rating}}</p>
+    </a>!-->
+
+{% endmacro %}
+
 {% macro render_composition(comp) %}
 <div style="">
     <span>
@@ -31,12 +53,42 @@
     </a>!-->
 {% endmacro %}
 
-{% macro render_user(user) %}
-    <a href={{url_for('user_profile', user_id=user.user_id)}}>
-        <p> Name: {{user.user_name}}  Surname: {{user.user_surname}} Rating: {{user.rating}}</p>
-    </a>
 
+{% macro render_composition_for_page(comp, text) %}
+<div style="">
+    <div align="center">
+        <h1>{{ comp.name }} </h1> <span style="">(Рейтинг: {{ comp.rating }})</span>
+        {% if session.signedin and session.user_id == comp.creator_id %}
+            <a href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
+        {% endif %}
+        <br>
+        {% if session.signedin %}
+        (<a href={{url_for('like_composition',composition_id=comp.id)}} class="icon-thumbs-up"></a> |
+        <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-minus-sign"></a>)
+        {% endif %}
+    </div>
+
+    <div align="center">
+        <span>
+            {% if session.signedin and session.user_id == comp.creator_id %}
+                <form  action="" method="post">
+                    <textarea rows="30" cols="45" name="text">{{text}}</textarea>
+                    <br>
+                    <input type="submit" name="submit" value="Cохранить">
+                </form>
+            {% else %}
+                <textarea disabled rows="10" cols="45" name="text">{{text}}</textarea>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+
+    <!--<a href={{url_for('composition_page',composition_id=comp.id)}} >
+        <p>Type: {{ comp.composition_type }}</p>
+    </a>!-->
 {% endmacro %}
+
 {% macro render_users_for_search(users) %}
     {% for user in users %}
         {{render_user(user)}}

@@ -1,5 +1,6 @@
-{% extends "layout.html" %}
+{% extends "base_profile.html" %}
 {% block body %}
-{% from "includes/_formhelper.html" import render_composition %}
-    {{ render_composition(composition) }}
+{% from "includes/_formhelper.html" import render_composition_for_page %}
+
+    {{ render_composition_for_page(composition, text) }}
 {% endblock %}

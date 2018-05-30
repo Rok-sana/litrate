@@ -11,14 +11,80 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
+            <state>
+              <caret line="258" column="16" selection-start-line="258" selection-start-column="16" selection-end-line="258" selection-end-column="16" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="composition.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/composition.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_profile.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/user_profile.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="7" column="53" lean-forward="true" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="87" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="signin.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/signin.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="file_adding.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db_queries/file_adding.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="signingup.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db_queries/signingup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="413">
+              <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="get_queries.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db_queries/get_queries.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="269">
+              <caret line="192" column="28" selection-start-line="192" selection-start-column="28" selection-end-line="192" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_formhelper.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/includes/_formhelper.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="237">
+              <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -58,15 +124,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/static/menu.js" />
-        <option value="$PROJECT_DIR$/misc/configs.py" />
-        <option value="$PROJECT_DIR$/templates/edit_user_info.html" />
-        <option value="$PROJECT_DIR$/mySql/update_queries.py" />
         <option value="$PROJECT_DIR$/templates/add_creation.html" />
         <option value="$PROJECT_DIR$/mySql/basic_information_add.py" />
         <option value="$PROJECT_DIR$/mySql/file_adding.py" />
         <option value="$PROJECT_DIR$/usefull_classes/database.py" />
-        <option value="$PROJECT_DIR$/templates/composition.html" />
         <option value="$PROJECT_DIR$/mySql/delete_queries.py" />
         <option value="$PROJECT_DIR$/usefull_classes/Poem.py" />
         <option value="$PROJECT_DIR$/usefull_classes/Prose.py" />
@@ -81,9 +142,7 @@
         <option value="$PROJECT_DIR$/mySql/simple_get.py" />
         <option value="$PROJECT_DIR$/db_queries/delete_queries.py" />
         <option value="$PROJECT_DIR$/templates/search.html" />
-        <option value="$PROJECT_DIR$/templates/composition_search.html" />
         <option value="$PROJECT_DIR$/templates/signin.html" />
-        <option value="$PROJECT_DIR$/classes/forms.py" />
         <option value="$PROJECT_DIR$/templates/publisher_rating" />
         <option value="$PROJECT_DIR$/templates/creator_rating" />
         <option value="$PROJECT_DIR$/templates/publisher_rating.html" />
@@ -95,27 +154,34 @@
         <option value="$PROJECT_DIR$/static/style.css" />
         <option value="$PROJECT_DIR$/templates/creator_profile.html" />
         <option value="$PROJECT_DIR$/db_queries/simple_get.py" />
-        <option value="$PROJECT_DIR$/db_queries/update_queries.py" />
-        <option value="$PROJECT_DIR$/templates/user_search.html" />
         <option value="$PROJECT_DIR$/db_queries/insertion_queries.py" />
         <option value="$PROJECT_DIR$/templates/poem_adding.html" />
         <option value="$PROJECT_DIR$/templates/prose_adding.html" />
-        <option value="$PROJECT_DIR$/db_queries/get_queries.py" />
-        <option value="$PROJECT_DIR$/templates/user_creator_profile.html" />
-        <option value="$PROJECT_DIR$/templates/includes/_formhelper.html" />
         <option value="$PROJECT_DIR$/templates/user_publishers_profile.html" />
         <option value="$PROJECT_DIR$/templates/errors/404.html" />
         <option value="$PROJECT_DIR$/templates/base_profile.html" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
+        <option value="$PROJECT_DIR$/templates/user_creator_profile.html" />
+        <option value="$PROJECT_DIR$/db_queries/file_adding.py" />
+        <option value="$PROJECT_DIR$/templates/edit_user_info.html" />
         <option value="$PROJECT_DIR$/templates/user_profile.html" />
+        <option value="$PROJECT_DIR$/db_queries/update_queries.py" />
+        <option value="$PROJECT_DIR$/classes/forms.py" />
+        <option value="$PROJECT_DIR$/db_queries/signingup.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/data/user_2/poem/1" />
+        <option value="$PROJECT_DIR$/db_queries/get_queries.py" />
+        <option value="$PROJECT_DIR$/templates/composition.html" />
+        <option value="$PROJECT_DIR$/templates/composition_search.html" />
+        <option value="$PROJECT_DIR$/templates/user_search.html" />
+        <option value="$PROJECT_DIR$/templates/includes/_formhelper.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="60" />
-    <option name="y" value="-11" />
-    <option name="width" value="1307" />
+    <option name="y" value="-12" />
+    <option name="width" value="1308" />
     <option name="height" value="780" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -124,6 +190,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -134,23 +201,52 @@
             <path>
               <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
               <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="user_1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="user_2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="user_2" type="462c0819:PsiDirectoryNode" />
+              <item name="poem" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="user_3" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
               <item name="db_queries" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
               <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
-              <item name="misc" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
               <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="litrate_server" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="errors" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="litrate_server" type="b2602c69:ProjectViewProjectNode" />
@@ -166,12 +262,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/another_p/litrate/litrate_server" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -302,8 +397,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.create_database (1)" />
         <item itemvalue="Python.get_queries" />
+        <item itemvalue="Python.create_database (1)" />
         <item itemvalue="Python.create_database" />
         <item itemvalue="Python.check_queries" />
       </list>
@@ -323,7 +418,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="60" y="-11" width="1307" height="780" extended-state="6" />
+    <frame x="61" y="-4" width="1305" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16858238" />
@@ -333,7 +428,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5057648" side_tool="true" weight="0.33083832" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Python Console" order="8" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49423522" weight="0.24548192" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49423522" visible="true" weight="0.24548192" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -359,47 +454,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/jinja2/environment.py" />
-    <entry file="file://$PROJECT_DIR$/classes/Composition.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="33" lean-forward="true" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_queries/delete_queries.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/debug.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-87" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/_messages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout(copy).html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="140" column="33" lean-forward="true" selection-start-line="140" selection-start-column="33" selection-end-line="140" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/jquery.responsiveTabs.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -431,13 +485,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/signin.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="97" lean-forward="true" selection-start-line="16" selection-start-column="97" selection-end-line="16" selection-end-column="97" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10268">
@@ -452,16 +499,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/edit_user_info.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="40" lean-forward="true" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/user_2/prose/6">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/data/user_2/prose/6" />
     <entry file="file://$PROJECT_DIR$/static/jquery.responsiveTabs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
@@ -474,8 +512,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/all_prose.html" />
     <entry file="file://$PROJECT_DIR$/templates/all_poem.html" />
-    <entry file="file://$PROJECT_DIR$/templates/poem_page.html" />
-    <entry file="file://$PROJECT_DIR$/templates/prose_page.html" />
     <entry file="file://$PROJECT_DIR$/static/font-awesome.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="601">
@@ -497,38 +533,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_queries/update_queries.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="29" column="32" selection-start-line="28" selection-start-column="13" selection-end-line="29" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/composition.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="14" lean-forward="true" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_queries/signingup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/wtforms/fields/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="495" column="17" selection-start-line="495" selection-start-column="17" selection-end-line="495" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/poem_adding.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="71" column="44" lean-forward="true" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -539,20 +547,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/composition_search.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="34" lean-forward="true" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/user_search.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db_queries/insertion_queries.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-372">
@@ -560,30 +554,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_queries/get_queries.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/creator_profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19">
-          <caret line="42" column="26" lean-forward="true" selection-end-line="62" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/_formhelper.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="76" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/creator_profile.html" />
     <entry file="file://$PROJECT_DIR$/db_queries/create_database.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -598,13 +569,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/publisher_profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/publisher_profile.html" />
     <entry file="file://$PROJECT_DIR$/templates/errors/404.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -616,13 +581,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="106" column="12" lean-forward="true" selection-start-line="106" selection-start-column="12" selection-end-line="107" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base_profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="60" column="22" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="60" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -640,30 +598,176 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/user_creator_profile.html">
+    <entry file="file://$PROJECT_DIR$/misc/configs.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/flask/ext/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        <state relative-caret-position="251">
+          <caret line="24" column="22" lean-forward="true" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/user_profile.html">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/flask_wtf/file.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="11" column="89" selection-start-line="11" selection-start-column="89" selection-end-line="11" selection-end-column="89" />
-          <folding>
-            <element signature="n#style#0;n#h1#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
+          <caret line="61" column="51" selection-start-line="61" selection-start-column="43" selection-end-line="61" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/edit_user_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/poem_adding.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="38" column="59" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user_creator_profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="87" selection-start-line="4" selection-start-column="76" selection-end-line="4" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_queries/update_queries.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/Prose.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/prose_page.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/poem_page.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base_profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="60" column="22" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="60" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/user_2/poem/1">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
+        <state>
+          <caret line="258" column="16" selection-start-line="258" selection-start-column="16" selection-end-line="258" selection-end-column="16" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_queries/signingup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_queries/file_adding.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/composition.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/signin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/composition_search.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user_search.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="90" lean-forward="true" selection-start-line="90" selection-end-line="90" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user_profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="53" lean-forward="true" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_queries/get_queries.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="192" column="28" selection-start-line="192" selection-start-column="28" selection-end-line="192" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/includes/_formhelper.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
         </state>
       </provider>
     </entry>

@@ -176,8 +176,10 @@ def user_profile(user_id):
 def edit_info():
     update_session_user_info()
     if request.method == 'POST':
-        form = get_edit_form(request.form)
+        form = get_edit_form(CombinedMultiDict((request.files, request.form)))
         if form.validate():
+            if form.avatar.data:
+                print(form.avatar.data)
             update_user_info(session["user_id"], form, session["user_type"])
             update_session_user_info()
             form.change_info(session["user"])
@@ -245,7 +247,8 @@ def prose_adding():
 @app.route('/composition/<int:composition_id>')
 def composition_page(composition_id):
     return render_template("composition.html",
-                           composition=get_composition(composition_id))
+                           composition=get_composition(composition_id),
+                           text=get_composition_text(composition_id))
 
 
 # Поставить произведению лайк
@@ -328,6 +331,13 @@ def write_message(user_id):
     return redirect(request.referrer)
 
 
+# Получить аватар пользователя
+@app.route('/data/user_<int:user_id>/avatar')
+@is_logged_in
+def get_avatar(user_id):
+    return send_from_directory('data/user_' + str(user_id), "avatar")
+
+
 # Получить какой-нибудь статический файл (js, css, ico...)
 @app.route('/static/<path:path>')
 def send_static(path):
@@ -344,6 +354,7 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('/errors/500.html'), 500
+
 
 
 if __name__ == "__main__":

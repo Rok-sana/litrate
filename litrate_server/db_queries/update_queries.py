@@ -1,13 +1,14 @@
 from classes.database import MySqlDatabase
 from misc.configs import DATABASE_CONFIG
 from classes.forms import *
+from db_queries.file_adding import add_avatar
 from misc.configs import USER_TYPES
 
 
 def _make_user_update_query_params(user_info_form):
     values = ""
     for att_name, att_value in super(type(user_info_form), user_info_form).fields():
-        if att_value != '\'\'':
+        if att_value != '\'\'' and att_name != "avatar":
             values += att_name.text + "=" + att_value + ", "
     values = values[0:-2]
     return values
@@ -23,6 +24,8 @@ def _make_update_query_params(user_info_form):
 
 
 def update_user_info(user_id, user_info_form, user_type):
+    if user_info_form.avatar.data:
+        add_avatar(user_info_form.avatar.data, user_id)
     values = _make_user_update_query_params(user_info_form)
     if values == '':
         return

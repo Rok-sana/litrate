@@ -2,7 +2,8 @@
 {% block body %}
 {% from "includes/_formhelper.html" import render_field %}
 
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
+        <p> {{ form.avatar }} </p>
         <p> {{ render_field(form.name) }} </p>
         <p> {{ render_field(form.surname) }} </p>
         <p> {{ render_field(form.patronymic) }} </p>

@@ -2,7 +2,7 @@ from classes.Poem import *
 from classes.Prose import *
 from db_queries.simple_get import *
 from misc.configs import USER_TYPES
-
+import os
 
 # Поиск пользователя по почте
 def find_user_by_email(email):
@@ -29,6 +29,7 @@ def find_user_by_id(user_id):
     if res:
         for k in res:
             user[k] = res[k][0]
+        user["rating"] = get_creator_rating(user["user_id"])
     return user
 
 
@@ -180,3 +181,19 @@ def get_creator_all_types(creator_id):
                     poem_types[poem_type] = 0
                 poem_types[poem_type] += 1
     return poem_types, prose_types
+
+
+def get_composition_text(composition_id):
+    comp = get_composition(composition_id)
+    path = "data/user_" + str(comp.creator_id) + "/" + comp.composition_type.lower() + "/" + str(comp.id)
+    text = ""
+    try:
+        with open(path, "r") as f:
+            for line in f:
+                text += line
+    except UnicodeDecodeError:
+        text = "File was corrupted("
+    return text
+
+
+#print(get_composition_text(1))

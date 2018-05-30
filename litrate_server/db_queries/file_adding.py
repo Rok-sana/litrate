@@ -24,3 +24,8 @@ def add_prose(file, name, prose_types, creator_id):
         insert_prose_composition_type(composition_id, pt)
 
 
+def add_avatar(file, user_id):
+    file_path = "data/user_" + str(user_id) + "/avatar"
+    file.save(file_path)
+
+

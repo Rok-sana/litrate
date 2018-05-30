@@ -1,10 +1,104 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block body %}
 {% from "includes/_formhelper.html" import render_composition %}
-    {% for comp in compositions %}
+
+
+<style>
+input {
+	width: 300px;
+	font-size: 13px;
+	padding: 6px 0 4px 10px;
+	border: 1px solid #cecece;
+	background: #F6F6f6;
+	border-radius: 8px;
+}
+input {
+	padding-bottom: 5px\0;
+}
+
+textarea {
+	/* = Убираем скролл */
+	overflow: auto;
+
+	/* = Убираем увеличение */
+	width: 385px;
+	height: 100px;
+	max-height: 600px;
+
+	/* = Добавим фон, рамку, отступ*/
+	background: #f6f6f6;
+	border: 1px solid #cecece;
+	border-radius: 8px 0 0 0;
+	padding: 8px 0 8px 10px;
+
+
+	---------------------------
+
+</style>
+
+<div style="height: 1450px;" class="pbody">
+
+<div style="width: 250px; margin: 10px auto; font-size: 28px">
+    <p>Поиск по названию</p>
+</div>
+
+    <div style="width: 100%; height: 100px">
+        <div style="margin: 5px 50px; width: 300px; float: left;">
+            <p><input id="search_input" placeholder="Поиск..." type="text"></p>
+            <div style="float: left; margin-top: 5px;">
+                <input style="width: 145px; height: 40px; margin-right: 10px;" onclick=" document.location.href = '/search/user/name=';" type="button" value="Очистить">
+            </div>
+            <div style="margin-top: 5px;">
+                <input style="width: 145px; height: 40px;" onclick=" document.location.href = '/search/user/name=' + search_input.value;" type="button" value="Поиск">
+            </div>
+
+        </div>
+
+        <div style="width: 300px; float: right; margin: 5px 50px;">
+            <div style="height: 40px;">
+                <select>
+                  <option value="">Выберите тип произведения</option>
+                  <option value="search_all_comp">Все произведения</option>
+                    <option value="search_prose">Проза</option>
+                  <option value="search_poem">Поэзия</option>
+
+                </select>
+             </div>
+            <div style="height: 40px;">
+                    <select>
+                      <option value="">Выберите как сортировать</option>
+                      <option value="date_update">По дате обновления</option>
+                      <option value="rating_update">По рейтингу</option>
+                      <option value="watch_update">По просмотрах</option>
+                    </select>
+             </div>
+        </div>
+<script src="/static/jquery.min.js"></script>
+<script src="/static/jquery.selectric.js"></script>
+<script>
+  $(function(){
+    $('select, .select').selectric();
+  });
+
+
+
+//при нажатии enter поиск
+$("#search_input").keyup(function(event){
+    if(event.keyCode == 13){
+        console.log(this.value);
+        document.location.href = "/search/user/name=" + this.value;
+    }
+});
+</script>
+    </div>
+
+
+  {% for comp in compositions %}
     {{ render_composition(comp) }}
     <br>
     -------------------
     <br>
     {% endfor %}
 {% endblock %}
+
+</div>
