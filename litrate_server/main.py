@@ -80,6 +80,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/menu")
+def menu():
+    return render_template("menu.html")
+
+
+
 # Страница регистрации пользователя
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -165,9 +171,9 @@ def user_profile(user_id):
                                poem_types=poem_types, prose_types=prose_types, types=all_types,
                                user=user)
     elif user["user_type"] == USER_TYPES.PUBLISHER:
-        return render_template("user_publisher_profile.html")
+        return render_template("user_publisher_profile.html", user=user)
     else:
-        return render_template("user_moderator_profile.html")
+        return render_template("user_moderator_profile.html", user=user)
 
 
 # Страница редактирования данных пользователя
@@ -326,6 +332,8 @@ def user_search(search_string="name="):
 @is_logged_in
 def write_message(user_id):
     return redirect(request.referrer)
+
+
 
 
 # Получить какой-нибудь статический файл (js, css, ico...)

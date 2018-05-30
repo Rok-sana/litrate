@@ -32,9 +32,24 @@
 {% endmacro %}
 
 {% macro render_user(user) %}
+<div class="items-container simple-items">
+        <div class="repa">
+          <div class="repa-top">
+              <a href={{url_for('user_profile', user_id=user.user_id)}} title="Профиль пользователя">
+                <img class="search_img" src="/static/images/temp.jpg" class="repa-top-img"></a>
+              <p class="repa-top-angle">{{user.user_type}}</p>
+              <p class="repa-top-skoka" title="Репутация"><span> {{user.rating}}</span></p>
+          </div>
+          <div class="repa-content">
+              <a href={{url_for('user_profile', user_id=user.user_id)}} title="Профиль пользователя"><h3>{{user.user_name}}</h3></a>
+              <p style="text-align: center;">{{user.user_surname}}</p>
+          </div>
+        </div>
+</div>
+<!--
     <a href={{url_for('user_profile', user_id=user.user_id)}}>
-        <p> Name: {{user.user_name}}  Surname: {{user.user_surname}} Rating: {{user.rating}}</p>
-    </a>
+        <p> Name: {{user.user_name}} Surname: {{user.user_surname}} Rating: {{user.rating}}</p>
+    </a>!-->
 
 {% endmacro %}
 {% macro render_users_for_search(users) %}

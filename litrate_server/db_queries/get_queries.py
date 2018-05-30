@@ -57,6 +57,8 @@ def find_users_by_param_set(user_name=None, user_surname=None, rating_desc=True)
                     users[i]["rating"] = get_creator_rating(users[i]["user_id"])
                 else:
                     users[i].update(find_publisher_info(users[i]["user_id"]))
+                    # !!!!!!
+                    users[i]["rating"] = 0
             if rating_desc:
                 users.sort(key=lambda user: -user["rating"])
         return users
