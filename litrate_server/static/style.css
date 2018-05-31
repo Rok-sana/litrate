@@ -31,11 +31,21 @@ body {
   font-family: 'Play', sans-serif;
   float: left;
   }
+
+  .contentsearch{
+        width: 960px;
+        float: left;
+        position: relative;
+        }
+
 @media (min-width: 1281px){
         .repa {
-  width: 300px;
-  }
+            width: 300px;
+         }
 
+        .contentsearch{
+        width: 960px;
+        }
 .search_img{
         height: 300px;
         width: 300px;
@@ -45,6 +55,9 @@ body {
 @media (max-width: 1280px){
         .pbody{
         width: 1020px;
+        }
+         .contentsearch{
+        width: 700px;
         }
 
         .search_img{
@@ -68,6 +81,14 @@ body {
         width: 220px;
         margin: 15px 7px 0;
         }
+
+         .contentsearch{
+        width: 630px;
+        }
+        .rightbar {
+        margin-top: -20px;
+        }
+
 }
 
 
@@ -83,6 +104,13 @@ body {
             width: 190px;
             margin: 15px 5px 0;
         }
+
+         .contentsearch{
+        width: 480px;
+        }
+        .rightbar {
+        margin-top: -40px;
+        }
 }
 
 @media (max-width: 768px){
@@ -95,6 +123,13 @@ body {
         }
         .repa {
             width: 165px;
+        }
+         .contentsearch{
+        width: 380px;
+        }
+
+        .rightbar {
+        margin-top: -50px;
         }
 }
 
@@ -1026,3 +1061,16 @@ a {
 }
 
 /*-------------------------------/select-------------------------*/
+
+
+/*------------------------------Fixed Block----------------------*/
+
+.rightbar {
+width: 300px;
+float: right;
+position: relative;
+margin-right: 20px;
+}
+
+
+/*------------------------------/Fixed Block----------------------*/

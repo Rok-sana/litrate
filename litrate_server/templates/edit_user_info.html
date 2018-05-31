@@ -1,29 +1,128 @@
 {% extends "layout.html" %}
 
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/static/menu.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/responsive-tabs.css" />
+    <link type="text/css" rel="stylesheet" href="/static/style_o.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+{% endblock %}
+
 {% block body %}
     {% from "includes/_formhelper.html" import render_field %}
 
-    <form method="POST" action="" enctype="multipart/form-data">
-        <p> {{ form.avatar }} </p>
-        <p> {{ render_field(form.name) }} </p>
-        <p> {{ render_field(form.surname) }} </p>
-        <p> {{ render_field(form.patronymic) }} </p>
-        <p> {{ render_field(form.phone) }} </p>
-        <p> {{ render_field(form.birth) }} </p>
-        {% if session.user_type == "Creator" %}
-        <p> {{ render_field(form.country) }} </p>
-        <p> {{ render_field(form.city) }} </p>
-        {% elif session.user_type == "Publisher" %}
-        <p> {{ render_field(form.publisher_house_name) }} </p>
-        <p> {{ render_field(form.country) }} </p>
-        <p> {{ render_field(form.city) }} </p>
-        <p> {{ render_field(form.street) }} </p>
-        {% else %}
 
-        {% endif %}
-        <p> <input type="submit" value="Submit"></p>
-    </form>
+<style>
+input {
+	width: 300px;
+	font-size: 13px;
+	padding: 6px 0 4px 10px;
+	border: 1px solid #cecece;
+	background: #F6F6f6;
+	border-radius: 8px;
+}
+input {
+	padding-bottom: 5px\0;
+}
 
+textarea {
+	/* = Убираем скролл */
+	overflow: auto;
+
+	/* = Убираем увеличение */
+	width: 385px;
+	height: 100px;
+	max-height: 600px;
+
+	/* = Добавим фон, рамку, отступ*/
+	background: #f6f6f6;
+	border: 1px solid #cecece;
+	border-radius: 8px 0 0 0;
+	padding: 8px 0 8px 10px;
+}
+
+</style>
+
+<div style="height: 70px;">
+
+</div>
+<div style="width: 100%">
+
+    <div style="width: 260px; margin: 0 auto; font-size: 24px">
+    Редактирование профиля
+    </div>
+
+    <div style="width: 300px; margin: 0 auto;">
+            <div >
+             <form method="POST" action="" enctype="multipart/form-data">
+                 <p style="margin: 0 auto; width: 120px; font-size: 18px;">Фото профиля</p>
+                <p> {{ form.avatar }} </p>
+                 <p style="margin: 0 auto; width: 40px; font-size: 18px;">Имя</p>
+                <p> {{ form.name }} </p>
+                 <p style="margin: 0 auto; width: 80px; font-size: 18px;">Фамилия</p>
+                <p> {{ form.surname }} </p>
+                 <p style="margin: 0 auto; width: 80px; font-size: 18px;">Отчество</p>
+                <p> {{ form.patronymic }} </p>
+                 <p style="margin: 0 auto; width: 80px; font-size: 18px;">Телефон</p>
+                <p> {{ form.phone }} </p>
+                 <p style="margin: 0 auto; width: 120px; font-size: 18px;">День рождения</p>
+                <p> {{ form.birth }} </p>
+                {% if session.user_type == "Creator" %}
+                 <p style="margin: 0 auto; width: 55px; font-size: 18px;">Страна</p>
+                <p> {{ form.country }} </p>
+                 <p style="margin: 0 auto; width: 50px; font-size: 18px;">Город</p>
+                <p> {{ form.city }} </p>
+                {% elif session.user_type == "Publisher" %}
+                 <p style="margin: 0 auto; width: 175px; font-size: 18px;">Название издательства</p>
+                <p> {{ form.publisher_house_name }} </p>
+                 <p style="margin: 0 auto; width: 55px; font-size: 18px;">Страна</p>
+                <p> {{ form.country }} </p>
+                 <p style="margin: 0 auto; width: 50px; font-size: 18px;">Город</p>
+                <p> {{ form.city }} </p>
+                 <p style="margin: 0 auto; width: 50px; font-size: 18px;">Улица</p>
+                <p> {{ form.street }} </p>
+                {% else %}
+
+                {% endif %}
+                <p style="margin: 15px 0;"> <input type="submit" value="Сохранить"></p>
+             </form>
+        </div>
+    </div>
+</div>
     {% block type_profile %}
     {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function DropDown(el) {
+        this.dd = el;
+        this.initEvents();
+      }
+      DropDown.prototype = {
+        initEvents : function() {
+          var obj = this;
+
+          obj.dd.on('click', function(event){
+            $(this).toggleClass('active');
+            event.stopPropagation();
+          });
+        }
+      }
+
+      $(function() {
+
+        var dd = new DropDown( $('#dd') );
+
+        $(document).click(function() {
+          // all dropdowns
+          $('.wrapper-dropdown-5').removeClass('active');
+        });
+
+      });
+    </script>
 {% endblock %}

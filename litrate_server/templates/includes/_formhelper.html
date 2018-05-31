@@ -38,7 +38,7 @@
         <span style="">(Рейтинг: {{ comp.rating }})</span>
         <span style="float: right;">
             (<a href={{url_for('like_composition',composition_id=comp.id)}} class="icon-thumbs-up"></a> |
-            <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-minus-sign"></a>)
+            <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-thumbs-down"></a>)
 
             {% if session.signedin and session.user_id == comp.creator_id %}
                 <a href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
