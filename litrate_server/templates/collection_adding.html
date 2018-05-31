@@ -54,14 +54,15 @@
 
 {% block body %}
     <div class="pbody">
-        <p style="margin: 50px auto -50px auto; padding-right: 50px; width: 300px; font-size: 24px">Добавление прозы</p>
+        <p style="margin: 50px auto -50px auto; padding-right: 50px; width: 300px; font-size: 24px">Добавление сборника </p>
         <form method="POST" action="" enctype="multipart/form-data">
            <div style="font-size: 18px; margin: 50px auto; width: 670px;">
                 <div style="width: 420px; float:left;">
-                    <p style="margin-top: 50px;"> Название: &nbsp;{{ form.name }}  </p>
-                    <!--<p> Категория: {{ form.prose_types(rows=3, multiple=True) }}  </p>!-->
-                    <p> Загрузить: {{ form.file }} </p>
-                    <textarea name="text"></textarea>
+                    <p style="margin-top: 50px;">
+                        Название: <input name="collection_name" value="val1" type="text">
+                    </p>
+                    <p></p>
+                    <!--<textarea></textarea>-->
                     <p> <input style="width: 200px; height: 40px; margin-left: 100px;" type="submit" value="Добавить"></p>
                 </div>
                 <div style="width: 250px; float: left; margin-top: 20px;">
@@ -79,7 +80,7 @@
   $(document).ready(function() {
 
   // Добавляем значения
-  var val_data = JSON.parse('{{prose_types|safe}}');
+  var val_data = JSON.parse('{{poems|safe}}');
   /*{
     "val1": "вестерн",
     "val2": "детектив",
@@ -101,13 +102,13 @@
   $(val_cont).addClass("dropdown_c");
 
   // Создаем кнопку открытия списка и поле для записи значений
-  $(val_cont).append("<a href='javascript:void(0);'><span class='open'>Выбрать категорию</span><span class='value'></span></a>");
+  $(val_cont).append("<a href='javascript:void(0);'><span class='open'>Выбрать стихи</span><span class='value'></span></a>");
 
   // Создаем выпдающий список и вкладываем в общий блок
   var ul = document.createElement('ul');
 
   for (elem in val_data) {
-    $(ul).append("<li><input type='checkbox'  name='prose_types' value='" + elem + "' id='" + elem + "'><label for='" + elem + "'>" + val_data[elem] + "</label></li>");
+    $(ul).append("<li><input type='checkbox'  name='choosed_poems' value='" + elem + "' id='" + elem + "'><label for='" + elem + "'>" + val_data[elem] + "</label></li>");
   }
   $(ul).appendTo(val_cont);
   $(ul).hide();

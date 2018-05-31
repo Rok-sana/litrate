@@ -3,7 +3,7 @@ from classes.Prose import *
 from db_queries.simple_get import *
 from misc.configs import USER_TYPES
 import os
-
+from flask import session
 # Поиск пользователя по почте
 def find_user_by_email(email):
     database = MySqlDatabase(DATABASE_CONFIG)
@@ -29,7 +29,7 @@ def find_user_by_id(user_id):
     if res:
         for k in res:
             user[k] = res[k][0]
-        user["rating"] = get_creator_rating(user["user_id"])
+        user["rating"] = get_creator_rating(user["user_id"], session.get("user_id"))
     return user
 
 
@@ -60,7 +60,7 @@ def find_users_by_param_set(user_name=None, user_surname=None,
                     users[i][k] = res[k][i]
                 if users[i]["user_type"] == USER_TYPES.CREATOR:
                     users[i].update(find_creator_info(users[i]["user_id"]))
-                    users[i]["rating"] = get_creator_rating(users[i]["user_id"])
+                    users[i]["rating"] = get_creator_rating(users[i]["user_id"], session.get("user_id"))
                 else:
                     users[i].update(find_publisher_info(users[i]["user_id"]))
                     # !!!!!!
@@ -76,7 +76,7 @@ def find_users_by_param_set(user_name=None, user_surname=None,
 
 
 #
-def get_creators_compositions(creator_id):
+def get_creators_compositions(creator_id, user_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT * " \
             "FROM Compositions " \
@@ -85,16 +85,17 @@ def get_creators_compositions(creator_id):
     comp = []
     if res:
         for i in range(len(res["composition_id"])):
-            comp.append(get_true_composition(Composition(res["composition_id"][i],
-                                    res["composition_name"][i],
-                                    res["creator_id"][i],
-                                    res["posting_date"][i],
-                                    res["composition_type"][i],
-                                    res["modifier"][i])))
+            if res["modifier"][i] == "Public" or res["creator_id"][i] == user_id:
+                comp.append(get_true_composition(Composition(res["composition_id"][i],
+                                        res["composition_name"][i],
+                                        res["creator_id"][i],
+                                        res["posting_date"][i],
+                                        res["composition_type"][i],
+                                        res["modifier"][i])))
     return comp
 
 
-def get_all_compositions():
+def get_all_compositions(user_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT * " \
             "FROM Compositions;"
@@ -102,32 +103,34 @@ def get_all_compositions():
     comp = []
     if res:
         for i in range(len(res["composition_id"])):
-            comp.append(get_true_composition(Composition(res["composition_id"][i],
-                                    res["composition_name"][i],
-                                    res["creator_id"][i],
-                                    res["posting_date"][i],
-                                    res["composition_type"][i],
-                                    res["modifier"][i])))
+            if res["modifier"][i] == "Public" or res["creator_id"][i] == user_id:
+                comp.append(get_true_composition(Composition(res["composition_id"][i],
+                                        res["composition_name"][i],
+                                        res["creator_id"][i],
+                                        res["posting_date"][i],
+                                        res["composition_type"][i],
+                                        res["modifier"][i])))
     return comp
 
 
-def get_composition(composition_id):
+def get_composition(composition_id, user_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT * " \
             "FROM Compositions " \
             "WHERE composition_id={0};".format(composition_id)
     comp = database.execute_query(query)
     if comp:
-        return Composition(comp["composition_id"][0],
-                           comp["composition_name"][0],
-                           comp["creator_id"][0],
-                           comp["posting_date"][0],
-                           comp["composition_type"][0],
-                           comp["modifier"][0])
+        if comp["modifier"][0] == "Public" or comp["creator_id"][0] == user_id:
+            return Composition(comp["composition_id"][0],
+                               comp["composition_name"][0],
+                               comp["creator_id"][0],
+                               comp["posting_date"][0],
+                               comp["composition_type"][0],
+                               comp["modifier"][0])
     return None
 
 
-def find_compositions(name, sort="by_rating", comp_type="All"):
+def find_compositions(name, user_id, sort="by_rating", comp_type="All"):
     type_search = ""
     if comp_type == "prose":
         type_search = " AND composition_type = \'Prose\'"
@@ -141,12 +144,13 @@ def find_compositions(name, sort="by_rating", comp_type="All"):
     comp = []
     if res:
         for i in range(len(res["composition_id"])):
-            comp.append(get_true_composition(Composition(res["composition_id"][i],
-                                    res["composition_name"][i],
-                                    res["creator_id"][i],
-                                    res["posting_date"][i],
-                                    res["composition_type"][i],
-                                    res["modifier"][i])))
+            if res["modifier"][i] == "Public" or res["creator_id"][i] == user_id:
+                comp.append(get_true_composition(Composition(res["composition_id"][i],
+                                        res["composition_name"][i],
+                                        res["creator_id"][i],
+                                        res["posting_date"][i],
+                                        res["composition_type"][i],
+                                        res["modifier"][i])))
         if sort == "by_rating":
             comp.sort(key=lambda user: -user.rating)
         if sort == "by_date_update":
@@ -165,8 +169,8 @@ def get_like_to_composition_from_user(composition_id, user_id):
     return int(res['mark'][0]) if res else None
 
 
-def get_creator_rating(creator_id):
-    compositions = get_creators_compositions(creator_id)
+def get_creator_rating(creator_id, user_id):
+    compositions = get_creators_compositions(creator_id, user_id)
     creator_rating = 0
     if compositions:
         for comp in compositions:
@@ -187,8 +191,8 @@ def get_true_composition(comp):
                     comp.modifier, get_poem_types(comp.id))
 
 
-def get_creator_prose(creator_id):
-    compositions = get_creators_compositions(creator_id)
+def get_creator_prose(creator_id, user_id):
+    compositions = get_creators_compositions(creator_id, user_id)
     prose = []
     for comp in compositions:
         if comp.composition_type == "Prose":
@@ -196,8 +200,8 @@ def get_creator_prose(creator_id):
     return prose
 
 
-def get_creator_poem(creator_id):
-    compositions = get_creators_compositions(creator_id)
+def get_creator_poem(creator_id, user_id):
+    compositions = get_creators_compositions(creator_id, user_id)
     poem = []
     for comp in compositions:
         if comp.composition_type == "Poem":
@@ -205,8 +209,8 @@ def get_creator_poem(creator_id):
     return poem
 
 
-def get_creator_all_types(creator_id):
-    compositions = get_creators_compositions(creator_id)
+def get_creator_all_types(creator_id, user_id):
+    compositions = get_creators_compositions(creator_id, user_id)
     poem_types = dict()
     prose_types = dict()
     for comp in compositions:
@@ -223,8 +227,8 @@ def get_creator_all_types(creator_id):
     return poem_types, prose_types
 
 
-def get_composition_text(composition_id):
-    comp = get_composition(composition_id)
+def get_composition_text(composition_id, user_id):
+    comp = get_composition(composition_id, user_id)
     path = "data/user_" + str(comp.creator_id) + "/" + comp.composition_type.lower() + "/" + str(comp.id)
     text = ""
     try:

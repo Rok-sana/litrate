@@ -2,38 +2,6 @@ from classes.database import MySqlDatabase
 from misc.configs import DATABASE_CONFIG
 
 
-# Поиск минимального натурального неиспользованного идентификатора пользователя
-def find_minimum_unused_user_id():
-    database = MySqlDatabase(DATABASE_CONFIG)
-    query = "SELECT min(unused) AS unused " \
-            "FROM ( " \
-            "SELECT MIN(t1.user_id)+1 as unused " \
-            "FROM Users AS t1 " \
-            "WHERE NOT EXISTS (SELECT * FROM Users AS t2 WHERE t2.user_id = t1.user_id+1) " \
-            "UNION " \
-            "SELECT 1 " \
-            "FROM DUAL " \
-            "WHERE NOT EXISTS (SELECT * FROM Users WHERE user_id = 1) " \
-            ") AS subquery;"
-    return database.execute_query(query, False)['unused'][0]
-
-
-# Поиск минимального натурального неиспользованного идентификатора произведения
-def find_minimum_unused_composition_id():
-    database = MySqlDatabase(DATABASE_CONFIG)
-    query = "SELECT min(unused) AS unused " \
-            "FROM ( " \
-            "SELECT MIN(t1.composition_id)+1 as unused " \
-            "FROM Compositions AS t1 " \
-            "WHERE NOT EXISTS (SELECT * FROM Compositions AS t2 WHERE t2.composition_id = t1.composition_id+1) " \
-            "UNION " \
-            "SELECT 1 " \
-            "FROM DUAL " \
-            "WHERE NOT EXISTS (SELECT * FROM Compositions WHERE composition_id = 1) " \
-            ") AS subquery;"
-    return database.execute_query(query, False)['unused'][0]
-
-
 # Добавления пользователя
 def insert_user(user_id, user_password, user_email, user_type):
     query = "INSERT INTO Users(user_id, user_password, user_mail, user_type, " \
@@ -134,3 +102,20 @@ def insert_compositions_marks(composition_id, user_id, mark):
             "VALUES({0}, {1}, {2}); ".format(composition_id, user_id, mark)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
+
+
+# Добавление типа стихотворения
+def insert_collection(collection_id, collection_name, creator_id, post_date):
+    query = "INSERT INTO Collections(collection_id, collection_name, creator_id, post_date) " \
+            "VALUES({0}, \'{1}\', {2}, {3}); ".format(collection_id, collection_name, creator_id, post_date)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+# Добавление типа стихотворения
+def insert_poem_collection(collection_id, poem_id):
+    query = "INSERT INTO Poems_Collections(collection_id, poem_id) " \
+            "VALUES({0}, {1}); ".format(collection_id, poem_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+

@@ -69,3 +69,60 @@ def find_publisher_info(publisher_id):
             "FROM Publishers " \
             "WHERE publisher_id={0};".format(publisher_id)
     return database.execute_query(query)
+
+
+# Поиск минимального натурального неиспользованного идентификатора пользователя
+def find_minimum_unused_user_id():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT min(unused) AS unused " \
+            "FROM ( " \
+            "SELECT MIN(t1.user_id)+1 as unused " \
+            "FROM Users AS t1 " \
+            "WHERE NOT EXISTS (SELECT * FROM Users AS t2 WHERE t2.user_id = t1.user_id+1) " \
+            "UNION " \
+            "SELECT 1 " \
+            "FROM DUAL " \
+            "WHERE NOT EXISTS (SELECT * FROM Users WHERE user_id = 1) " \
+            ") AS subquery;"
+    return database.execute_query(query, False)['unused'][0]
+
+
+# Поиск минимального натурального неиспользованного идентификатора произведения
+def find_minimum_unused_composition_id():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT min(unused) AS unused " \
+            "FROM ( " \
+            "SELECT MIN(t1.composition_id)+1 as unused " \
+            "FROM Compositions AS t1 " \
+            "WHERE NOT EXISTS (SELECT * FROM Compositions AS t2 WHERE t2.composition_id = t1.composition_id+1) " \
+            "UNION " \
+            "SELECT 1 " \
+            "FROM DUAL " \
+            "WHERE NOT EXISTS (SELECT * FROM Compositions WHERE composition_id = 1) " \
+            ") AS subquery;"
+    return database.execute_query(query, False)['unused'][0]
+
+
+# Поиск минимального натурального неиспользованного идентификатора
+def find_minimum_unused_collection_id():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT min(unused) AS unused " \
+            "FROM ( " \
+            "SELECT MIN(t1.collection_id)+1 as unused " \
+            "FROM Collections AS t1 " \
+            "WHERE NOT EXISTS (SELECT * FROM Collections AS t2 WHERE t2.collection_id = t1.collection_id+1) " \
+            "UNION " \
+            "SELECT 1 " \
+            "FROM DUAL " \
+            "WHERE NOT EXISTS (SELECT * FROM Collections WHERE collection_id = 1) " \
+            ") AS subquery;"
+    return database.execute_query(query, False)['unused'][0]
+
+
+def get_creators_collections(creator_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Collections " \
+            "WHERE creator_id={0};".format(creator_id)
+    res = database.execute_query(query)
+    print(res)

@@ -12,6 +12,7 @@ IMAGES = tuple('jpg jpe jpeg png gif svg bmp'.split())
 DOCUMENTS = tuple('rtf odf ods gnumeric abw doc docx xls xlsx'.split())
 TEXT = ('txt',)
 
+
 # Форма регистрации
 class SignupForm(Form):
     password = PasswordField('Password', [validators.length(min=6, max=60),
@@ -96,12 +97,12 @@ class EditUserInfoForm(Form):
 
 class EditCreatorInfoForm(EditUserInfoForm):
     country = StringField("country", [validators.length(min=0, max=60),
-                                      validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
                                                                                         'english letters '
                                                                                         'or numbers'),
                                       validators.Optional()])
     city = StringField("city", [validators.length(min=0, max=60),
-                                validators.Regexp(regex="^[a-zA-z0-9]+$", message='You can only use '
+                                validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
                                                                                     'english letters '
                                                                                     'or numbers'),
                                 validators.Optional()])
@@ -121,22 +122,22 @@ class EditCreatorInfoForm(EditUserInfoForm):
 
 class EditPublisherInfoForm(EditUserInfoForm):
     country = StringField("country", [validators.length(min=0, max=60),
-                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
+                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
                                                                                        'english letters '
                                                                                        'or numbers'),
                                      validators.Optional()])
     city = StringField("city", [validators.length(min=0, max=60),
-                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
+                                      validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
                                                                                         'english letters '
                                                                                         'or numbers'),
                                       validators.Optional()])
     street = StringField("street", [validators.length(min=0, max=60),
-                                    validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
+                                    validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
                                                                                       'english letters '
                                                                                       'or numbers'),
                                     validators.Optional()])
     publisher_house_name = StringField("publisher_house_name", [validators.length(min=0, max=60),
-                                    validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ]+$", message='You can only use '
+                                    validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
                                                                                       'english letters '
                                                                                       'or numbers'),
                                     validators.Optional()])
@@ -168,7 +169,7 @@ class AddPoemForm(Form):
                                                                                                  'or numbers')]
                        )
 
-    file = FileField(validators=[FileRequired(), FileAllowed(DOCUMENTS + TEXT)])
+    file = FileField(validators=[FileAllowed(DOCUMENTS + TEXT)])
     poem_types = SelectMultipleField(choices=[(i, i) for i in get_poem_types()])
 
 
@@ -179,7 +180,7 @@ class AddProseForm(Form):
                                                                                                  'or numbers')]
                        )
 
-    file = FileField(validators=[FileRequired(), FileAllowed(DOCUMENTS + TEXT)])
+    file = FileField(validators=[FileAllowed(DOCUMENTS + TEXT)])
     prose_types = SelectMultipleField(choices=[(i, i) for i in get_prose_types()])
 
 

@@ -1,9 +1,8 @@
 from classes.database import MySqlDatabase
 from misc.configs import DATABASE_CONFIG
 from classes.forms import *
-from db_queries.file_adding import add_avatar
 from misc.configs import USER_TYPES
-
+import datetime
 
 def _make_user_update_query_params(user_info_form):
     values = ""
@@ -24,8 +23,7 @@ def _make_update_query_params(user_info_form):
 
 
 def update_user_info(user_id, user_info_form, user_type):
-    if user_info_form.avatar.data:
-        add_avatar(user_info_form.avatar.data, user_id)
+
     values = _make_user_update_query_params(user_info_form)
     if values == '':
         return
@@ -55,5 +53,20 @@ def update_publisher_info(publisher_id, user_info_form):
     values = _make_update_query_params(user_info_form)
     query = "UPDATE Publishers SET {0} " \
             "WHERE publisher_id={1};".format(values, publisher_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def update_composition_edit_date(composition_id):
+    now = datetime.datetime.now()
+    query = "UPDATE Compositions SET posting_date={0} " \
+            "WHERE composition_id={1};".format(now.strftime("%Y-%m-%d"), composition_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def update_composition_modifier(composition_id, modifier):
+    query = "UPDATE Compositions SET modifier=\'{0}\' " \
+            "WHERE composition_id={1};".format(modifier, composition_id)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)

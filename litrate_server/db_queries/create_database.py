@@ -147,19 +147,6 @@ def _create_table_types_poems(db: MySqlDatabase):
             "REFERENCES Poem_types(poem_type) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
-'''
-def _create_table_comments(db: MySqlDatabase):
-    query = "CREATE TABLE Comments ( " \
-            "comment_id INT NOT NULL PRIMARY KEY, " \
-            "user_id INT NOT NULL, " \
-            "composition_id INT NOT NULL, " \
-            "post_date DATE NOT NULL, " \
-            "FOREIGN KEY (user_id) " \
-            "REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
-            "FOREIGN KEY (composition_id) " \
-            "REFERENCES Compositions(composition_id) ON UPDATE CASCADE ON DELETE CASCADE );"
-    db.execute_query(query)
-
 
 def _create_table_collections(db: MySqlDatabase):
     query = "CREATE TABLE Collections ( " \
@@ -182,7 +169,7 @@ def _create_table_poems_collections(db: MySqlDatabase):
             "REFERENCES Poems(poem_id) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
-
+'''
 def _create_table_sent_collections(db: MySqlDatabase):
     query = "CREATE TABLE Sent_Collections ( " \
             "offer_id INT NOT NULL PRIMARY KEY, " \
@@ -298,10 +285,10 @@ def _create_database(db: MySqlDatabase):
     _create_table_proses(db)
     _create_table_types_proses(db)
     _create_table_types_poems(db)
-    '''
-    _create_table_comments(db)
     _create_table_collections(db)
     _create_table_poems_collections(db)
+    '''
+    _create_table_comments(db)
     _create_table_sent_collections(db)
     _create_table_sent_proses(db)
     _create_table_issues(db)

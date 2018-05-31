@@ -5,7 +5,9 @@ import classes.forms
 from misc.configs import SECRET_KEY, USER_TYPES
 from db_queries.get_queries import *
 import db_queries.delete_queries
-from db_queries.update_queries import update_user_info
+from db_queries.composition_work import *
+from db_queries.collection_work import *
+from db_queries.update_queries import update_user_info, update_composition_edit_date
 from db_queries.signingup import signup_user
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -19,7 +21,7 @@ def update_session_user_info():
     session["user"].update(find_user_by_email(email=session["user"]["user_mail"]))
     if session["user_type"] == USER_TYPES.CREATOR:
         session["user"].update(find_creator_info(session["user_id"]))
-        session["user"]["rating"] = get_creator_rating(session["user_id"])
+        session["user"]["rating"] = get_creator_rating(session["user_id"], session["user_id"])
     elif session["user_type"] == USER_TYPES.PUBLISHER:
         session["user"].update(find_publisher_info(session["user_id"]))
     else:
@@ -159,10 +161,10 @@ def user_profile(user_id):
         return render_template("user_error.html")
 
     if user["user_type"] == USER_TYPES.CREATOR:
-        compositions = normalize_compositions(get_creators_compositions(user["user_id"]))
-        poems = get_creator_poem(user["user_id"])
-        proses = get_creator_prose(user["user_id"])
-        poem_types, prose_types = get_creator_all_types(user["user_id"])
+        compositions = normalize_compositions(get_creators_compositions(user["user_id"], session.get("user_id")))
+        poems = get_creator_poem(user["user_id"], session.get("user_id"))
+        proses = get_creator_prose(user["user_id"], session.get("user_id"))
+        poem_types, prose_types = get_creator_all_types(user["user_id"], session.get("user_id"))
         all_types = poem_types.copy()
         all_types.update(prose_types)
         return render_template("user_creator_profile.html", compositions=compositions,
@@ -185,6 +187,8 @@ def edit_info():
         if form.validate():
             if form.avatar.data:
                 print(form.avatar.data)
+            if form.avatar.data:
+                add_avatar(form.avatar.data, session["user_id"])
             update_user_info(session["user_id"], form, session["user_type"])
             update_session_user_info()
             form.change_info(session["user"])
@@ -208,8 +212,16 @@ def poem_adding():
     if request.method == 'POST':
         form = classes.forms.AddPoemForm(CombinedMultiDict((request.files, request.form)))
         if form.validate():
-            add_poem(form.file.data, form.name.data,
-                     request.form.getlist("poem_types"), session["user_id"])
+            if form.file.data and validated_file(form.file.data):
+                add_poem_by_file(form.file.data, form.name.data,
+                                 request.form.getlist("poem_types"), session["user_id"])
+            elif request.form.getlist("text")[0] != "":
+                add_poem_by_text(request.form.getlist("text")[0], form.name.data,
+                                 request.form.getlist("poem_types"), session["user_id"])
+            else:
+                flash("Add file or write text!")
+                types_json = json.dumps({x: x for x in get_poem_types()})
+                return render_template("poem_adding.html", form=form, poem_types=types_json)
             flash("Poem added")
             update_session_user_info()
             return redirect(url_for("profile"))
@@ -232,8 +244,16 @@ def prose_adding():
     if request.method == 'POST':
         form = classes.forms.AddProseForm(CombinedMultiDict((request.files, request.form)))
         if form.validate():
-            add_prose(form.file.data, form.name.data,
-                      request.form.getlist("prose_types"), session["user_id"])
+            if form.file.data and validated_file(form.file.data):
+                add_prose_by_file(form.file.data, form.name.data,
+                                  request.form.getlist("prose_types"), session["user_id"])
+            elif request.form.getlist("text")[0] != "":
+                add_prose_by_text(request.form.getlist("text")[0], form.name.data,
+                                  request.form.getlist("prose_types"), session["user_id"])
+            else:
+                flash("Add file or write text!")
+                types_json = json.dumps({x: x for x in get_prose_types()})
+                return render_template("prose_adding.html", form=form, prose_types=types_json)
             flash("Prose added")
             update_session_user_info()
             return redirect(url_for("profile"))
@@ -249,11 +269,19 @@ def prose_adding():
 
 
 # Перейти на страничку с произведением
-@app.route('/composition/<int:composition_id>')
+@app.route('/composition/<int:composition_id>', methods=['GET', 'POST'])
 def composition_page(composition_id):
+    composition = get_composition(composition_id, session.get("user_id"))
+    if not composition:
+        return render_template('/errors/404.html'), 404
+    if request.method == "POST":
+        if composition.creator_id == session["user_id"]:
+            text_of_comp = request.form.getlist("text")[0]
+            rewrite_file(composition_id, text_of_comp)
+            update_composition_edit_date(composition_id)
     return render_template("composition.html",
-                           composition=get_composition(composition_id),
-                           text=get_composition_text(composition_id))
+                           composition=get_composition(composition_id, session.get("user_id")),
+                           text=get_composition_text(composition_id, session.get("user_id")))
 
 
 # Поставить произведению лайк
@@ -292,7 +320,7 @@ def dislike_composition(composition_id):
 @app.route('/composition/<int:composition_id>/delete')
 @is_logged_in
 def delete_composition(composition_id):
-    composition = get_composition(composition_id)
+    composition = get_composition(composition_id, session.get("user_id"))
     if composition and composition.creator_id == session["user_id"]:
         if composition.modifier == "Private":
             db_queries.delete_queries.delete_composition(composition_id)
@@ -310,11 +338,22 @@ def composition_search():
         composition_type = request.form.getlist("composition_type")[0]
         sort_type = request.form.getlist("sort_type")[0]
         compositions = find_compositions(name=search_string,
+                                         user_id=session.get("user_id"),
                                          sort=sort_type,
                                          comp_type=composition_type)
     else:
-        compositions = get_all_compositions()
+        compositions = get_all_compositions(session.get("user_id"))
     return render_template("composition_search.html", compositions=compositions)
+
+
+#
+@app.route('/composition/<int:composition_id>/change_modifier',  methods=['GET', 'POST'])
+def change_modifier(composition_id):
+    composition = get_composition(composition_id, session.get("user_id"))
+    if composition:
+        if composition.creator_id == session.get("user_id"):
+            change_composition_modifier(composition_id)
+    return redirect(request.referrer)
 
 
 # Страница поиска пользователей
@@ -339,6 +378,43 @@ def user_search():
     return render_template("user_search.html", users=users)
 
 
+# Страница создания сборника
+@app.route('/collection_adding', methods=['GET', 'POST'])
+@is_logged_in
+@is_creator
+def collection_adding():
+    if request.method == 'POST':
+        poems_to_add = [map(int, request.form.getlist("choosed_poems"))]
+        if len(poems_to_add) < 15:
+            print("Выбрано слишком мало стихов! Нужно не меньше 15!")
+            flash("Выбрано слишком мало стихов! Нужно не меньше 15!")
+            return redirect(request.referrer)
+        else:
+            if not request.form.getlist("collection_name"):
+                print("Некорректное имя!")
+                flash("Некорректное имя!")
+                return redirect(request.referrer)
+            valid_poems = True
+            for poem_id in poems_to_add:
+                poem = get_composition(poem_id, session["user_id"])
+                if not poem or poem.modifier == "Private":
+                    valid_poems = False
+                    break
+            if valid_poems:
+                add_collection(request.form.getlist("collection_name")[0],
+                               session["user_id"], poems_to_add)
+            else:
+                print("Какой-то из стихов удален или имеет статус Приватный!")
+                flash("Какой-то из стихов удален или имеет статус Приватный!")
+                return redirect(request.referrer)
+    else:
+        poems = dict()
+        for poem in get_creator_poem(session["user_id"], session["user_id"]):
+            if poem.modifier == "Public":
+                poems[str(poem.id)] = poem.name
+        return render_template("collection_adding.html", poems=json.dumps(poems))
+
+
 # Написать сообщение пользователю по id
 @app.route('/write/<int:user_id>')
 @is_logged_in
@@ -350,7 +426,9 @@ def write_message(user_id):
 @app.route('/data/user_<int:user_id>/avatar')
 @is_logged_in
 def get_avatar(user_id):
-    return send_from_directory('data/user_' + str(user_id), "avatar")
+    if os.path.exists('data/user_' + str(user_id) + "/avatar"):
+        return send_from_directory('data/user_' + str(user_id), "avatar")
+    return send_from_directory('static/images', "temp.jpg")
 
 
 # Получить какой-нибудь статический файл (js, css, ico...)
