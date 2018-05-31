@@ -14,7 +14,7 @@
           <div class="repa-top">
               <a href={{url_for('user_profile', user_id=user.user_id)}} title="Профиль пользователя">
                 <img class="search_img" src="/data/user_{{user.user_id}}/avatar" class="repa-top-img"></a>
-              <p class="repa-top-angle">{{user.user_type}}</p>
+              <p class="repa-top-angle">{% if user.user_type == "Creator" %} Автор {%else%} Издательство{%endif%} </p>
               <p class="repa-top-skoka" title="Репутация"><span> {{user.rating}}</span></p>
           </div>
           <div class="repa-content">
@@ -31,7 +31,9 @@
 {% endmacro %}
 
 {% macro render_composition(comp) %}
+
 <div style="">
+
     <span>
         <a href={{url_for('composition_page',composition_id=comp.id)}} >
         {{ comp.name }} [id:{{ comp.id }}]</a>
@@ -54,35 +56,43 @@
 {% endmacro %}
 
 {% macro render_composition_for_page(comp, text) %}
-<div style="">
+<div id="pagebody" style="height: 1500px;">
     <div align="center">
-        <h1>{{ comp.name }} </h1> <span style="">(Рейтинг: {{ comp.rating }})</span>
+        <h1>{{ comp.name }}  <span style="font-size: 24px">(Рейтинг: {{ comp.rating }})</span></h1>
         {% if session.signedin and session.user_id == comp.creator_id %}
-            <a href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
+            <a style="font-size: 24px;" href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
         {% endif %}
         <br>
         {% if session.signedin %}
-        (<a href={{url_for('like_composition',composition_id=comp.id)}} class="icon-thumbs-up"></a> |
-        <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-minus-sign"></a>)
+            <div style="font-size: 28px">
+                (<a href={{url_for('like_composition',composition_id=comp.id)}} class="icon-thumbs-up"></a> |
+                <a href={{url_for('dislike_composition',composition_id=comp.id)}} class="icon-thumbs-down"></a>)
+             </div>
         {% endif %}
     </div>
-
     <div align="center">
         <span>
             {% if session.signedin and session.user_id == comp.creator_id %}
                 <form  action="" method="post">
-                    <textarea rows="30" cols="45" name="text">{{text}}</textarea>
+                    <textarea id="content_text" style="width: 100%; max-width: 100%; min-height: 700px; max-height: 1400px; padding-right: 5px; overflow-x: hidden;  text-align: center; font-size:14px;" cols="100" name="text">{{text}}</textarea>
                     <br>
                     <input type="submit" name="submit" value="Cохранить">
                 </form>
             {% else %}
-                <textarea disabled rows="10" cols="45" name="text">{{text}}</textarea>
-            {% endif %}
+               <textarea id="content_text" style="width: 100%; min-height:700px; max-width: 100%; max-height: 1400px; text-align: center; font-size:14px; overflow-x: hidden; background: #f6f6f6; border-style: none; border-radius: 8px 0 0 0; padding: 8px 8px 8px 10px;" cols="100" name="text">{{text}}</textarea>
+                  {% endif %}
         </span>
     </div>
 
 </div>
 
+
+ <style>
+    .pbody {
+            width: 70%;
+        }
+
+</style>
     <!--<a href={{url_for('composition_page',composition_id=comp.id)}} >
         <p>Type: {{ comp.composition_type }}</p>
     </a>!-->

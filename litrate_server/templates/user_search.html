@@ -66,10 +66,10 @@
                 <div style="margin: 5px 50px; width: 300px; float: left;">
                     <p><input id="search_input" name="search_string" placeholder="Поиск..." type="text"></p>
                     <div style="float: left; margin-top: 5px;">
-                        <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="" type="button" value="Очистить">
+                        <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="document.location.href = '/search/user'" type="button" value="Очистить">
                     </div>
                     <div style="margin-top: 5px;">
-                        <input style="width: 145px; height: 40px;" type="submit" value="Поиск">
+                        <input style="width: 145px; height: 40px;" onclick="document.location.href = '/search/user/name=' + this.value;" type="submit" value="Поиск">
                     </div>
                 </div>
 
