@@ -61,38 +61,40 @@
             <p>Поиск по людям</p>
         </div>
 
-        <div style="width: 100%; height: 100px">
-            <div style="margin: 5px 50px; width: 300px; float: left;">
-                <p><input id="search_input" placeholder="Поиск..." type="text"></p>
-                <div style="float: left; margin-top: 5px;">
-                    <input style="width: 145px; height: 40px; margin-right: 10px;" onclick=" document.location.href = '/search/user/name=';" type="button" value="Очистить">
+        <form method="post">
+            <div style="width: 100%; height: 100px">
+                <div style="margin: 5px 50px; width: 300px; float: left;">
+                    <p><input id="search_input" name="search_string" placeholder="Поиск..." type="text"></p>
+                    <div style="float: left; margin-top: 5px;">
+                        <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="" type="button" value="Очистить">
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <input style="width: 145px; height: 40px;" type="submit" value="Поиск">
+                    </div>
                 </div>
-                <div style="margin-top: 5px;">
-                    <input style="width: 145px; height: 40px;" onclick=" document.location.href = '/search/user/name=' + search_input.value;" type="button" value="Поиск">
+
+                <div style="width: 300px; float: right; margin: 5px 50px;">
+                    <div style="height: 40px;">
+                        <select name="user_search_type">
+                            <option value="">Выберите тип пользователя</option>
+                            <option value="all">Все пользователи</option>
+                            <option value="creators">Авторы</option>
+                            <option value="publishers">Издательства</option>
+
+                        </select>
+                     </div>
+                    <div style="height: 40px;">
+                        <select name="sort_type">
+                              <option value="">Выберите как сортировать</option>
+                              <option value="by_rating">По рейтингу</option>
+                              <option value="by_name">По имени</option>
+                              <option value="by_surname">По фамилии</option>
+                        </select>
+                     </div>
                 </div>
+
             </div>
-
-            <div style="width: 300px; float: right; margin: 5px 50px;">
-                <div style="height: 40px;">
-                    <select>
-                        <option value="">Выберите тип пользователя</option>
-                        <option value="search_all_user">Все пользователи</option>
-                        <option value="search_creator">Авторы</option>
-                        <option value="search_publisher">Издательства</option>
-
-                    </select>
-                 </div>
-                <div style="height: 40px;">
-                    <select>
-                          <option value="">Выберите как сортировать</option>
-                          <option value="choose1">1</option>
-                          <option value="choose2">2</option>
-                          <option value="choose3">3</option>
-                    </select>
-                 </div>
-            </div>
-
-        </div>
+        </form>
       {{render_users_for_search(users)}}
 
     </div>

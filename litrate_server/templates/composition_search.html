@@ -78,37 +78,37 @@
             <br>
         {% endfor %}
         </div>
+        <form method="post">
             <div class="leftSidebar">
 				<div class="theiaStickySidebar" style="position: fixed;">
 					<div class="box">
 
                         <div style="margin: 5px 10px; width: 300px; position: relative;">
-                                <p><input id="search_input" placeholder="Поиск..." type="text"></p>
+                                <p><input id="search_input" name="search_string" placeholder="Поиск..." type="text"></p>
                                 <div style="float: left; margin-top: 5px;">
-                                    <input style="width: 145px; height: 40px; margin-right: 10px;" onclick=" document.location.href = '/search/user/name=';" type="button" value="Очистить">
+                                    <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="" type="button" value="Очистить">
                                 </div>
                                 <div style="margin-top: 5px;">
-                                    <input style="width: 145px; height: 40px;" onclick=" document.location.href = '/search/user/name=' + search_input.value;" type="button" value="Поиск">
+                                    <input style="width: 145px; height: 40px;" onclick="" type="submit" value="Поиск">
                                 </div>
 
                             </div>
 
                         <div style="width: 300px; margin: 5px 10px; position: relative;">
                             <div style="height: 40px;">
-                                <select  id="type_select">
+                                <select  id="type_select" name="composition_type">
                                   <option value="">Выберите тип произведения</option>
-                                  <option value="search_all_comp">Все произведения</option>
-                                    <option value="search_prose">Проза</option>
-                                  <option value="search_poem">Поэзия</option>
-
+                                  <option value="all">Все произведения</option>
+                                    <option value="prose">Проза</option>
+                                  <option value="poem">Поэзия</option>
                                 </select>
                              </div>
                             <div style="height: 40px;">
-                                    <select>
+                                   <select name="sort_type">
                                       <option value="">Выберите как сортировать</option>
-                                      <option value="date_update">По дате обновления</option>
-                                      <option value="rating_update">По рейтингу</option>
-                                      <option value="watch_update">По просмотрах</option>
+                                      <option value="by_date_update">По дате обновления</option>
+                                      <option value="by_rating">По рейтингу</option>
+                                      <option value="by_watch">По просмотрах</option>
                                     </select>
                              </div>
                         </div>
@@ -188,6 +188,7 @@
                     </div>
 				</div>
 			</div>
+        </form>
 
 
 

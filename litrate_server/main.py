@@ -303,30 +303,40 @@ def delete_composition(composition_id):
 
 
 # Страница поиска произведений
-@app.route('/search/compositions')
+@app.route('/search/compositions',  methods=['GET', 'POST'])
 def composition_search():
-    compositions = get_all_compositions()
+    if request.method == 'POST':
+        search_string = request.form.getlist("search_string")[0].strip()
+        composition_type = request.form.getlist("composition_type")[0]
+        sort_type = request.form.getlist("sort_type")[0]
+        compositions = find_compositions(name=search_string,
+                                         sort=sort_type,
+                                         comp_type=composition_type)
+    else:
+        compositions = get_all_compositions()
     return render_template("composition_search.html", compositions=compositions)
 
 
 # Страница поиска пользователей
-@app.route('/search/user')
-def default_user_search():
-    return user_search("name=")
-
-
-# Найти пользователей по параметрам
-@app.route('/search/user/<string:search_string>')
-def user_search(search_string="name="):
-    try:
-        params = dict(item.split("=") for item in search_string.split("&"))
-        print(params)
-        users = find_users_by_param_set(user_name=params.get("name"),
-                                        user_surname=params.get("surname"))
-
-        return render_template("user_search.html", users=users)
-    except ValueError:
-        return render_template("user_search.html", users=[])
+@app.route('/search/user',  methods=['GET', 'POST'])
+def user_search():
+    if request.method == 'POST':
+        search_string = request.form.getlist("search_string")[0].split()
+        name = surname = ""
+        if len(search_string) > 0:
+            name = search_string[0]
+        if len(search_string) > 1:
+            surname = search_string[1]
+        user_search_type = request.form.getlist("user_search_type")[0]
+        sort_type = request.form.getlist("sort_type")[0]
+        users = find_users_by_param_set(user_name=name,
+                                        user_surname=surname,
+                                        sort=sort_type,
+                                        user_type=user_search_type)
+    else:
+        users = find_users_by_param_set(user_name="",
+                                        user_surname="")
+    return render_template("user_search.html", users=users)
 
 
 # Написать сообщение пользователю по id

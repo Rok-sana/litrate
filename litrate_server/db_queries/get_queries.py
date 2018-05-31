@@ -34,7 +34,8 @@ def find_user_by_id(user_id):
 
 
 #
-def find_users_by_param_set(user_name=None, user_surname=None, rating_desc=True):
+def find_users_by_param_set(user_name=None, user_surname=None,
+                            sort="by_rating", user_type="All"):
     values = ''
     if user_name is not None:
         values += "user_name LIKE \'%" + user_name + "%\' AND "
@@ -42,6 +43,10 @@ def find_users_by_param_set(user_name=None, user_surname=None, rating_desc=True)
         values += "user_surname LIKE \'%" + user_surname + "%\' AND "
     if values:
         values = values[:-4]
+        if user_type == "creators":
+            values += " AND user_type = \'Creator\' "
+        if user_type == "publishers":
+            values += " AND user_type = \'Publisher\' "
         database = MySqlDatabase(DATABASE_CONFIG)
         query = "SELECT * " \
                 "FROM Users " \
@@ -60,8 +65,12 @@ def find_users_by_param_set(user_name=None, user_surname=None, rating_desc=True)
                     users[i].update(find_publisher_info(users[i]["user_id"]))
                     # !!!!!!
                     users[i]["rating"] = 0
-            if rating_desc:
+            if sort == "by_rating":
                 users.sort(key=lambda user: -user["rating"])
+            if sort == "by_name":
+                users.sort(key=lambda user: user["user_name"])
+            if sort == "by_surname":
+                users.sort(key=lambda user: user["user_surname"])
         return users
     return []
 
@@ -116,6 +125,35 @@ def get_composition(composition_id):
                            comp["composition_type"][0],
                            comp["modifier"][0])
     return None
+
+
+def find_compositions(name, sort="by_rating", comp_type="All"):
+    type_search = ""
+    if comp_type == "prose":
+        type_search = " AND composition_type = \'Prose\'"
+    if comp_type == "poem":
+        type_search = " AND composition_type = \'Poem\'"
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Compositions " \
+            "WHERE composition_name LIKE \'%{0}%\'{1};".format(name, type_search)
+    res = database.execute_query(query)
+    comp = []
+    if res:
+        for i in range(len(res["composition_id"])):
+            comp.append(get_true_composition(Composition(res["composition_id"][i],
+                                    res["composition_name"][i],
+                                    res["creator_id"][i],
+                                    res["posting_date"][i],
+                                    res["composition_type"][i],
+                                    res["modifier"][i])))
+        if sort == "by_rating":
+            comp.sort(key=lambda user: -user.rating)
+        if sort == "by_date_update":
+            comp.sort(key=lambda user: user.posting_date)
+        if sort == "by_watch": #!!!!!
+            comp.sort(key=lambda user: user.rating)
+    return comp
 
 
 def get_like_to_composition_from_user(composition_id, user_id):
