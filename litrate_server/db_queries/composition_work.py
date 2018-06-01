@@ -20,8 +20,12 @@ def change_composition_modifier(composition_id):
         update_composition_modifier(composition_id, "Public")
     elif not composition_is_used(composition_id):
         update_composition_modifier(composition_id, "Private")
+    else:
+        return False
+    return True
 
 
 def composition_is_used(composition_id):
-
+    if poem_collections_id(composition_id):
+        return True
     return False

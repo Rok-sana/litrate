@@ -1,0 +1,233 @@
+{% extends "layout.html" %}
+
+{% from "includes/_formhelper.html" import render_collection %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.matchHeight.js"></script>
+    <script src="/static/jquery.selectric.min.js"></script>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery.selectric.js"></script>
+    <script src="/static/menu.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/ResizeSensor.js"></script>
+        <script type="text/javascript" src="/static/theia-sticky-sidebar.js"></script>
+        <script type="text/javascript" src="/static/test.js"></script>
+{% endblock %}
+
+{% block style %}
+    <style>
+    input {
+        width: 300px;
+        font-size: 13px;
+        padding: 6px 0 4px 10px;
+        border: 1px solid #cecece;
+        background: #F6F6f6;
+        border-radius: 8px;
+    }
+    input {
+        padding-bottom: 5px\0;
+    }
+
+
+
+    textarea {
+        /* = Убираем скролл */
+        overflow: auto;
+
+        /* = Убираем увеличение */
+        width: 385px;
+        height: 100px;
+        max-height: 600px;
+
+        /* = Добавим фон, рамку, отступ*/
+        background: #f6f6f6;
+        border: 1px solid #cecece;
+        border-radius: 8px 0 0 0;
+        padding: 8px 0 8px 10px;
+}
+      .leftSidebar {
+				width: *;
+				float: right;
+				padding: 0 30px 0 0;
+				position: relative;
+	  }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div style="height: 3000px;" class="pbody">
+
+        <div style="width: 300px; margin: 10px auto; font-size: 28px">
+            <p>Поиск по названию</p>
+        </div>
+        <div class="contentsearch">
+
+              {% for collection in collections %}
+                {{ render_collection(collection) }}
+            <br>
+            <br>
+        {% endfor %}
+        </div>
+
+            <div class="leftSidebar">
+				<div class="theiaStickySidebar" >
+					<div class="box">
+                        <form method="post">
+                            <div style="margin: 5px 10px; width: 300px; position: relative;">
+                                    <p><input id="search_input" name="search_string" placeholder="Поиск..." type="text"></p>
+                                    <div style="float: left; margin-top: 5px;">
+                                        <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="document.location.href = '/search/compositions' " type="button" value="Очистить">
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        <input style="width: 145px; height: 40px;" id="search_submit" onclick="" type="submit" value="Поиск">
+                                    </div>
+
+                                </div>
+
+                            <div style="width: 300px; margin: 5px 10px; position: relative;">
+                                <div style="height: 40px;">
+                                    <select  id="type_select" name="composition_type">
+                                      <option value="">Выберите тип произведения</option>
+                                      <option value="all">Все произведения</option>
+                                        <option value="prose">Проза</option>
+                                      <option value="poem">Поэзия</option>
+                                    </select>
+                                 </div>
+                                <div style="height: 40px;">
+                                       <select name="sort_type">
+                                          <option value="">Выберите как сортировать</option>
+                                          <option value="by_date_update">По дате обновления</option>
+                                          <option value="by_rating">По рейтингу</option>
+                                          <option value="by_watch">По просмотрах</option>
+                                        </select>
+                                 </div>
+                            </div>
+
+                            <div id="prose_check" style="width: 300px;">
+                                <div style="float:left; width: 150px">
+                                    <input style="width: 20px" id="check1" type="checkbox" name="check" value="check1">
+                                    <label style="width: 200px" for="check1">Ужасы</label><br>
+
+                                    <input style="width: 20px" id="check2" type="checkbox" name="check" value="check1">
+                                    <label style="width: 200px" for="check2">Исторические</label><br>
+
+                                    <input style="width: 20px" id="check3" type="checkbox" name="check" value="check3">
+                                    <label style="width: 200px" for="check3">Приключения</label><br>
+
+                                    <input style="width: 20px" id="check4" type="checkbox" name="check" value="check4">
+                                    <label style="width: 200px" for="check4">Вестерн</label><br>
+
+                                    <input style="width: 20px" id="check5" type="checkbox" name="check" value="check5">
+                                    <label style="width: 200px" for="check5">Юмор</label><br>
+
+                                    <input style="width: 20px" id="check6" type="checkbox" name="check" value="check6">
+                                    <label style="width: 200px" for="check6">Любовные</label><br>
+
+                                </div>
+
+
+                                <div style="float:left; width: 150px">
+                                    <input style="width: 20px" id="check7" type="checkbox" name="check" value="check7">
+                                    <label style="width: 200px" for="check7">Фэнтези</label><br>
+
+                                    <input style="width: 20px" id="check8" type="checkbox" name="check" value="check8">
+                                    <label style="width: 200px" for="check8">Психология</label><br>
+
+                                     <input style="width: 20px" id="check9" type="checkbox" name="check" value="check9">
+                                    <label style="width: 200px" for="check9">Детективы</label><br>
+
+                                    <input style="width: 20px" id="check10" type="checkbox" name="check" value="check10">
+                                    <label style="width: 200px" for="check10">Триллеры</label><br>
+
+                                     <input style="width: 20px" id="check11" type="checkbox" name="check" value="check11">
+                                    <label style="width: 200px" for="check11">Фантастика</label><br>
+                                </div>
+
+                            </div>
+
+                            <div id="poem_check" style="width: 300px; display: none">
+                                <div style="float:left; width: 150px">
+                                    <input style="width: 20px" id="poem1" type="checkbox" name="check" value="poem1">
+                                    <label style="width: 200px" for="poem1">Checkbox No. 1</label><br>
+
+                                    <input style="width: 20px" id="poem2" type="checkbox" name="check" value="poem2">
+                                    <label style="width: 200px" for="poem2">Checkbox No. 2</label><br>
+
+                                    <input style="width: 20px" id="poem3" type="checkbox" name="check" value="poem3">
+                                    <label style="width: 200px" for="poem3">Checkbox No. 3</label><br>
+
+                                    <input style="width: 20px" id="poem4" type="checkbox" name="check" value="poem4">
+                                    <label style="width: 200px" for="poem4">Checkbox No. 4</label><br>
+                                </div>
+
+
+                                <div style="float:left; width: 150px">
+                                    <input style="width: 20px" id="poem5" type="checkbox" name="check" value="poem5">
+                                    <label style="width: 200px" for="poem5">Checkbox No. 5</label><br>
+
+                                    <input style="width: 20px" id="poem6" type="checkbox" name="check" value="poem6">
+                                    <label style="width: 200px" for="poem6">Checkbox No. 6</label><br>
+
+                                    <input style="width: 20px" id="poem7" type="checkbox" name="check" value="poem7">
+                                    <label style="width: 200px" for="poem7">Checkbox No. 7</label><br>
+
+                                    <input style="width: 20px" id="poem8" type="checkbox" name="check" value="poem8">
+                                    <label style="width: 200px" for="poem8">Checkbox No. 8</label><br>
+                                </div>
+
+                            </div>
+                         </form>
+                    </div>
+				</div>
+			</div>
+
+
+
+
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="/static/jquery.selectric.js"></script>
+    <script>
+    //Выбор тип
+        function type(){
+            var type_sel = document.getElementById("type_select").options.selectedIndex;
+            console.log("here");
+            if(type_sel == 2){
+                  document.getElementById(prose_check).style.display = 'none';
+                  console.log("done");
+            }
+        }
+
+      $(function(){
+        $('select, .select').selectric();
+      });
+
+		//Панель збоку
+				$(document).ready(function() {
+				$('.leftSidebar, .rightSidebar')
+					.theiaStickySidebar({
+						additionalMarginTop: 60
+
+					});
+
+			});
+
+    //при нажатии enter поиск
+    $("#search_input").keyup(function(event){
+        if(event.keyCode == 13){
+             document.getElementById("search_submit").click();
+        }
+    });
+    </script>
+{% endblock %}

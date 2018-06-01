@@ -58,7 +58,7 @@ def is_logged_in(f):
         if "signedin" in session:
             return f(*args, **kwargs)
         else:
-            flash("Unauthorized, please sign in")
+            flash("Вы не авторизированы! Войдите в систему!")
             return redirect(url_for("signin"))
     return wrap
 
@@ -71,7 +71,7 @@ def is_creator(f):
         if session["user_type"] == USER_TYPES.CREATOR:
             return f(*args, **kwargs)
         else:
-            flash("You are not creator!")
+            flash("Вы не писатель!")
             return redirect(url_for("profile"))
     return wrap
 
@@ -100,11 +100,8 @@ def signup():
             signup_user(email, password, type)
             return redirect(url_for("signin"))
         else:
+            flash("Найден пользователь с такой же почтой!", "error")
             # Иначе возвращаемся на страницу регистрации
-            if find_user_by_email(email=email):
-                flash("Another user with same email found", "error")
-            else:
-                flash("Another user with same login found", "error")
     return render_template("signup.html", form=form)
 
 
@@ -119,17 +116,17 @@ def signin():
         found_user = find_user_by_email(email)
         if not found_user:
             # Если совпадения не найдено, то вернуться на страницу входа
-            flash("User with this email not found", "error")
+            flash("Пользователь с такой почтой не найден", "error")
             return render_template("signin.html", form=form)
 
         # Если пользователь с такой почтой найден, то проверяем на совпадение пароли
         if not sha256_crypt.verify(password_try, found_user["user_password"]):
             # Пароли не совпали - возвращаемся на страницу входа
-            flash("Password do not match", "error")
+            flash("Пароли не совпадают", "error")
             return render_template("signin.html", form=form)
 
         # Пользователь вошел в систему, перенаправленно на начальную страницу
-        flash("You successfully signed in", "success")
+        flash("Вы успешно вошли в систему", "success")
         session["signedin"] = True
         session["user_id"] = found_user["user_id"]
         session["user_type"] = found_user["user_type"]
@@ -167,10 +164,11 @@ def user_profile(user_id):
         poem_types, prose_types = get_creator_all_types(user["user_id"], session.get("user_id"))
         all_types = poem_types.copy()
         all_types.update(prose_types)
+        collections = get_creator_collections(session["user_id"], session["user_id"])
         return render_template("user_creator_profile.html", compositions=compositions,
                                poems=poems, proses=proses,
                                poem_types=poem_types, prose_types=prose_types, types=all_types,
-                               user=user)
+                               user=user, collections=collections)
     elif user["user_type"] == USER_TYPES.PUBLISHER:
         return render_template("user_publisher_profile.html", user=user)
     else:
@@ -192,10 +190,10 @@ def edit_info():
             update_user_info(session["user_id"], form, session["user_type"])
             update_session_user_info()
             form.change_info(session["user"])
-            flash("Change confirmed successfully")
+            flash("Изменения подтверждены!")
             return render_template("edit_user_info.html", form=form)
         else:
-            flash("Enter data correctly")
+            flash("Введите данные корректно!")
             # !!!!
             return render_template("edit_user_info.html", form=form)
     else:
@@ -219,14 +217,14 @@ def poem_adding():
                 add_poem_by_text(request.form.getlist("text")[0], form.name.data,
                                  request.form.getlist("poem_types"), session["user_id"], session["user_id"])
             else:
-                flash("Add file or write text!")
+                flash("Прикрепите файл или введите текст произведения в соответствующее поле!")
                 types_json = json.dumps({x: x for x in get_poem_types()})
                 return render_template("poem_adding.html", form=form, poem_types=types_json)
-            flash("Poem added")
+            flash("Сочинение добавлено!")
             update_session_user_info()
             return redirect(url_for("profile"))
         else:
-            flash("Something go wrong")
+            flash("Введите имя!")
             # !!!!
             types_json = json.dumps({x: x for x in get_poem_types()})
             return render_template("poem_adding.html", form=form, poem_types=types_json)
@@ -251,14 +249,14 @@ def prose_adding():
                 add_prose_by_text(request.form.getlist("text")[0], form.name.data,
                                   request.form.getlist("prose_types"), session["user_id"], session["user_id"])
             else:
-                flash("Add file or write text!")
+                flash("Прикрепите файл или введите текст произведения в соответствующее поле!")
                 types_json = json.dumps({x: x for x in get_prose_types()})
                 return render_template("prose_adding.html", form=form, prose_types=types_json)
-            flash("Prose added")
+            flash("Сочинение добавлено!")
             update_session_user_info()
             return redirect(url_for("profile"))
         else:
-            flash("Something go wrong")
+            flash("Введите имя!")
             # !!!!
             types_json = json.dumps({x: x for x in get_prose_types()})
             return render_template("prose_adding.html", form=form, prose_types=types_json)
@@ -276,9 +274,15 @@ def composition_page(composition_id):
         return render_template('/errors/404.html'), 404
     if request.method == "POST":
         if composition.creator_id == session["user_id"]:
-            text_of_comp = request.form.getlist("text")[0]
-            rewrite_file(composition_id, text_of_comp, session["user_id"])
-            update_composition_edit_date(composition_id)
+            if composition_is_used(composition.id):
+                flash("Невозможно изменить произведение! Оно задействовано в сборниках!")
+            else:
+                text_of_comp = request.form.getlist("text")[0]
+                rewrite_file(composition_id, text_of_comp, session["user_id"])
+                update_composition_edit_date(composition_id)
+                flash("Изменения подтверждены!")
+        else:
+            flash("У вас нету прав для этого действия!")
     return render_template("composition.html",
                            composition=get_composition(composition_id, session.get("user_id")),
                            text=get_composition_text(composition_id, session.get("user_id")))
@@ -327,7 +331,7 @@ def delete_composition(composition_id):
         else:
             flash("Невозможно удалить произведение. Оно имеет статус 'Публичный'")
 
-    return redirect(url_for('profile'))
+    return redirect(request.referrer)
 
 
 # Страница поиска произведений
@@ -352,7 +356,13 @@ def change_modifier(composition_id):
     composition = get_composition(composition_id, session.get("user_id"))
     if composition:
         if composition.creator_id == session.get("user_id"):
-            change_composition_modifier(composition_id)
+            if change_composition_modifier(composition_id):
+                flash("Статус произведения успещно изменен!")
+            else:
+                flash("Невозможно изменить статус произведения! Оно задействовано в сборниках!")
+        else:
+            flash("У вас нету прав для этого действия!")
+
     return redirect(request.referrer)
 
 
@@ -386,12 +396,10 @@ def collection_adding():
     if request.method == 'POST':
         poems_to_add = list(map(int, request.form.getlist("choosed_poems")))
         if len(poems_to_add) < 15:
-            print("Выбрано слишком мало стихов! Нужно не меньше 15!")
             flash("Выбрано слишком мало стихов! Нужно не меньше 15!")
             return redirect(request.referrer)
         else:
             if not request.form.getlist("collection_name"):
-                print("Некорректное имя!")
                 flash("Некорректное имя!")
                 return redirect(request.referrer)
             valid_poems = True
@@ -404,7 +412,6 @@ def collection_adding():
                 add_collection(request.form.getlist("collection_name")[0],
                                session["user_id"], poems_to_add)
             else:
-                print("Какой-то из стихов удален или имеет статус Приватный!")
                 flash("Какой-то из стихов удален или имеет статус Приватный!")
                 return redirect(request.referrer)
             return redirect(url_for("profile"))
@@ -428,6 +435,28 @@ def collection_page(collection_id):
     return render_template("collection.html",
                            collection=coll,
                            poems=poems)
+
+
+# Перейти на страничку с
+@app.route('/collection/<int:collection_id>/delete', methods=['GET', 'POST'])
+def collection_deleting(collection_id):
+    coll = get_collection_by_id(collection_id)
+    if coll["creator_id"] == session["user_id"]:
+        if not collection_is_used:
+            flash("Невозможно удалить сборник! ")
+            return redirect(request.referrer)
+        delete_collection_by_id(collection_id, session["user_id"])
+        flash("Сборник успешно удален!")
+        return redirect(url_for("profile"))
+    else:
+        flash("У вас нет прав для удаления сборника!")
+        return redirect(request.referrer)
+
+
+# Перейти на страничку с
+@app.route('/collection_search', methods=['GET', 'POST'])
+def collection_search():
+    return render_template("collection_search.html", collections=get_all_collections(session["user_id"]))
 
 
 # Написать сообщение пользователю по id

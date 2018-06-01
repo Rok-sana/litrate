@@ -39,3 +39,17 @@ def delete_prose(prose_id, creator_id):
     os.remove(file_path)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
+
+
+def delete_poem_collection(poem_id, collection_id):
+    query = "DELETE FROM Poems_Collections " \
+            "WHERE poem_id={0} AND collection_id={1}; ".format(poem_id, collection_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def delete_collection(collection_id):
+    query = "DELETE FROM Collections " \
+            "WHERE collection_id={0}; ".format(collection_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)

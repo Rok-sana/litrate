@@ -4,6 +4,8 @@ from db_queries.simple_get import *
 from misc.configs import USER_TYPES
 import os
 from flask import session
+
+
 # Поиск пользователя по почте
 def find_user_by_email(email):
     database = MySqlDatabase(DATABASE_CONFIG)
@@ -241,7 +243,7 @@ def get_composition_text(composition_id, user_id):
     return text
 
 
-def get_collection_poems_id(collection_id, curr_user_id):
+def get_collection_poems(collection_id, curr_user_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT poem_id " \
             "FROM Poems_Collections " \
@@ -252,5 +254,32 @@ def get_collection_poems_id(collection_id, curr_user_id):
         for poem_id in res["poem_id"]:
             poems.append(get_composition(poem_id, curr_user_id))
     return poems
+
+
+def get_all_collections_query():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Collections;"
+    res = database.execute_query(query)
+    colls = []
+    if res:
+        for i in range(len(res["collection_id"])):
+            colls.append(dict())
+            for k in res:
+                colls[i][k] = res[k][i]
+    return colls
+
+
+def poem_collections_id(poem_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT collection_id " \
+            "FROM Poems_Collections " \
+            "WHERE poem_id={0};".format(poem_id)
+    res = database.execute_query(query)
+    colls = []
+    if res:
+        for coll_id in res["collection_id"]:
+            colls.append(coll_id)
+    return colls
 
 #print(get_composition_text(1))

@@ -1,5 +1,5 @@
 {% extends "user_profile.html" %}
-{% from "includes/_formhelper.html" import render_composition %}
+{% from "includes/_formhelper.html" import render_composition, render_collection %}
 {% block title %}
     <title>Автор</title>
 {% endblock %}
@@ -52,7 +52,9 @@
 
                 </div>
                 <div id="tab-4">
-                    <p>Тут сборники</p>
+                    {% for coll in collections %}
+                    {{render_collection(coll)}}
+                    {% endfor %}
                 </div>
             </div>
         </div>

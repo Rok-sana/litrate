@@ -14,11 +14,20 @@
 {% block body %}
 
     <div  class="pbody" style="float:left; margin: 0 0 0 15%;">
-        {{ collection.collection_name }}
+        <div align="center">
+            <h1>
+                {{ collection.collection_name }}
+                <br>
+                <span style="font-size: 24px">(Рейтинг: {{ collection.rating }})</span>
+            </h1>
+            <br>
+            {% if session.signedin and session.user_id == collection.creator_id %}
+                <a href={{url_for('collection_deleting',collection_id=collection.collection_id)}}>Удалить</a>
+            {% endif %}
+        </div>
         {% from "includes/_formhelper.html" import render_composition_for_collection_page, render_poem_name %}
         {% for poem in poems %}
             {{ render_composition_for_collection_page(poems[loop.index - 1], loop.index - 1) }}
-            {{ render_poem_name(poem) }}
         {% endfor %}
     </div>
     <div style="width: 10%; position: fixed; height: 7vw; border-radius: 0.4vw; background: rgb(245,245,245); float: left; margin: 70px 2.5%;">
@@ -35,24 +44,19 @@
         </div>
     </div>
 
-    <script>
-function Font(element,step)
-{
-step = parseInt(step,10);
-var el = document.getElementById(element);
-var curFont = parseInt(el.style.fontSize,10);
-var curHeight = parseInt(el.style.height,10);
-el.style.fontSize = (curFont+step) + 'px';
-}
+<script>
+    function Font(element,step) {
+        step = parseInt(step,10);
+        var el = document.getElementById(element);
+        var curFont = parseInt(el.style.fontSize,10);
+        var curHeight = parseInt(el.style.height,10);
+        el.style.fontSize = (curFont+step) + 'px';
+    }
 
-function FontAlign(element,step)
-{
-var el = document.getElementById(element);
-el.style.textAlign = step;
-}
-
-
-
+    function FontAlign(element,step) {
+        var el = document.getElementById(element);
+        el.style.textAlign = step;
+    }
 </script>
 {% endblock %}
 
