@@ -53,43 +53,17 @@
         padding: 8px 0 8px 10px;
 }
       .leftSidebar {
-				width: 25%;
+				width: *;
 				float: right;
 				padding: 0 30px 0 0;
 				position: relative;
 	  }
 
-@media (max-width: 1280px){
-         .leftSidebar {
-				width: 31%;
-	  }
-}
-
-@media (max-width: 1024px){
-          .leftSidebar {
-               width: 35%;
-           }
-
-}
-
-
-@media (max-width: 992px){
-          .leftSidebar {
-               width: 40%;
-           }
-}
-
-@media (max-width: 768px){
-
-          .leftSidebar {
-               width: 45%;
-           }
-}
     </style>
 {% endblock %}
 
 {% block body %}
-    <div style="height: 1450px;" class="pbody">
+    <div style="height: 3000px;" class="pbody">
 
         <div style="width: 300px; margin: 10px auto; font-size: 28px">
             <p>Поиск по названию</p>
@@ -104,7 +78,7 @@
         </div>
 
             <div class="leftSidebar">
-				<div class="theiaStickySidebar" style="position: fixed;">
+				<div class="theiaStickySidebar" >
 					<div class="box">
                         <form method="post">
                             <div style="margin: 5px 10px; width: 300px; position: relative;">
@@ -113,7 +87,7 @@
                                         <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="document.location.href = '/search/compositions' " type="button" value="Очистить">
                                     </div>
                                     <div style="margin-top: 5px;">
-                                        <input style="width: 145px; height: 40px;" onclick="" type="submit" value="Поиск">
+                                        <input style="width: 145px; height: 40px;" id="search_submit" onclick="" type="submit" value="Поиск">
                                     </div>
 
                                 </div>
@@ -246,42 +220,14 @@
 						additionalMarginTop: 60
 
 					});
+
 			});
 
     //при нажатии enter поиск
     $("#search_input").keyup(function(event){
         if(event.keyCode == 13){
-            console.log(this.value);
-            document.location.href = "/search/user/name=" + this.value;
+             document.getElementById("search_submit").click();
         }
     });
-
-function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-5').removeClass('active');
-				});
-
-			});
-
-
     </script>
 {% endblock %}

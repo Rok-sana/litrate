@@ -59,7 +59,7 @@ def update_publisher_info(publisher_id, user_info_form):
 
 def update_composition_edit_date(composition_id):
     now = datetime.datetime.now()
-    query = "UPDATE Compositions SET posting_date={0} " \
+    query = "UPDATE Compositions SET posting_date=\'{0}\' " \
             "WHERE composition_id={1};".format(now.strftime("%Y-%m-%d"), composition_id)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
@@ -68,5 +68,12 @@ def update_composition_edit_date(composition_id):
 def update_composition_modifier(composition_id, modifier):
     query = "UPDATE Compositions SET modifier=\'{0}\' " \
             "WHERE composition_id={1};".format(modifier, composition_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def update_user_name(name, surname, user_id):
+    query = "UPDATE Users SET user_name=\'{0}\', user_surname=\'{1}\' " \
+            "WHERE user_id={2};".format(name, surname, user_id)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)

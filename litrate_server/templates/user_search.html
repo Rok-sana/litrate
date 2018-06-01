@@ -69,7 +69,7 @@
                         <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="document.location.href = '/search/user'" type="button" value="Очистить">
                     </div>
                     <div style="margin-top: 5px;">
-                        <input style="width: 145px; height: 40px;" onclick="document.location.href = '/search/user/name=' + this.value;" type="submit" value="Поиск">
+                        <input style="width: 145px; height: 40px;" id="search_submit" type="submit" value="Поиск">
                     </div>
                 </div>
 
@@ -112,35 +112,9 @@
           $("#search_input").keyup(function(event){
               if(event.keyCode == 13){
                   console.log(this.value);
-                  document.location.href = "/search/user/name=" + this.value;
+                   document.getElementById("search_submit").click();
               }
           });
-
-          function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-5').removeClass('active');
-				});
-
-			});
     </script>
 {% endblock %}
 

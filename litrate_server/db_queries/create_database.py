@@ -54,8 +54,7 @@ def _create_table_creators(db: MySqlDatabase):
 def _create_table_publishers(db: MySqlDatabase):
     query = "CREATE TABLE Publishers ( " \
             "publisher_id INT NOT NULL PRIMARY KEY, " \
-            "rating INT NOT NULL, " \
-            "publisher_house_name VARCHAR(60) CHARACTER SET utf8 NOT NULL, " \
+            "publisher_house_name VARCHAR(60) CHARACTER SET utf8, " \
             "country VARCHAR(60) CHARACTER SET utf8, " \
             "city VARCHAR(60) CHARACTER SET utf8, " \
             "street VARCHAR(60) CHARACTER SET utf8, " \
@@ -300,6 +299,12 @@ def _create_database(db: MySqlDatabase):
     '''
 
 
+def add_test_information():
+    from db_queries.test_information_add import add_users, add_compositions
+    add_users()
+    add_compositions()
+
+
 def create_dir_for_files():
     directory = "../data/"
     if os.path.exists(directory):
@@ -314,6 +319,7 @@ def refresh_database():
     _create_database(database)
     add_information()
     create_dir_for_files()
+    add_test_information()
     print(database.all_tables())
 
 

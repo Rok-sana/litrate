@@ -10,6 +10,8 @@
     <link type="text/css" rel="stylesheet" href="/static/responsive-tabs.css" />
     <link type="text/css" rel="stylesheet" href="/static/style_o.css" />
     <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+    <link rel="stylesheet" type="text/css" href="/static/remodal.css">
+    <link rel="stylesheet" type="text/css" href="/static/remodal-default-theme.css">
 {% endblock %}
 {% block body %}
 
@@ -88,35 +90,6 @@
 		});
 
 	});
-
-
-//-----------Меню-------------------
-
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-5').removeClass('active');
-				});
-
-			});
 
 </script>
 {% endblock %}

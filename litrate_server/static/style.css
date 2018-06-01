@@ -33,7 +33,7 @@ body {
   }
 
   .contentsearch{
-        width: 960px;
+        width: 900px;
         float: left;
         position: relative;
         }
@@ -44,7 +44,7 @@ body {
          }
 
         .contentsearch{
-        width: 960px;
+        width: 900px;
         }
 .search_img{
         height: 300px;
@@ -57,7 +57,7 @@ body {
         width: 1020px;
         }
          .contentsearch{
-        width: 700px;
+        width: 650px;
         }
 
         .search_img{
@@ -83,7 +83,7 @@ body {
         }
 
          .contentsearch{
-        width: 630px;
+        width: 600px;
         }
         .rightbar {
         margin-top: -20px;
@@ -106,7 +106,7 @@ body {
         }
 
          .contentsearch{
-        width: 480px;
+        width: 440px;
         }
         .rightbar {
         margin-top: -40px;
@@ -125,7 +125,7 @@ body {
             width: 165px;
         }
          .contentsearch{
-        width: 380px;
+        width: 330px;
         }
 
         .rightbar {

@@ -164,7 +164,7 @@ class EditPublisherInfoForm(EditUserInfoForm):
 
 class AddPoemForm(Form):
     name = StringField("Name of poem", [validators.length(min=0, max=60),
-                                     validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
+                                     validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ,\.]+$", message='You can only use '
                                                                                                  ' letters '
                                                                                                  'or numbers')]
                        )
@@ -175,7 +175,7 @@ class AddPoemForm(Form):
 
 class AddProseForm(Form):
     name = StringField("Name of prose", [validators.length(min=0, max=60),
-                                     validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ]+$", message='You can only use '
+                                     validators.Regexp(regex="^[a-zA-z0-9а-яА-яіїІЇ ,\.]+$", message='You can only use '
                                                                                                  ' letters '
                                                                                                  'or numbers')]
                        )

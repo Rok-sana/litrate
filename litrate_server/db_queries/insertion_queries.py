@@ -42,7 +42,7 @@ def insert_user_type(user_type):
 def insert_composition(composition_id, name, creator_id, date, type):
     query = "INSERT INTO Compositions(composition_id, composition_name, creator_id, " \
             "posting_date, modifier, composition_type) " \
-            "VALUES({0}, \'{1}\', {2}, \'{3}\', \'Private\', \'{4}\'); ".format(composition_id, name,
+            "VALUES({0}, \'{1}\', {2}, \'{3}\', \'Public\', \'{4}\'); ".format(composition_id, name,
                                                                             creator_id, date, type)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
@@ -107,7 +107,7 @@ def insert_compositions_marks(composition_id, user_id, mark):
 # Добавление типа стихотворения
 def insert_collection(collection_id, collection_name, creator_id, post_date):
     query = "INSERT INTO Collections(collection_id, collection_name, creator_id, post_date) " \
-            "VALUES({0}, \'{1}\', {2}, {3}); ".format(collection_id, collection_name, creator_id, post_date)
+            "VALUES({0}, \'{1}\', {2}, \'{3}\'); ".format(collection_id, collection_name, creator_id, post_date)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/static/menu.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/responsive-tabs.css" />
+    <link type="text/css" rel="stylesheet" href="/static/style_o.css" />
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+{% endblock %}
+
+{% block body %}
+
+    <div  class="pbody" style="float:left; margin: 0 0 0 15%;">
+        {{ collection.collection_name }}
+        {% from "includes/_formhelper.html" import render_composition_for_collection_page, render_poem_name %}
+        {% for poem in poems %}
+            {{ render_composition_for_collection_page(poems[loop.index - 1], loop.index - 1) }}
+            {{ render_poem_name(poem) }}
+        {% endfor %}
+    </div>
+    <div style="width: 10%; position: fixed; height: 7vw; border-radius: 0.4vw; background: rgb(245,245,245); float: left; margin: 70px 2.5%;">
+        <div style="width: 60%; margin: 0 auto;">
+            <a style="color: black; font-size: 3vw;" href="javascript:void(0);" onclick="Font('content_text',5);" class="icon-zoom-in"> </a>
+            <a style="color: black; font-size: 3vw;" href="javascript:void(0);" onclick="Font('content_text',-5);" class="icon-zoom-out"> </a>
+        </div>
+        <div style="width: 90%; margin: 1vw auto;">
+            <a style="color: black; font-size: 2vw;" href="javascript:void(0);" onclick="FontAlign('content_text','left');" class="icon-align-left"> </a>
+            <a style="color: black; font-size: 2vw;" href="javascript:void(0);" onclick="FontAlign('content_text','right');" class="icon-align-right"> </a>
+            <a style="color: black; font-size: 2vw;" href="javascript:void(0);" onclick="FontAlign('content_text','center');" class="icon-align-center"> </a>
+            <a style="color: black; font-size: 2vw;" href="javascript:void(0);" onclick="FontAlign('content_text','justify');" class="icon-align-justify"> </a>
+
+        </div>
+    </div>
+
+    <script>
+function Font(element,step)
+{
+step = parseInt(step,10);
+var el = document.getElementById(element);
+var curFont = parseInt(el.style.fontSize,10);
+var curHeight = parseInt(el.style.height,10);
+el.style.fontSize = (curFont+step) + 'px';
+}
+
+function FontAlign(element,step)
+{
+var el = document.getElementById(element);
+el.style.textAlign = step;
+}
+
+
+
+</script>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

@@ -125,4 +125,23 @@ def get_creators_collections(creator_id):
             "FROM Collections " \
             "WHERE creator_id={0};".format(creator_id)
     res = database.execute_query(query)
-    print(res)
+    colls = []
+    if res:
+        for i in range(len(res["collection_id"])):
+            colls.append(dict())
+            for k in res:
+                colls[i][k] = res[k][i]
+    return colls
+
+
+def get_collection_by_id(collection_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Collections " \
+            "WHERE collection_id={0};".format(collection_id)
+    res = database.execute_query(query)
+    coll = dict()
+    if res:
+        for k in res:
+            coll[k] = res[k][0]
+    return coll

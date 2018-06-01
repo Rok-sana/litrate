@@ -235,9 +235,22 @@ def get_composition_text(composition_id, user_id):
         with open(path, "r") as f:
             for line in f:
                 text += line
-    except UnicodeDecodeError:
+    except UnicodeDecodeError as e:
+        print(e.__str__())
         text = "File was corrupted("
     return text
 
+
+def get_collection_poems_id(collection_id, curr_user_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT poem_id " \
+            "FROM Poems_Collections " \
+            "WHERE collection_id={0};".format(collection_id)
+    res = database.execute_query(query)
+    poems = []
+    if res:
+        for poem_id in res["poem_id"]:
+            poems.append(get_composition(poem_id, curr_user_id))
+    return poems
 
 #print(get_composition_text(1))

@@ -217,7 +217,7 @@ def poem_adding():
                                  request.form.getlist("poem_types"), session["user_id"])
             elif request.form.getlist("text")[0] != "":
                 add_poem_by_text(request.form.getlist("text")[0], form.name.data,
-                                 request.form.getlist("poem_types"), session["user_id"])
+                                 request.form.getlist("poem_types"), session["user_id"], session["user_id"])
             else:
                 flash("Add file or write text!")
                 types_json = json.dumps({x: x for x in get_poem_types()})
@@ -249,7 +249,7 @@ def prose_adding():
                                   request.form.getlist("prose_types"), session["user_id"])
             elif request.form.getlist("text")[0] != "":
                 add_prose_by_text(request.form.getlist("text")[0], form.name.data,
-                                  request.form.getlist("prose_types"), session["user_id"])
+                                  request.form.getlist("prose_types"), session["user_id"], session["user_id"])
             else:
                 flash("Add file or write text!")
                 types_json = json.dumps({x: x for x in get_prose_types()})
@@ -277,7 +277,7 @@ def composition_page(composition_id):
     if request.method == "POST":
         if composition.creator_id == session["user_id"]:
             text_of_comp = request.form.getlist("text")[0]
-            rewrite_file(composition_id, text_of_comp)
+            rewrite_file(composition_id, text_of_comp, session["user_id"])
             update_composition_edit_date(composition_id)
     return render_template("composition.html",
                            composition=get_composition(composition_id, session.get("user_id")),
@@ -384,7 +384,7 @@ def user_search():
 @is_creator
 def collection_adding():
     if request.method == 'POST':
-        poems_to_add = [map(int, request.form.getlist("choosed_poems"))]
+        poems_to_add = list(map(int, request.form.getlist("choosed_poems")))
         if len(poems_to_add) < 15:
             print("Выбрано слишком мало стихов! Нужно не меньше 15!")
             flash("Выбрано слишком мало стихов! Нужно не меньше 15!")
@@ -407,12 +407,27 @@ def collection_adding():
                 print("Какой-то из стихов удален или имеет статус Приватный!")
                 flash("Какой-то из стихов удален или имеет статус Приватный!")
                 return redirect(request.referrer)
+            return redirect(url_for("profile"))
     else:
         poems = dict()
         for poem in get_creator_poem(session["user_id"], session["user_id"]):
             if poem.modifier == "Public":
                 poems[str(poem.id)] = poem.name
         return render_template("collection_adding.html", poems=json.dumps(poems))
+
+
+# Перейти на страничку с
+@app.route('/collection/<int:collection_id>', methods=['GET', 'POST'])
+def collection_page(collection_id):
+    coll, poems = get_collection(collection_id, session.get("user_id"))
+    if not coll:
+        return render_template('/errors/404.html'), 404
+    if request.method == "POST":
+        if coll.creator_id == session["user_id"]:
+            pass
+    return render_template("collection.html",
+                           collection=coll,
+                           poems=poems)
 
 
 # Написать сообщение пользователю по id
