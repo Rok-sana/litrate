@@ -5,6 +5,7 @@ from db_queries.get_queries import get_collection_by_id, get_collection_poems, g
                                    get_all_collections_query
 from db_queries.delete_queries import delete_poem_collection, delete_collection
 
+
 def add_collection(collection_name, creator_id, poem_ids_list):
     collection_id = find_minimum_unused_collection_id()
     now = datetime.datetime.now()

@@ -10,6 +10,22 @@ def get_composition_rating(composition_id):
     return int(database.execute_query(query)['rating'][0])
 
 
+def get_prose(prose_id, curr_user_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Proses " \
+            "WHERE prose_id={0};".format(prose_id)
+    res = database.execute_query(query)
+    prose = dict()
+    if res:
+        for k in res:
+            prose[k] = res[k][0]
+        print(prose)
+        if prose["creator_id"] != curr_user_id and prose["status"] == "Private":
+            return dict()
+    return prose
+
+
 # Жанры прозаических произведений
 def get_prose_types(prose_id=None):
     if prose_id:
@@ -83,6 +99,38 @@ def find_minimum_unused_user_id():
             "SELECT 1 " \
             "FROM DUAL " \
             "WHERE NOT EXISTS (SELECT * FROM Users WHERE user_id = 1) " \
+            ") AS subquery;"
+    return database.execute_query(query, False)['unused'][0]
+
+
+# Поиск минимального натурального неиспользованного идентификатора
+def find_minimum_unused_sent_collection_offer():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT min(unused) AS unused " \
+            "FROM ( " \
+            "SELECT MIN(t1.offer_id)+1 as unused " \
+            "FROM Sent_Collections AS t1 " \
+            "WHERE NOT EXISTS (SELECT * FROM Sent_Collections AS t2 WHERE t2.offer_id = t1.offer_id+1) " \
+            "UNION " \
+            "SELECT 1 " \
+            "FROM DUAL " \
+            "WHERE NOT EXISTS (SELECT * FROM Sent_Collections WHERE offer_id = 1) " \
+            ") AS subquery;"
+    return database.execute_query(query, False)['unused'][0]
+
+
+# Поиск минимального натурального неиспользованного идентификатора
+def find_minimum_unused_sent_prose_offer():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT min(unused) AS unused " \
+            "FROM ( " \
+            "SELECT MIN(t1.offer_id)+1 as unused " \
+            "FROM Sent_Proses AS t1 " \
+            "WHERE NOT EXISTS (SELECT * FROM Sent_Proses AS t2 WHERE t2.offer_id = t1.offer_id+1) " \
+            "UNION " \
+            "SELECT 1 " \
+            "FROM DUAL " \
+            "WHERE NOT EXISTS (SELECT * FROM Sent_Proses WHERE offer_id = 1) " \
             ") AS subquery;"
     return database.execute_query(query, False)['unused'][0]
 
@@ -161,3 +209,28 @@ def get_creator_collections_by_creator_id(creator_id):
                 colls[i][k] = res[k][i]
     return colls
 
+
+def find_collection_to_publisher(collection_id, publisher_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Sent_Collections " \
+            "WHERE collection_id={0} AND publisher_id={1};".format(collection_id, publisher_id)
+    res = database.execute_query(query)
+    offer = []
+    if res:
+        for k in res:
+            offer[k] = res[k][0]
+    return offer
+
+
+def find_prose_to_publisher(prose_id, publisher_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Sent_Proses " \
+            "WHERE prose_id={0} AND publisher_id={1};".format(prose_id, publisher_id)
+    res = database.execute_query(query)
+    offer = []
+    if res:
+        for k in res:
+            offer[k] = res[k][0]
+    return offer

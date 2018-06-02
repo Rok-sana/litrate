@@ -7,6 +7,7 @@ from db_queries.get_queries import *
 import db_queries.delete_queries
 from db_queries.composition_work import *
 from db_queries.collection_work import *
+from db_queries.publisher_work import *
 from db_queries.update_queries import update_user_info, update_composition_edit_date
 from db_queries.signingup import signup_user
 from passlib.hash import sha256_crypt
@@ -170,7 +171,11 @@ def user_profile(user_id):
                                poem_types=poem_types, prose_types=prose_types, types=all_types,
                                user=user, collections=collections)
     elif user["user_type"] == USER_TYPES.PUBLISHER:
-        return render_template("user_publisher_profile.html", user=user)
+        send_collections = get_sent_collections_to_publisher(session["user_id"], session["user_id"])
+        send_proses = get_sent_proses_to_publisher(session["user_id"], session["user_id"])
+        print(send_collections)
+        return render_template("user_publisher_profile.html", user=user, send_collections=send_collections,
+                               send_proses=send_proses)
     else:
         return render_template("user_moderator_profile.html", user=user)
 
@@ -411,6 +416,7 @@ def collection_adding():
             if valid_poems:
                 add_collection(request.form.getlist("collection_name")[0],
                                session["user_id"], poems_to_add)
+                flash("Сборник был успешно добавлен!")
             else:
                 flash("Какой-то из стихов удален или имеет статус Приватный!")
                 return redirect(request.referrer)
@@ -468,11 +474,66 @@ def write_message(user_id):
 
 # Получить аватар пользователя
 @app.route('/data/user_<int:user_id>/avatar')
-@is_logged_in
 def get_avatar(user_id):
     if os.path.exists('data/user_' + str(user_id) + "/avatar"):
         return send_from_directory('data/user_' + str(user_id), "avatar")
     return send_from_directory('static/images', "temp.jpg")
+
+
+#
+@app.route('/send_collection/publisher=<int:publisher_id>&collection=<int:collection_id>', methods=['GET', 'POST'])
+def send_collection(publisher_id, collection_id):
+    user = find_user_by_id(publisher_id)
+    if not user:
+        flash("no user with this id")
+        return redirect(request.referrer)
+    if user["user_type"] == USER_TYPES.PUBLISHER:
+        if session["user_type"] == USER_TYPES.CREATOR:
+            coll = get_collection(collection_id, session["user_id"])
+            if coll[1]:
+                print(coll)
+                if coll[0]["creator_id"] == session["user_id"]:
+                    if send_collection_to_publisher(collection_id, publisher_id):
+                        flash("Success")
+                    else:
+                        flash("Collection was send earlier")
+                else:
+                    flash("You have no permission to sent this collection to publisher")
+            else:
+                flash("No collection with this id")
+        else:
+            flash("wrong operation")
+    else:
+        flash("wrong type")
+    return redirect(request.referrer)
+
+
+#
+@app.route('/send_prose/publisher=<int:publisher_id>&prose=<int:prose_id>', methods=['GET', 'POST'])
+def send_prose(publisher_id, prose_id):
+    user = find_user_by_id(publisher_id)
+    if not user:
+        flash("no user with this id")
+        return redirect(request.referrer)
+    if user["user_type"] == USER_TYPES.PUBLISHER:
+        if session["user_type"] == USER_TYPES.CREATOR:
+            prose = get_composition(prose_id, session["user_id"])
+            print(prose)
+            if prose and prose.composition_type == "Prose":
+                if prose.creator_id == session["user_id"]:
+                    if send_prose_to_publisher(prose_id, publisher_id):
+                        flash("Success")
+                    else:
+                        flash("Prose was send earlier")
+                else:
+                    flash("You have no permission to sent this prose to publisher")
+            else:
+                flash("No prose with this id found")
+        else:
+            flash("wrong operation")
+    else:
+        flash("wrong user type")
+    return redirect(request.referrer)
 
 
 # Получить какой-нибудь статический файл (js, css, ico...)

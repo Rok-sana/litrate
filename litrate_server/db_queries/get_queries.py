@@ -282,4 +282,27 @@ def poem_collections_id(poem_id):
             colls.append(coll_id)
     return colls
 
+
+def get_collections_id_to_publisher(publisher_id, status):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT collection_id " \
+            "FROM Sent_Collections " \
+            "WHERE publisher_id={0} AND status=\'{1}\';".format(publisher_id, status)
+    res = database.execute_query(query)
+    if res:
+        return res["collection_id"]
+    return res
+
+
+def get_proses_id_to_publisher(publisher_id, status):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT prose_id " \
+            "FROM Sent_Proses " \
+            "WHERE publisher_id={0} AND status=\'{1}\';".format(publisher_id, status)
+    res = database.execute_query(query)
+    if res:
+        return res["prose_id"]
+    return res
+
+
 #print(get_composition_text(1))

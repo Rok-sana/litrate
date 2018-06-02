@@ -119,3 +119,20 @@ def insert_poem_collection(collection_id, poem_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
+
+def insert_collection_to_publisher(offer_id, collection_id, publisher_id, posting_date):
+    query = "INSERT INTO Sent_Collections(offer_id, collection_id, publisher_id, " \
+            "post_date, status) " \
+            "VALUES({0}, {1}, {2}, \'{3}\', \'{4}\'); ".format(offer_id, collection_id, publisher_id,
+                                                               posting_date, "Sent")
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def insert_prose_to_publisher(offer_id, prose_id, publisher_id, posting_date):
+    query = "INSERT INTO Sent_Proses(offer_id, prose_id, publisher_id, " \
+            "post_date, status) " \
+            "VALUES({0}, {1}, {2}, \'{3}\', \'{4}\'); ".format(offer_id, prose_id, publisher_id,
+                                                               posting_date, "Sent")
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)

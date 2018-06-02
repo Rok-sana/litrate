@@ -1,13 +1,13 @@
 {% extends "user_profile.html" %}
 {% block type_profile %}
+
+{% from "includes/_formhelper.html" import render_collection, render_composition %}
 <div style="float: right; ">
     <h1> <span style="float: right; margin-right: 20px;"> Издатель [Рейтинг: {{session.user.rating}}]</span></h1>
 </div>
 
 <div style="margin-bottom: 60px;">
 </div>
-
-
     <div class="profile_info">
         <div class="wrapper_o">
 
@@ -15,23 +15,38 @@
 	<div  id="horizontalTab">
             <ul>
                 <li><a href="#tab-1">Профиль</a></li>
-                <li><a href="#tab-2">Поэзия</a></li>
+                <li><a href="#tab-2">Сборники</a></li>
                 <li><a href="#tab-3">Проза</a></li>
-                <li><a href="#tab-4">Сборники</a></li>
+                {% if session.signedin and session.user_id == user.user_id %}
+
+                    <li><a href="#tab-4">Присланные сборники</a></li>
+                    <li><a href="#tab-5">Присланная проза</a></li>
+                {% endif %}
             </ul>
 
             <div id="tab-1">
                 <p>Информация о себе</p>
             </div>
             <div id="tab-2">
-                <p>Тут проза</p>
+                <p>Изданные сборники</p>
             </div>
             <div id="tab-3">
-                <p>Тут поэзия</p>
+                <p>Изданная проза</p>
             </div>
+            {% if session.signedin and session.user_id == user.user_id %}
             <div id="tab-4">
-                <p>Тут сборники</p>
+                <p>Присланные сборники</p>
+                {% for coll in send_collections %}
+                    {{ render_collection(coll) }}
+                {% endfor %}
             </div>
+            <div id="tab-5">
+                <p>Присланная проза</p>
+                {% for prose in send_proses %}
+                    {{ render_composition(prose) }}
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
     </div>
 
