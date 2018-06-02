@@ -52,18 +52,32 @@
         <hr>
     </span>
 </div>
+{% endmacro %}
 
-    <!--<a href={{url_for('composition_page',composition_id=comp.id)}} >
-        <p>Type: {{ comp.composition_type }}</p>
-    </a>!-->
+
+{% macro render_composition_send(publisher_id, comp) %}
+
+<div style="">
+
+    <span style="font-size: 18px;">
+        <a href={{url_for('composition_page',composition_id=comp.id)}} >
+        {{ comp.name }} [id:{{ comp.id }}]</a>
+
+
+        <span style="float: right;">
+        </span>
+        <span style="float: right;">(Рейтинг: {{ comp.rating }}) <a href={{url_for('send_prose',publisher_id=publisher_id,prose_id=comp.id)}}> Отправить </a> </span>
+        <hr>
+    </span>
+</div>
 {% endmacro %}
 
 {% macro render_composition_for_page(comp, text) %}
-<div id="pagebody" style="height: 2000px;">
+<div  id="pagebody" style="height: 3200px;">
     <div align="center">
         <h1>
             {% if session.signedin and session.user_id == comp.creator_id %}
-            <textarea name="comp_name" style="text-align:  center; min-width: 100px; max-width: 270px; min-height: 30px; max-height: 50px; font-size:28px; overflow-x: hidden; background: #f6f6f6; border-style: none; " >{{ comp.name }}</textarea>
+            <textarea name="comp_name" style="text-align:  center; min-width: 100%; max-width: 100%; min-height: 30px; max-height: 50px; font-size:28px; overflow-x: hidden; background: #f6f6f6; border-style: none; " >{{ comp.name }}</textarea>
             {% else %}
             {{ comp.name }}
             {% endif %}
@@ -89,10 +103,10 @@
                 <form  action="" method="post">
                     <p hidden>comp.composition_id</p>
                     <p><input type="submit" name="submit" value="Cохранить"></p>
-                    <textarea id="content_text" style="width: 100%; max-width: 100%; min-height: 1500px; max-height: 1900px; padding-right: 5px; overflow-x: hidden;  text-align: center; font-size:14px;" cols="100" name="text">{{text}}</textarea>
+                    <textarea class="content_col" id="content_text" style="width: 100%; max-width: 100%; min-height: 2750px; max-height: 2750px; padding-right: 5px; overflow-x: hidden;  text-align: center; font-size:14px;" cols="100" name="text">{{text}}</textarea>
                 </form>
             {% else %}
-               <textarea id="content_text" readonly style="width: 100%; min-height:1500px; max-width: 100%; max-height: 1900px; text-align: center; font-size:14px; overflow-x: hidden; background: #f6f6f6; border-style: none; border-radius: 8px 0 0 0; padding: 8px 8px 8px 10px;" cols="100" name="text">{{text}}</textarea>
+               <textarea class="content_col" id="content_text" readonly style="width: 100%; min-height:2750px; max-width: 100%; max-height: 2750px; text-align: center; font-size:14px; overflow-x: hidden; background: #f6f6f6; border-style: none; border-radius: 8px 0 0 0; padding: 8px 8px 8px 10px;" cols="100" name="text">{{text}}</textarea>
             {% endif %}
         </span>
     </div>
@@ -111,25 +125,28 @@
     </a>!-->
 {% endmacro %}
 
-{% macro render_poem_name(poem) %}
-    {{ poem.name }}
+{% macro render_poem_name(poem, poem_id) %}
+
+<div class="mark_col"> <a onclick="make_visible({{poem_id}})">{{ poem.name }} </a></div>
+
+
 {% endmacro %}
 
 
 {% macro render_composition_for_collection_page(poem, poem_id) %}
-<div id="pagebody_{{poem_id}}" style="height: 2000px;">
+<div class="content_col" id="content{{poem_id}}" name="text" style="height: 3200px;">
     <div align="center">
         <h2>
-            <a href={{url_for('composition_page',composition_id=poem.id)}}>
+            <a href={{url_for('composition_page',composition_id=poem.id)}} id="content_name">
                 {{ poem.name }}
             </a>
             <br>
         </h2>
         <br>
     </div>
-    <div align="center">
+    <div name="{{poem_id}}" align="center">
         <span>
-               <textarea id="content_text" readonly style="width: 100%; min-height:1500px; max-width: 100%; max-height: 1900px; text-align: center; font-size:14px; overflow-x: hidden; background: #f6f6f6; border-style: none; border-radius: 8px 0 0 0; padding: 8px 8px 8px 10px;" cols="100" name="text">{{poem.text}}</textarea>
+               <textarea class="content_col" id="content_text{{poem_id}}" readonly style="width: 100%; min-height:2750px; max-width: 100%; max-height: 2750px; text-align: center; font-size:14px; overflow-x: hidden; background: #f6f6f6; border-style: none; border-radius: 8px 0 0 0; padding: 8px 8px 8px 10px;" cols="100" name="text">{{poem.text}}</textarea>
         </span>
     </div>
 </div>
@@ -159,6 +176,52 @@
             <a href={{url_for('collection_page',collection_id=coll.collection_id)}} >
                 {{ coll.collection_name }} [id:{{ coll.collection_id }}]
             </a>
+            <span style="float: right;">(Рейтинг: {{ coll.rating }})&nbsp;</span>
+            <hr>
+        </span>
+    </div>
+{% endmacro %}
+
+
+{% macro render_collection_send(publisher_id, coll) %}
+    <div style="">
+        <span style="font-size: 18px;">
+            <a href={{url_for('collection_page',collection_id=coll.collection_id)}} >
+                {{ coll.collection_name }} [id:{{ coll.collection_id }}]
+            </a>
+            <span style="float: right;">(Рейтинг: {{ coll.rating }})&nbsp; <a href={{url_for('send_collection',publisher_id=publisher_id,collection_id=coll.collection_id)}}> Отправить </a></span>
+            <hr>
+        </span>
+    </div>
+{% endmacro %}
+
+{% macro render_sent_prose(prose) %}
+<div style="">
+    <span>
+        <a href={{url_for('composition_page',composition_id=prose.id)}} >
+            {{ prose.name }} [id:{{ prose.id }}]
+        </a>
+        <span style="float: right;">
+            (<a href={{url_for('accept_prose',prose_id=prose.id)}}>Принять</a> |
+            <a href={{url_for('refuse_prose',prose_id=prose.id)}} >Отклонить</a>)
+        </span>
+        <span style="float: right;">(Рейтинг: {{ prose.rating }})&nbsp;</span>
+        <hr>
+    </span>
+</div>
+{% endmacro %}
+
+{% macro render_sent_collection(coll) %}
+    <div style="">
+
+        <span>
+            <a href={{url_for('collection_page',collection_id=coll.collection_id)}} >
+                {{ coll.collection_name }} [id:{{ coll.collection_id }}]
+            </a>
+            <span style="float: right;">
+                (<a href={{url_for('accept_collection',collection_id=coll.collection_id)}} >Принять</a> |
+                <a href={{url_for('refuse_collection',collection_id=coll.collection_id)}} >Отклонить</a>)
+            </span>
             <span style="float: right;">(Рейтинг: {{ coll.rating }})&nbsp;</span>
             <hr>
         </span>

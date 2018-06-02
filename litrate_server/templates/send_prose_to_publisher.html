@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+
+{% from "includes/_formhelper.html" import render_field %}
+{% from "includes/_formhelper.html" import render_composition_send %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.matchHeight.js"></script>
+    <script src="/static/jquery.selectric.min.js"></script>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery.selectric.js"></script>
+    <script src="/static/menu.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock %}
+
+    {% block style %}
+    <style>
+    input {
+        width: 300px;
+        font-size: 13px;
+        padding: 6px 0 4px 10px;
+        border: 1px solid #cecece;
+        background: #F6F6f6;
+        border-radius: 8px;
+    }
+    input {
+        padding-bottom: 5px\0;
+    }
+
+    textarea {
+        /* = Убираем скролл */
+        overflow: auto;
+
+        /* = Убираем увеличение */
+        width: 385px;
+        height: 100px;
+        max-height: 600px;
+
+        /* = Добавим фон, рамку, отступ*/
+        background: #f6f6f6;
+        border: 1px solid #cecece;
+        border-radius: 8px 0 0 0;
+        padding: 8px 0 8px 10px;
+    }
+
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="pbody">
+        <p style="margin: 50px auto -50px auto; padding-right: 50px; width: 300px; font-size: 24px">Отправка сборника </p>
+        <form method="POST" action="" enctype="multipart/form-data">
+           <div style="font-size: 18px; margin: 50px auto; width: 670px;">
+                <div >
+
+                    {% for comp in proses %}
+                    {{render_composition_send(publisher_id, comp)}}
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  $(document).ready(function() {
+
+  // Добавляем значения
+  var val_data = JSON.parse('{{poems|safe}}');
+  /*{
+    "val1": "вестерн",
+    "val2": "детектив",
+    "val3": "исторический",
+    "val4": "любовный роман",
+    "val5": "приключения",
+    "val6": "психологический",
+    "val7": "триллер",
+    "val8": "ужасы",
+    "val9": "фантастика",
+    "val10": "фэнтези",
+    "val11": "юмор"
+  };*/
+
+  var input = $('[name="other1"]');
+
+  // Создаем общий блок с классом
+  var val_cont = document.createElement('div');
+  $(val_cont).addClass("dropdown_c");
+
+  // Создаем кнопку открытия списка и поле для записи значений
+  $(val_cont).append("<a href='javascript:void(0);'><span class='open'>Выбрать стихи</span><span class='value'></span></a>");
+
+  // Создаем выпдающий список и вкладываем в общий блок
+  var ul = document.createElement('ul');
+
+  for (elem in val_data) {
+    $(ul).append("<li><input type='checkbox'  name='choosed_poems' value='" + elem + "' id='" + elem + "'><label for='" + elem + "'>" + val_data[elem] + "</label></li>");
+  }
+  $(ul).appendTo(val_cont);
+  $(ul).hide();
+
+  // Размещаем общий блок после нужного input-а
+  $(input).after(val_cont);
+
+  // Скрываем/открываем выпадающий список
+  $(".dropdown_c a").on('click', function() {
+    $(".dropdown_c ul").slideToggle('fast');
+  });
+
+  $('.dropdown_c ul input[type="checkbox"]').on('click', function() {
+    var inputValue, innerObj = {};
+
+    /* проверяем value текстового инпута. это необходимо для очистки
+       от лишних запятых при удалении всех элементов и накликивания
+       чекбоксов заново. если эту проверку не делать, то пустой инпут
+       добавляется как пустой элемент массива */
+    if(input.val()) {
+      /* если инпут не пустой, то закидываем данные из него в массив
+         по разделителю ", " */
+      inputValue = input.val().split(', ')
+    } else {
+      inputValue = []; // если пустой - присваиваем переменно пустой массив
+    };
+
+    /* промежуточный объект нам необходим для составления массива
+       только с уникальными элементами */
+    inputValue.forEach(function(item) {
+      innerObj[item] = true;
+    });
+
+    /* если чекбокс активен — добавляем его value как ключ к объекту,
+       а если нет — удаляем этот ключ */
+    if ($(this).is(':checked')) {
+      innerObj[$(this).val()] = true;
+    } else {
+      delete innerObj[$(this).val()];
+    }
+
+    inputValue = Object.keys(innerObj); // преобразуем ключи объекта в массив
+    input.val(inputValue.join(', ')); // преобразуем массив в строку, разделяя элементы ", " и записываем в value инпута
+
+  });
+
+  // новая функция
+
+  $('.check').click(function() {
+    var valuesArray = input.val().split(', '), // собираем данные из инпута в массив, разделитель ", "
+        $checkboxes = $(ul).find('li input').removeClass('protected'); // удаляем со всех инпутов класс
+
+    $.each(valuesArray, function(index, value) { // проходимся циклом по собранному массиву из инпутов
+      $checkboxes.each(function() { // для каждого значение запускаем цикл по всем чекбоксам
+        if ($(this).val() === value) { // и если value инпута равно элементу из собранного массива
+          $(this).prop('checked', true).addClass('protected'); // "чекаем" чекбокс и добавляем ему класс, чтобы на следующем условии чекбокс не стал обратно не выделенным
+
+          return true; // уходим на следующую итерацию
+        } else if ( !$(this).hasClass('protected') ) { // если у чекбокса нет класса protected
+          $(this).prop('checked', false); // то снимаем выделение с чекбокса
+        }
+      });
+    });
+  });
+});
+
+</script>
+{% endblock %}

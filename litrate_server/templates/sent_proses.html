@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+
+{% from "includes/_formhelper.html" import render_composition %}
+{% from "includes/_formhelper.html" import render_sent_collection, render_sent_prose, render_collection, render_composition %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" >
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome.css" >
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.matchHeight.js"></script>
+    <script src="/static/jquery.selectric.min.js"></script>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery.selectric.js"></script>
+    <script src="/static/menu.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/ResizeSensor.js"></script>
+        <script type="text/javascript" src="/static/theia-sticky-sidebar.js"></script>
+        <script type="text/javascript" src="/static/test.js"></script>
+{% endblock %}
+
+{% block style %}
+    <style>
+    input {
+        width: 300px;
+        font-size: 13px;
+        padding: 6px 0 4px 10px;
+        border: 1px solid #cecece;
+        background: #F6F6f6;
+        border-radius: 8px;
+    }
+    input {
+        padding-bottom: 5px\0;
+    }
+
+
+
+    textarea {
+        /* = Убираем скролл */
+        overflow: auto;
+
+        /* = Убираем увеличение */
+        width: 385px;
+        height: 100px;
+        max-height: 600px;
+
+        /* = Добавим фон, рамку, отступ*/
+        background: #f6f6f6;
+        border: 1px solid #cecece;
+        border-radius: 8px 0 0 0;
+        padding: 8px 0 8px 10px;
+}
+      .leftSidebar {
+				width: *;
+				float: right;
+				padding: 0 30px 0 0;
+				position: relative;
+	  }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div style="height: 3000px;" class="pbody">
+
+        <div style="width: 300px; margin: 10px auto; font-size: 28px">
+            <p>Поиск по названию</p>
+        </div>
+        <div class="contentsearch">
+                {% for prose in sent_proses %}
+                    {{ render_sent_prose(prose) }}
+                {% endfor %}
+            <br>
+            <br>
+        </div>
+
+            <div class="leftSidebar">
+				<div class="theiaStickySidebar" >
+					<div class="box">
+                        <form method="post">
+                            <div style="margin: 5px 10px; width: 300px; position: relative;">
+                                    <p><input id="search_input" name="search_string" placeholder="Поиск..." type="text"></p>
+                                    <div style="float: left; margin-top: 5px;">
+                                        <input style="width: 145px; height: 40px; margin-right: 10px;" onclick="document.location.href = '/search/compositions' " type="button" value="Очистить">
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        <input style="width: 145px; height: 40px;" id="search_submit" onclick="" type="submit" value="Поиск">
+                                    </div>
+
+                                </div>
+
+                            <div style="width: 300px; margin: 5px 10px; position: relative;">
+
+                                <div style="height: 40px;">
+                                       <select name="sort_type">
+                                          <option value="">Выберите как сортировать</option>
+                                          <option value="by_date_update">По дате обновления</option>
+                                          <option value="by_rating">По рейтингу</option>
+                                          <option value="by_watch">По просмотрах</option>
+                                        </select>
+                                 </div>
+                            </div>
+
+
+                         </form>
+                    </div>
+				</div>
+			</div>
+
+
+
+
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="/static/jquery.selectric.js"></script>
+    <script>
+    //Выбор тип
+        function type(){
+            var type_sel = document.getElementById("type_select").options.selectedIndex;
+            console.log("here");
+            if(type_sel == 2){
+                  document.getElementById(prose_check).style.display = 'none';
+                  console.log("done");
+            }
+        }
+
+      $(function(){
+        $('select, .select').selectric();
+      });
+
+		//Панель збоку
+				$(document).ready(function() {
+				$('.leftSidebar, .rightSidebar')
+					.theiaStickySidebar({
+						additionalMarginTop: 60
+
+					});
+
+			});
+
+    //при нажатии enter поиск
+    $("#search_input").keyup(function(event){
+        if(event.keyCode == 13){
+             document.getElementById("search_submit").click();
+        }
+    });
+    </script>
+{% endblock %}

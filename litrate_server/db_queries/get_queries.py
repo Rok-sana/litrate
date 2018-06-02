@@ -4,7 +4,7 @@ from db_queries.simple_get import *
 from misc.configs import USER_TYPES
 import os
 from flask import session
-
+import codecs
 
 # Поиск пользователя по почте
 def find_user_by_email(email):
@@ -234,7 +234,7 @@ def get_composition_text(composition_id, user_id):
     path = "data/user_" + str(comp.creator_id) + "/" + comp.composition_type.lower() + "/" + str(comp.id)
     text = ""
     try:
-        with open(path, "r") as f:
+        with codecs.open(path, "r", encoding="utf8") as f:
             for line in f:
                 text += line
     except UnicodeDecodeError as e:

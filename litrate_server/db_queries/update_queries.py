@@ -77,3 +77,17 @@ def update_user_name(name, surname, user_id):
             "WHERE user_id={2};".format(name, surname, user_id)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
+
+
+def update_sent_prose_status(offer_id, status):
+    query = "UPDATE Sent_Proses SET status=\'{0}\' " \
+            "WHERE offer_id={1};".format(status, offer_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def update_sent_collection_status(offer_id, status):
+    query = "UPDATE Sent_Collections SET status=\'{0}\' " \
+            "WHERE offer_id={1};".format(status, offer_id)
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)

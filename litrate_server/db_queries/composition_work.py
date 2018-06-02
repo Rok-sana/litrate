@@ -1,5 +1,6 @@
 from db_queries.get_queries import *
 from db_queries.update_queries import update_composition_modifier
+import codecs
 
 
 def rewrite_file(composition_id, text, curr_user_id):
@@ -8,7 +9,7 @@ def rewrite_file(composition_id, text, curr_user_id):
         return
     path = "data/user_" + str(comp.creator_id) + "/" + \
            comp.composition_type.lower() + "/" + str(composition_id)
-    with open(path, "w") as f:
+    with codecs.open(path, "w", encoding="utf8") as f:
         f.write(text)
 
 

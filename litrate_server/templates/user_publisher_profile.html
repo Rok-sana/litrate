@@ -1,7 +1,7 @@
 {% extends "user_profile.html" %}
 {% block type_profile %}
 
-{% from "includes/_formhelper.html" import render_collection, render_composition %}
+{% from "includes/_formhelper.html" import render_sent_collection, render_sent_prose, render_collection, render_composition %}
 <div style="float: right; ">
     <h1> <span style="float: right; margin-right: 20px;"> Издатель [Рейтинг: {{session.user.rating}}]</span></h1>
 </div>
@@ -25,25 +25,31 @@
             </ul>
 
             <div id="tab-1">
-                <p>Информация о себе</p>
+                <p>Информация о издательстве</p>
             </div>
             <div id="tab-2">
                 <p>Изданные сборники</p>
+                {% for coll in accepted_collections %}
+                    {{ render_collection(coll) }}
+                {% endfor %}
             </div>
             <div id="tab-3">
                 <p>Изданная проза</p>
+                {% for prose in accepted_proses %}
+                    {{ render_composition(prose) }}
+                {% endfor %}
             </div>
             {% if session.signedin and session.user_id == user.user_id %}
             <div id="tab-4">
                 <p>Присланные сборники</p>
-                {% for coll in send_collections %}
-                    {{ render_collection(coll) }}
+                {% for coll in sent_collections %}
+                    {{ render_sent_collection(coll) }}
                 {% endfor %}
             </div>
             <div id="tab-5">
                 <p>Присланная проза</p>
-                {% for prose in send_proses %}
-                    {{ render_composition(prose) }}
+                {% for prose in sent_proses %}
+                    {{ render_sent_prose(prose) }}
                 {% endfor %}
             </div>
             {% endif %}

@@ -16,7 +16,7 @@
     <div  class="pbody" style="float:left; margin: 0 0 0 15%;">
         <div align="center">
             <h1>
-                {{ collection.collection_name }}
+
                 <br>
                 <span style="font-size: 24px">(Рейтинг: {{ collection.rating }})</span>
             </h1>
@@ -44,13 +44,55 @@
         </div>
     </div>
 
+    <div class="right_p" style="width: 12.5%; overflow: auto; position: fixed; height: 80%; border-radius: 0.4vw; background: rgb(245,245,245); float: right; margin: 70px 86.25%;">
+        <p style="font-size: 1.4vw; text-overflow:ellipsis; overflow: hidden; text-align: center;" >{{ collection.collection_name }}</p>
+        <hr style="height: 0.1vw">
+        {% for poem in poems %}
+            {{ render_poem_name(poems[loop.index - 1], loop.index - 1) }}
+        {% endfor %}
+    </div>
+
+<style>
+    .mark_col{
+        width: 90%;
+        font-size: 1vw;
+        text-overflow:ellipsis;
+        overflow: hidden;
+        margin: 0.5vw 10%;
+        text-align: left;
+    }
+    .mark_col a{
+        color: rgb(90,90,90);
+    }
+    .mark_col a:hover{
+        color: black;
+        text-decoration: underline;
+    }
+</style>
+
 <script>
+    make_visible(0);
+    function make_visible(poem_id) {
+        {% for poem in poems %}
+        var el = document.getElementById('content' + '{{loop.index - 1}}');
+
+        el.style.display = 'none';
+        {% endfor %}
+
+         el = document.getElementById('content' + poem_id);
+        el.style.display = 'block';
+    }
+
     function Font(element,step) {
+    {% for poem in poems %}
         step = parseInt(step,10);
-        var el = document.getElementById(element);
+        var el = document.getElementById(element + '{{loop.index - 1}}');
         var curFont = parseInt(el.style.fontSize,10);
         var curHeight = parseInt(el.style.height,10);
         el.style.fontSize = (curFont+step) + 'px';
+
+    {% endfor %}
+
     }
 
     function FontAlign(element,step) {

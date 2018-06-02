@@ -216,7 +216,7 @@ def find_collection_to_publisher(collection_id, publisher_id):
             "FROM Sent_Collections " \
             "WHERE collection_id={0} AND publisher_id={1};".format(collection_id, publisher_id)
     res = database.execute_query(query)
-    offer = []
+    offer = dict()
     if res:
         for k in res:
             offer[k] = res[k][0]
@@ -229,7 +229,7 @@ def find_prose_to_publisher(prose_id, publisher_id):
             "FROM Sent_Proses " \
             "WHERE prose_id={0} AND publisher_id={1};".format(prose_id, publisher_id)
     res = database.execute_query(query)
-    offer = []
+    offer = dict()
     if res:
         for k in res:
             offer[k] = res[k][0]

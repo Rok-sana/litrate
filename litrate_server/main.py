@@ -171,11 +171,16 @@ def user_profile(user_id):
                                poem_types=poem_types, prose_types=prose_types, types=all_types,
                                user=user, collections=collections)
     elif user["user_type"] == USER_TYPES.PUBLISHER:
-        send_collections = get_sent_collections_to_publisher(session["user_id"], session["user_id"])
-        send_proses = get_sent_proses_to_publisher(session["user_id"], session["user_id"])
-        print(send_collections)
-        return render_template("user_publisher_profile.html", user=user, send_collections=send_collections,
-                               send_proses=send_proses)
+        sent_collections = get_collections_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
+        sent_proses = get_proses_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
+        accepted_collections = get_collections_to_publisher_by_status(session["user_id"], "Accepted",
+                                                                      session["user_id"])
+        accepted_proses = get_proses_to_publisher_by_status(session["user_id"], "Accepted", session["user_id"])
+
+        return render_template("user_publisher_profile.html", user=user, send_collections=sent_collections,
+                               accepted_collections=accepted_collections,
+                               sent_proses=sent_proses,
+                               accepted_proses=accepted_proses)
     else:
         return render_template("user_moderator_profile.html", user=user)
 
@@ -535,6 +540,107 @@ def send_prose(publisher_id, prose_id):
         flash("wrong user type")
     return redirect(request.referrer)
 
+
+@app.route('/send_collection_to_publisher/<int:publisher_id>', methods=['GET', 'POST'])
+@is_logged_in
+@is_creator
+def send_collection_page(publisher_id):
+    collections = get_creator_collections(session["user_id"], session["user_id"])
+    print(collections)
+    return render_template("send_collection_to_publisher.html", collections=collections, publisher_id=publisher_id)
+
+
+@app.route('/send_prose_to_publisher/<int:publisher_id>', methods=['GET', 'POST'])
+@is_logged_in
+@is_creator
+def send_prose_page(publisher_id):
+    proses = get_creator_prose(session["user_id"], session["user_id"])
+    return render_template("send_prose_to_publisher.html", proses=proses, publisher_id=publisher_id)
+
+
+@app.route('/accept_prose/<int:prose_id>', methods=['GET', 'POST'])
+@is_logged_in
+def accept_prose(prose_id):
+    if session["user"]["user_type"] == USER_TYPES.PUBLISHER:
+        prose = find_prose_to_publisher(prose_id, session["user_id"])
+        if prose["status"] == "Sent":
+            modify_sent_prose_status(prose["offer_id"], "Accepted")
+            flash("prose was accepted")
+            # !!! Sent message to user
+        else:
+            flash("wrong prose status")
+        print(prose)
+    else:
+        flash("wrong user type")
+    return redirect(request.referrer)
+
+
+@app.route('/refuse_prose/<int:prose_id>', methods=['GET', 'POST'])
+@is_logged_in
+def refuse_prose(prose_id):
+    if session["user"]["user_type"] == USER_TYPES.PUBLISHER:
+        prose = find_prose_to_publisher(prose_id, session["user_id"])
+        if prose["status"] == "Sent":
+            modify_sent_prose_status(prose["offer_id"], "Refused")
+            flash("prose was refused")
+            # !!! Sent message to user
+        else:
+            flash("wrong prose status")
+        print(prose)
+    else:
+        flash("wrong user type")
+    return redirect(request.referrer)
+
+
+@app.route('/accept_collection/<int:collection_id>', methods=['GET', 'POST'])
+@is_logged_in
+def accept_collection(collection_id):
+    if session["user"]["user_type"] == USER_TYPES.PUBLISHER:
+        coll = find_collection_to_publisher(collection_id, session["user_id"])
+        if coll["status"] == "Sent":
+            modify_sent_collection_status(coll["offer_id"], "Accepted")
+            flash("prose was accepted")
+            # !!! Sent message to user
+        else:
+            flash("wrong prose status")
+        print(coll)
+    else:
+        flash("wrong user type")
+    return redirect(request.referrer)
+
+
+@app.route('/refuse_collection/<int:collection_id>', methods=['GET', 'POST'])
+@is_logged_in
+def refuse_collection(collection_id):
+    if session["user"]["user_type"] == USER_TYPES.PUBLISHER:
+        coll = find_collection_to_publisher(collection_id, session["user_id"])
+        if coll["status"] == "Sent":
+            modify_sent_collection_status(coll["offer_id"], "Refused")
+            flash("prose was refused")
+            # !!! Sent message to user
+        else:
+            flash("wrong prose status")
+        print(coll)
+    else:
+        flash("wrong user type")
+    return redirect(request.referrer)
+
+
+
+@app.route('/sent_colletions', methods=['GET', 'POST'])
+@is_logged_in
+def sent_collections():
+    sent_collections = get_collections_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
+    sent_proses = get_proses_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
+    return render_template("sent_collections.html",sent_collections=sent_collections)
+
+
+@app.route('/sent_proses', methods=['GET', 'POST'])
+@is_logged_in
+def sent_proses():
+    sent_collections = get_collections_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
+    sent_proses = get_proses_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
+    return render_template("sent_proses.html",sent_proses=sent_proses)
 
 # Получить какой-нибудь статический файл (js, css, ico...)
 @app.route('/static/<path:path>')

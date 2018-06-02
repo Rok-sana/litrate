@@ -21,7 +21,11 @@
             {% if session.signedin and session.user_id == user.user_id %}
                 <a style="margin: 25px;" href={{url_for("edit_info")}}> Редактировать информацию </a>
             {% elif session.signedin %}
-                <a style="margin: 25px;" href={{url_for("write_message", user_id=user.user_id)}}> Написать сообщение </a>
+                {% if session.user.user_type == "Creator" and "Publisher" == user.user_type %}
+                <a style="margin: 25px;" href={{url_for("send_collection_page",publisher_id=user.user_id)}}> Отправить сборник </a><br/>
+                <a style="margin: 25px;" href={{url_for("send_prose_page",publisher_id=user.user_id)}}> Отправить прозу </a><br/>
+                {% endif %}
+                <a style="margin: 25px;" href={{url_for("write_message",user_id=user.user_id)}}> Написать сообщение </a>
             {% endif %}
         </div>
         <div style="float: left;">
@@ -36,9 +40,7 @@
         {% block type_profile %}
         {% endblock %}
     </div>
-    <div style="height: 800px;" class="pbody">
 
-    </div>
 
 
 {% endblock %}

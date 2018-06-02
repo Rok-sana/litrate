@@ -2,6 +2,7 @@
 
 <html lang="ru">
     <head>
+         <meta charset="utf-8">
             <link rel="stylesheet" type="text/css" href="/static/remodal.css">
             <link rel="stylesheet" type="text/css" href="/static/remodal-default-theme.css">
         {% block title %}
@@ -78,9 +79,15 @@
                     <div id="dd" class="wrapper-dropdown-5" tabindex="1"> {{session.user.user_name}} {{session.user.user_surname}}
                         <ul class="dropdown">
                             <li><a href={{url_for("profile")}}><i class="icon-user"></i>Профиль</a></li>
-                            <li><a href={{url_for("prose_adding")}}><i class="icon-book"></i>Новая проза</a></li>
-                            <li><a href={{url_for("poem_adding")}}><i class="icon-pencil"></i>Новая поэзия</a></li>
-                            <li><a href={{url_for("collection_adding")}}><i class="icon-th-list"></i>Новая сборка</a></li>
+                            {% if session.user.user_type == "Publisher"%}
+                                <li><a href={{url_for("sent_collections")}}><i class="icon-list"></i>Присланные сборки</a></li>
+                                <li><a href={{url_for("sent_proses")}}><i class="icon-th-list"></i>Присланная проза</a></li>
+                            {% endif %}
+                            {% if session.user.user_type == "Creator"%}
+                                <li><a href={{url_for("prose_adding")}}><i class="icon-book"></i>Новая проза</a></li>
+                                <li><a href={{url_for("poem_adding")}}><i class="icon-pencil"></i>Новая поэзия</a></li>
+                                <li><a href={{url_for("collection_adding")}}><i class="icon-th-list"></i>Новая сборка</a></li>
+                            {% endif %}
                             <li><a href="#"><i class="icon-envelope-alt"></i>Почта</a></li>
                             <li><a href="#"><i class="icon-cog"></i>Настройки</a></li>
                             <li><a href={{url_for("signout")}}><i class="icon-signout"></i>Выйти</a></li>
