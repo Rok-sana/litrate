@@ -162,6 +162,26 @@ def find_compositions(name, user_id, sort="by_rating", comp_type="All"):
     return comp
 
 
+def find_collections(name, user_id, sort="by_rating"):
+    from db_queries.collection_work import get_collection
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Collections " \
+            "WHERE collection_name LIKE \'%{0}%\';".format(name)
+    res = database.execute_query(query)
+    colls = []
+    if res:
+        for i in range(len(res["collection_id"])):
+            colls.append(get_collection(res["collection_id"][i], user_id)[0])
+        if sort == "by_rating":
+            colls.sort(key=lambda user: -user["rating"])
+        if sort == "by_date_update":
+            colls.sort(key=lambda user: user["post_date"])
+        if sort == "by_watch": #!!!!!
+            colls.sort(key=lambda user: user["rating"])
+    return colls
+
+
 def get_like_to_composition_from_user(composition_id, user_id):
     database = MySqlDatabase(DATABASE_CONFIG)
     query = "SELECT mark " \

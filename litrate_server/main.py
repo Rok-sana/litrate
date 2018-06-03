@@ -15,6 +15,7 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 from werkzeug.datastructures import CombinedMultiDict
 from db_queries.file_adding import *
+from poem_size.poem_size_definer import define_poem_size
 app = Flask(__name__)
 
 
@@ -314,7 +315,6 @@ def like_composition(composition_id):
             insert_compositions_marks(composition_id, session["user_id"], 1)
 
     return redirect(request.referrer)
-    return redirect(url_for('composition_page',composition_id=composition_id))
 
 
 # Поставить произведению дизлайк
@@ -330,7 +330,6 @@ def dislike_composition(composition_id):
             insert_compositions_marks(composition_id, session["user_id"], -1)
 
     return redirect(request.referrer)
-    return redirect(url_for('composition_page',composition_id=composition_id))
 
 
 # Удаление произведения
@@ -470,7 +469,14 @@ def collection_deleting(collection_id):
 # Перейти на страничку с
 @app.route('/collection_search', methods=['GET', 'POST'])
 def collection_search():
-    return render_template("collection_search.html", collections=get_all_collections(session["user_id"]))
+    if request.method == 'POST':
+        search_string = request.form.getlist("search_string")[0].strip()
+        sort_type = request.form.getlist("sort_type")[0]
+        collections = find_collections(name=search_string,
+                                       user_id=session.get("user_id"), sort=sort_type)
+    else:
+        collections = get_all_collections(session.get("user_id"))
+    return render_template("collection_search.html", collections=collections)
 
 
 # Написать сообщение пользователю по id
@@ -578,8 +584,7 @@ def send_prose(publisher_id, prose_id):
 @is_logged_in
 @is_creator
 def send_collection_page(publisher_id):
-    collections = get_creator_collections(session["user_id"], session["user_id"])
-    print(collections)
+    collections = get_creator_non_sent_collections(session["user_id"], publisher_id, session["user_id"])
     return render_template("send_collection_to_publisher.html", collections=collections, publisher_id=publisher_id)
 
 
@@ -587,7 +592,7 @@ def send_collection_page(publisher_id):
 @is_logged_in
 @is_creator
 def send_prose_page(publisher_id):
-    proses = get_creator_prose(session["user_id"], session["user_id"])
+    proses = get_creator_non_sent_proses(session["user_id"], publisher_id, session["user_id"])
     return render_template("send_prose_to_publisher.html", proses=proses, publisher_id=publisher_id)
 
 
@@ -646,6 +651,18 @@ def accept_collection(collection_id):
         print(coll)
     else:
         flash("wrong user type")
+    return redirect(request.referrer)
+
+
+@app.route('/define_poem_size/<int:poem_id>', methods=['GET', 'POST'])
+def define_size(poem_id):
+    poem = get_composition(poem_id, session["user_id"])
+    if poem:
+        file_path = "data/user_" + str(poem.creator_id) + "/poem/" + str(poem_id)
+        poem_size = define_poem_size(file_path)
+        flash("Размер стихотворения: " + poem_size)
+    else:
+        flash("Стихотворение не найдено")
     return redirect(request.referrer)
 
 
