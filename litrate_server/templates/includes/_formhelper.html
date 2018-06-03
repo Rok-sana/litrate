@@ -14,7 +14,7 @@
           <div class="repa-top">
               <a href={{url_for('user_profile', user_id=user.user_id)}} title="Профиль пользователя">
                 <img class="search_img" src="/data/user_{{user.user_id}}/avatar" class="repa-top-img"></a>
-              <p class="repa-top-angle">{% if user.user_type == "Creator" %} Автор {%else%} Издательство{%endif%} </p>
+              {% if user.user_type == "Creator" %}<p class="repa-top-angle_creator"> Автор {%else%}<p class="repa-top-angle_publisher">  Издательство{%endif%} </p>
               <p class="repa-top-skoka" title="Репутация"><span> {{user.rating}}</span></p>
           </div>
           <div class="repa-content">
@@ -32,11 +32,11 @@
 
 {% macro render_composition(comp) %}
 
-<div style="">
+<div style=" border-bottom: 1px solid;">
 
     <span>
         <a href={{url_for('composition_page',composition_id=comp.id)}} >
-        {{ comp.name }} [id:{{ comp.id }}]</a>
+        {{ comp.name }} </a>
 
 
         <span style="float: right;">
@@ -49,7 +49,7 @@
             {% endif %}
         </span>
         <span style="float: right;">(Рейтинг: {{ comp.rating }})&nbsp;</span>
-        <hr>
+
     </span>
 </div>
 {% endmacro %}
@@ -61,7 +61,7 @@
 
     <span style="font-size: 18px;">
         <a href={{url_for('composition_page',composition_id=comp.id)}} >
-        {{ comp.name }} [id:{{ comp.id }}]</a>
+        {{ comp.name }} </a>
 
 
         <span style="float: right;">
@@ -90,7 +90,6 @@
             <br>
             <span style="font-size: 24px">(Рейтинг: {{ comp.rating }})</span>
                 {% if session.signedin and session.user_id == comp.creator_id %}
-                    <a style="font-size: 24px;" href={{url_for('delete_composition',composition_id=comp.id)}} >Удалить</a>
                 {% endif %}
         </h1>
 
@@ -102,10 +101,13 @@
             {% if session.signedin and session.user_id == comp.creator_id %}
                 <form  action="" method="post">
                     <p hidden>comp.composition_id</p>
-                    <p><input type="submit" name="submit" value="Cохранить"></p>
-                    <textarea class="content_col" id="content_text" style="width: 100%; max-width: 100%; min-height: 2750px; max-height: 2750px; padding-right: 5px; overflow-x: hidden;  text-align: center; font-size:14px;" cols="100" name="text">{{text}}</textarea>
+                    <input style="width: 200px; height: 50px; margin: 10px auto; text-align: center;" type="button" onclick=" document.location.href = ' ';" value="Опредилить размер">
+                    <textarea class="content_col" id="content_text" style="min-width: 100%; max-width: 100%; min-height: 2000px; max-height: 2000px; padding-right: 5px; overflow-x: hidden;  text-align: center; font-size:14px;" cols="100" name="text">{{text}}</textarea>
+                     <p><input type="submit" style="width: 200px; height: 50px; margin: 10px auto;" name="submit" value="Cохранить">&nbsp;
+                     <input style="width: 200px; height: 50px; margin: 10px auto; text-align: center;" type="button" onclick="document.location.href = '{{url_for('delete_composition',composition_id=comp.id)}}' ;" value="Удалить"></p>
                 </form>
             {% else %}
+            <input style="width: 200px; height: 50px; margin: 10px auto; text-align: center;" onclick=" document.location.href = ' ';" value="Опредилить размер">
                <textarea class="content_col" id="content_text" readonly style="width: 100%; min-height:2750px; max-width: 100%; max-height: 2750px; text-align: center; font-size:14px; overflow-x: hidden; background: #f6f6f6; border-style: none; border-radius: 8px 0 0 0; padding: 8px 8px 8px 10px;" cols="100" name="text">{{text}}</textarea>
             {% endif %}
         </span>
@@ -174,7 +176,7 @@
 
         <span>
             <a href={{url_for('collection_page',collection_id=coll.collection_id)}} >
-                {{ coll.collection_name }} [id:{{ coll.collection_id }}]
+                {{ coll.collection_name }}
             </a>
             <span style="float: right;">(Рейтинг: {{ coll.rating }})&nbsp;</span>
             <hr>
@@ -187,7 +189,7 @@
     <div style="">
         <span style="font-size: 18px;">
             <a href={{url_for('collection_page',collection_id=coll.collection_id)}} >
-                {{ coll.collection_name }} [id:{{ coll.collection_id }}]
+                {{ coll.collection_name }}
             </a>
             <span style="float: right;">(Рейтинг: {{ coll.rating }})&nbsp; <a href={{url_for('send_collection',publisher_id=publisher_id,collection_id=coll.collection_id)}}> Отправить </a></span>
             <hr>
@@ -199,7 +201,7 @@
 <div style="">
     <span>
         <a href={{url_for('composition_page',composition_id=prose.id)}} >
-            {{ prose.name }} [id:{{ prose.id }}]
+            {{ prose.name }}
         </a>
         <span style="float: right;">
             (<a href={{url_for('accept_prose',prose_id=prose.id)}}>Принять</a> |
@@ -216,7 +218,7 @@
 
         <span>
             <a href={{url_for('collection_page',collection_id=coll.collection_id)}} >
-                {{ coll.collection_name }} [id:{{ coll.collection_id }}]
+                {{ coll.collection_name }}
             </a>
             <span style="float: right;">
                 (<a href={{url_for('accept_collection',collection_id=coll.collection_id)}} >Принять</a> |
@@ -254,6 +256,6 @@
     <li class="sent">
     {% endif %}
         <img src="/data/user_{{message.from_user_id}}/avatar" alt="" />
-        <p>{{message.message_text}}</p>
+        <p style="text-overflow: ellipsis; overflow: hidden;">{{message.message_text}}</p>
     </li>
 {% endmacro %}

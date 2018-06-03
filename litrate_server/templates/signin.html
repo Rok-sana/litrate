@@ -1,20 +1,38 @@
 {% extends "index.html" %}
 {% from "includes/_formhelper.html" import render_field %}
 {% block signin %}
+<style>
+
+input {
+	width: 300px;
+	font-size: 13px;
+	padding: 6px 0 4px 10px;
+	border: 1px solid #cecece;
+	background: #F6F6f6;
+	border-radius: 8px;
+}
+input {
+	padding-bottom: 5px\0;
+}
+
+</style>
     <div class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
         <button data-remodal-action="close" class="remodal-close" aria-label="Закрыть"></button>
-        <div>
             <h2 id="modal1Title">Авторизация</h2>
             <p id="modal1Desc">
                 <form name="login-form" class="login-form" action="" method="post">
-                    {{ render_field(form.email) }}
-                    {{ render_field(form.password) }}
-                    <input type="submit" name="submit" value="ВОЙТИ">
-                </form>
+                    <p style="margin: 10px 0;">E-mail</p>
+                    {{ form.email }}
+                    <p style="margin: 10px 0;">Пароль</p>
+                    {{ form.password }}<br/>
+                    <input style="margin: 10px 0;" type="submit" name="submit" value="Войти">
+                     </form>
+
             </p>
         </div>
         <br>
                     <!--<button data-remodal-action="cancel" class="remodal-cancel">Отмена</button>
                     <button data-remodal-action="confirm" class="remodal-confirm">Ок</button>!-->
     </div>
+
 {% endblock %}

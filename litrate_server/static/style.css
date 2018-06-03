@@ -799,7 +799,7 @@ a {
   height: auto;
   vertical-align: middle;
   }
-  .repa-top-angle {
+  .repa-top-angle_creator {
   width: 180px;
   height: 30px;
   line-height: 30px;
@@ -814,6 +814,24 @@ a {
   font-weight: lighter;
   opacity:1
   }
+
+  .repa-top-angle_publisher {
+  width: 180px;
+  height: 30px;
+  line-height: 30px;
+  position: absolute;
+  top: 26px;
+  right: -50px;
+  transform:rotate(45deg);
+  color: #FFFFFF;
+  text-align: center;
+  background: blue;
+  font-size: 12px;
+  font-weight: lighter;
+  opacity:1
+  }
+
+
   .repa-top-skoka {
   width: 100%;
   position: absolute;

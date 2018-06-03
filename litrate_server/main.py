@@ -148,11 +148,18 @@ def profile():
 
 
 # Страница пользователя по id
-@app.route("/profile/<int:user_id>")
+@app.route("/profile/<int:user_id>",  methods=['GET', 'POST'])
 def user_profile(user_id):
     user = find_user_by_id(user_id)
     if not user:
         return render_template("user_error.html")
+
+    if request.method == 'POST':
+        message_text = request.form.getlist("message_text")[0]
+        if message_text:
+            add_message(session["user_id"], user_id, message_text)
+            flash("Сообщение отправлено")
+        return redirect(request.referrer)
 
     if user["user_type"] == USER_TYPES.CREATOR:
         compositions = normalize_compositions(get_creators_compositions(user["user_id"], session.get("user_id")))

@@ -3,7 +3,7 @@
 
 {% from "includes/_formhelper.html" import render_sent_collection, render_sent_prose, render_collection, render_composition %}
 <div style="float: right; ">
-    <h1> <span style="float: right; margin-right: 20px;"> Издатель [Рейтинг: {{session.user.rating}}]</span></h1>
+    <h1> <span style="float: right; margin-right: 20px;"> Издатель </span></h1>
 </div>
 
 <div style="margin-bottom: 60px;">
@@ -17,15 +17,14 @@
                 <li><a href="#tab-1">Профиль</a></li>
                 <li><a href="#tab-2">Сборники</a></li>
                 <li><a href="#tab-3">Проза</a></li>
-                {% if session.signedin and session.user_id == user.user_id %}
 
-                    <li><a href="#tab-4">Присланные сборники</a></li>
-                    <li><a href="#tab-5">Присланная проза</a></li>
-                {% endif %}
             </ul>
 
             <div id="tab-1">
                 <p>Информация о издательстве</p>
+                    <p>{{user.birth}}</p>
+                    <p>{{user.phone}}</p>
+                    <p>{{user.user_additional_info}}</p>
             </div>
             <div id="tab-2">
                 <p>Изданные сборники</p>
@@ -39,20 +38,6 @@
                     {{ render_composition(prose) }}
                 {% endfor %}
             </div>
-            {% if session.signedin and session.user_id == user.user_id %}
-            <div id="tab-4">
-                <p>Присланные сборники</p>
-                {% for coll in sent_collections %}
-                    {{ render_sent_collection(coll) }}
-                {% endfor %}
-            </div>
-            <div id="tab-5">
-                <p>Присланная проза</p>
-                {% for prose in sent_proses %}
-                    {{ render_sent_prose(prose) }}
-                {% endfor %}
-            </div>
-            {% endif %}
         </div>
     </div>
 

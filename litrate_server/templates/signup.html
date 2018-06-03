@@ -1,17 +1,35 @@
 {% extends "index.html" %}
 {% block signin %}
 {% from "includes/_formhelper.html" import render_field %}
+<style>
+
+input {
+	width: 300px;
+	font-size: 13px;
+	padding: 6px 0 4px 10px;
+	border: 1px solid #cecece;
+	background: #F6F6f6;
+	border-radius: 8px;
+}
+input {
+	padding-bottom: 5px\0;
+}
+
+</style>
 <div class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
         <button data-remodal-action="close" class="remodal-close" aria-label="Закрыть"></button>
-        <div>
-            <h2 id="modal1Title">Авторизация</h2>
+            <h2 id="modal1Title">Регистрация</h2>
             <p id="modal1Desc">
                 <form name="login-form" class="login-form" action="" method="post">
-                    <p> {{ render_field(form.email) }} </p>
-                    <p> {{ render_field(form.password) }} </p>
-                    <p> {{ render_field(form.confirm) }} </p>
-                    <p> {{ render_field(form.type) }} </p>
-                    <input type="submit" name="submit" value="ЗАРЕГИСТРИРОВАТЬСЯ">
+                        <p style="margin: 10px 0;">E-mail</p>
+                        {{ form.email }}
+                         <p style="margin: 10px 0;">Пароль</p>
+                        {{ form.password }}
+                        <p style="margin: 10px 0;">Повторить пароль</p>
+                        {{ form.confirm }}
+                        <p style="margin: 10px 0;">Тип</p>
+                        {{ form.type }} <br/>
+                    <input style="margin: 10px 0;" type="submit" name="submit" value="Зарегистрироваться">
                 </form>
             </p>
         </div>
