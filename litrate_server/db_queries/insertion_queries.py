@@ -120,19 +120,28 @@ def insert_poem_collection(collection_id, poem_id):
     database.execute_query(query)
 
 
-def insert_collection_to_publisher(offer_id, collection_id, publisher_id, posting_date):
+def insert_collection_to_publisher(offer_id, collection_id, publisher_id, post_date):
     query = "INSERT INTO Sent_Collections(offer_id, collection_id, publisher_id, " \
             "post_date, status) " \
             "VALUES({0}, {1}, {2}, \'{3}\', \'{4}\'); ".format(offer_id, collection_id, publisher_id,
-                                                               posting_date, "Sent")
+                                                               post_date, "Sent")
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)
 
 
-def insert_prose_to_publisher(offer_id, prose_id, publisher_id, posting_date):
+def insert_prose_to_publisher(offer_id, prose_id, publisher_id, post_date):
     query = "INSERT INTO Sent_Proses(offer_id, prose_id, publisher_id, " \
             "post_date, status) " \
             "VALUES({0}, {1}, {2}, \'{3}\', \'{4}\'); ".format(offer_id, prose_id, publisher_id,
-                                                               posting_date, "Sent")
+                                                               post_date, "Sent")
+    database = MySqlDatabase(DATABASE_CONFIG)
+    database.execute_query(query)
+
+
+def insert_message(message_id, from_user_id, to_user_id, post_date, message_text):
+    query = "INSERT INTO Messages(message_id, from_user_id, to_user_id, " \
+            "post_date, message_text) " \
+            "VALUES({0}, {1}, {2}, \'{3}\', \'{4}\'); ".format(message_id, from_user_id, to_user_id,
+                                                               post_date, message_text)
     database = MySqlDatabase(DATABASE_CONFIG)
     database.execute_query(query)

@@ -103,6 +103,22 @@ def find_minimum_unused_user_id():
     return database.execute_query(query, False)['unused'][0]
 
 
+# Поиск минимального натурального неиспользованного идентификатора пользователя
+def find_minimum_unused_message_id():
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT min(unused) AS unused " \
+            "FROM ( " \
+            "SELECT MIN(t1.message_id)+1 as unused " \
+            "FROM Messages AS t1 " \
+            "WHERE NOT EXISTS (SELECT * FROM Messages AS t2 WHERE t2.message_id = t1.message_id+1) " \
+            "UNION " \
+            "SELECT 1 " \
+            "FROM DUAL " \
+            "WHERE NOT EXISTS (SELECT * FROM Messages WHERE message_id = 1) " \
+            ") AS subquery;"
+    return database.execute_query(query, False)['unused'][0]
+
+
 # Поиск минимального натурального неиспользованного идентификатора
 def find_minimum_unused_sent_collection_offer():
     database = MySqlDatabase(DATABASE_CONFIG)
@@ -234,3 +250,44 @@ def find_prose_to_publisher(prose_id, publisher_id):
         for k in res:
             offer[k] = res[k][0]
     return offer
+
+
+def find_dialog_companions_to(user_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT to_user_id " \
+            "FROM Messages " \
+            "WHERE from_user_id={0};".format(user_id)
+    res = database.execute_query(query)
+    companions = []
+    if res:
+        companions = res["to_user_id"]
+    return companions
+
+
+def find_dialog_companions_from(user_id):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT from_user_id " \
+            "FROM Messages " \
+            "WHERE to_user_id={0};".format(user_id)
+    res = database.execute_query(query)
+    companions = []
+    if res:
+        companions = res["from_user_id"]
+    return companions
+
+
+def get_dialog_between_users(user_id_1, user_id_2):
+    database = MySqlDatabase(DATABASE_CONFIG)
+    query = "SELECT * " \
+            "FROM Messages " \
+            "WHERE (to_user_id={0} AND from_user_id={1}) OR " \
+            "(to_user_id={1} AND from_user_id={0}) " \
+            "ORDER BY post_date;".format(user_id_1, user_id_2)
+    res = database.execute_query(query)
+    messages = []
+    if res:
+        for i in range(len(res["to_user_id"])):
+            messages.append(dict())
+            for k in res:
+                messages[i][k] = res[k][i]
+    return messages

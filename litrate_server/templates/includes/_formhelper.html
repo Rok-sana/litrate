@@ -227,3 +227,33 @@
         </span>
     </div>
 {% endmacro %}
+
+{% macro render_message_side_person(dialogs, dialog_user_id, main) %}
+    <a href={{url_for('messenger',user_id=dialog_user_id)}} style="color: black;">
+        {% if main %}
+        <li class="contact active">
+        {% else %}
+        <li class="contact" >
+        {% endif %}
+            <div class="wrap">
+                <!--<span class="contact-status online"></span>!-->
+                <img src="/data/user_{{dialog_user_id}}/avatar" alt="" />
+                <div class="meta">
+                    <p class="name">{{dialogs[dialog_user_id]["companion_name"]}}</p>
+                    <p class="preview">{{dialogs[dialog_user_id]["messages"][dialogs[dialog_user_id]["messages"]|length - 1]["message_text"]}}</p>
+                </div>
+            </div>
+        </li>
+    </a>
+{% endmacro %}
+
+{% macro render_message(message) %}
+    {% if message.from_user_id == session.user_id %}
+    <li class="replies">
+    {% else %}
+    <li class="sent">
+    {% endif %}
+        <img src="/data/user_{{message.from_user_id}}/avatar" alt="" />
+        <p>{{message.message_text}}</p>
+    </li>
+{% endmacro %}

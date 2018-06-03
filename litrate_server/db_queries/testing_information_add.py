@@ -1,6 +1,7 @@
 from db_queries.signingup import signup_user
 from passlib.handlers.sha2_crypt import sha256_crypt
 from db_queries.file_adding import *
+from db_queries.messages_work import add_message
 from db_queries.update_queries import update_user_name
 
 
@@ -94,3 +95,4 @@ def add_compositions():
                      [], 5, 5)  # 35
     add_prose_by_text("", "Примара",
                      [], 5, 5)  # 36
+

@@ -4,7 +4,7 @@ from db_queries.basic_information_add import add_information
 import os
 import shutil
 
-tables = ['Types_Proses', 'Types_Poems', 'Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections',
+tables = ['Messages', 'Types_Proses', 'Types_Poems', 'Accepted_Proses_Dialogs', 'Accepted_Collections_Dialogs', 'Accepted_Collections',
           'Accepted_Proses', 'Offer_Statuses', 'Issues', 'Sent_Collections', 'Sent_Proses', 'Poems_Collections', 'Collections',
           'Comments', 'Proses', 'Poems', 'Poem_types', 'Prose_types', 'Compositions_Marks', 'Compositions',
           'Moderators', 'Publishers', 'Creators', 'Users', 'User_types']
@@ -196,6 +196,20 @@ def _create_table_sent_proses(db: MySqlDatabase):
             "REFERENCES Publishers(publisher_id) ON UPDATE CASCADE ON DELETE CASCADE );"
     db.execute_query(query)
 
+
+def _create_table_messages(db: MySqlDatabase):
+    query = "CREATE TABLE Messages ( " \
+            "message_id INT NOT NULL PRIMARY KEY, " \
+            "from_user_id INT NOT NULL, " \
+            "to_user_id INT NOT NULL, " \
+            "post_date DATE NOT NULL, " \
+            "message_text VARCHAR(250) CHARACTER SET utf8, " \
+            "FOREIGN KEY (from_user_id) " \
+            "REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE, " \
+            "FOREIGN KEY (to_user_id) " \
+            "REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE);"
+    db.execute_query(query)
+
 '''
 def _create_table_issues(db: MySqlDatabase):
     query = "CREATE TABLE Issues ( " \
@@ -292,6 +306,7 @@ def _create_database(db: MySqlDatabase):
     _create_table_poems_collections(db)
     _create_table_sent_collections(db)
     _create_table_sent_proses(db)
+    _create_table_messages(db)
     '''
     _create_table_comments(db)
     _create_table_issues(db)
@@ -304,7 +319,7 @@ def _create_database(db: MySqlDatabase):
 
 
 def add_test_information():
-    from db_queries.test_information_add import add_users, add_compositions
+    from db_queries.testing_information_add import add_users, add_compositions
     add_users()
     add_compositions()
 

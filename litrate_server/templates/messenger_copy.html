@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% from "includes/_formhelper.html" import render_message_side_person, render_message %}
+{% from "includes/_formhelper.html" import render_users_for_search %}
 
 {% block title %}
 <title>Мессенджер</title>
@@ -739,37 +739,61 @@
 	<div id="sidepanel">
 		<div id="contacts">
 			<ul>
-				{% if dialogs %}
-				{% for companion in dialogs %}
-					{{render_message_side_person(dialogs, companion, companion==to_user_id)}}
-				{% endfor %}
-				{% endif %}
-
+				<li class="contact">
+					<div class="wrap">
+						<!--<span class="contact-status online"></span>!-->
+						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+						<div class="meta">
+							<p class="name">А этот вообще никто</p>
+							<p class="preview">Привет. Я тут превью пишу, так что вот так вот</p>
+						</div>
+					</div>
+				</li>
+				<li class="contact active">
+					<div class="wrap">
+						<!--<span class="contact-status busy"></span>!-->
+						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+						<div class="meta">
+							<p class="name">Хер Моржовый</p>
+							<p class="preview">Привет. Я тут превью пишу, так что вот так вот</p>
+						</div>
+					</div>
+				</li>
+				<li class="contact">
+					<div class="wrap">
+						<!--<span class="contact-status away"></span>!-->
+						<img src="http://emilcarlsson.se/assets/rachelzane.png" alt="" />
+						<div class="meta">
+							<p class="name">Пыжик Портной</p>
+							<p class="preview">Привет. Я тут превью пишу, так что вот так вот</p>
+						</div>
+					</div>
+				</li>
 
 			</ul>
 		</div>
+
 	</div>
 	<div class="content">
-	{% if dialogs %}
-
 		<div class="contact-profile">
-			<img src="/data/user_{{to_user_id}}/avatar" alt="" />
-			<p>{{dialogs[to_user_id]["companion_name"]}}</p>
+			<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+			<p>Хер Моржовый</p>
 		</div>
 		<div class="messages">
 			<ul>
-
-				{% for message in dialogs[to_user_id]["messages"] %}
-					{{render_message(message)}}
-				{% endfor %}
+				<li class="sent">
+					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+					<p>Привет</p>
+				</li>
+				<li class="replies">
+					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+					<p>Привет. Как дела?</p>
+				</li>
 			</ul>
 		</div>
-
-	{% endif %}
 		<div class="message-input">
 			<form method="post">
 				<div class="wrap">
-				<input hidden value="{{to_user_id}}" name="to_user_id"/>
 				<input type="text" name="message_text" placeholder="Write your message..." />
 				<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 				</div>
@@ -829,9 +853,9 @@ function newMessage() {
 	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 };
 
-/*$('.submit').click(function() {
+$('.submit').click(function() {
   newMessage();
-});*/
+});
 
 /*$(window).on('keydown', function(e) {
 /  if (e.which == 13) {

@@ -8,6 +8,7 @@ import db_queries.delete_queries
 from db_queries.composition_work import *
 from db_queries.collection_work import *
 from db_queries.publisher_work import *
+from db_queries.messages_work import *
 from db_queries.update_queries import update_user_info, update_composition_edit_date
 from db_queries.signingup import signup_user
 from passlib.hash import sha256_crypt
@@ -81,11 +82,6 @@ def is_creator(f):
 @app.route("/")
 def index():
     return render_template("index.html")
-
-
-@app.route("/messenger")
-def messenger():
-    return render_template("messenger.html")
 
 
 # Страница регистрации пользователя
@@ -471,10 +467,40 @@ def collection_search():
 
 
 # Написать сообщение пользователю по id
-@app.route('/write/<int:user_id>')
+@app.route('/write/user_id=<int:user_id>&message=<string:message>')
 @is_logged_in
-def write_message(user_id):
+def write_message(user_id, message):
+    user = find_user_by_id(user_id)
+    if user:
+        add_message(session["user_id"], user_id, message)
+    else:
+        flash("Пользователь не найден!")
     return redirect(request.referrer)
+
+
+@app.route("/messenger", methods=['GET', 'POST'])
+@is_logged_in
+def default_messenger():
+    dialogs = get_dialogs_for_user(session["user_id"])
+    if dialogs:
+        key = list(dialogs.keys())[0]
+        return messenger(key)
+    return render_template("messenger.html", dialogs=dict())
+
+
+@app.route("/messenger/<int:user_id>", methods=['GET', 'POST'])
+@is_logged_in
+def messenger(user_id):
+    if request.method == 'POST':
+        message = request.form.getlist("message_text")[0]
+        to_user = request.form.getlist("to_user_id")[0]
+        if message:
+            add_message(session["user_id"], to_user, message)
+    dialogs = get_dialogs_for_user(session["user_id"])
+    if not dialogs.get(user_id):
+        user_id = list(dialogs.keys())[0]
+    return render_template("messenger.html", dialogs=dialogs,
+                           to_user_id=user_id)
 
 
 # Получить аватар пользователя
@@ -566,10 +592,12 @@ def accept_prose(prose_id):
         if prose["status"] == "Sent":
             modify_sent_prose_status(prose["offer_id"], "Accepted")
             flash("prose was accepted")
-            # !!! Sent message to user
+            prose = get_composition(prose_id, session["user_id"])
+            message_text = "Ваш запрос на публикацию \"{0}\" был принят! " \
+                           "Напишите для уточнения деталей!".format(prose.name)
+            add_message(session["user_id"], prose.creator_id, message_text)
         else:
             flash("wrong prose status")
-        print(prose)
     else:
         flash("wrong user type")
     return redirect(request.referrer)
@@ -583,7 +611,10 @@ def refuse_prose(prose_id):
         if prose["status"] == "Sent":
             modify_sent_prose_status(prose["offer_id"], "Refused")
             flash("prose was refused")
-            # !!! Sent message to user
+            prose = get_composition(prose_id, session["user_id"])
+            message_text = "Ваш запрос на публикацию \"{0}\" был отклонен! " \
+                           "Приносим свои извинения!".format(prose.name)
+            add_message(session["user_id"], prose.creator_id, message_text)
         else:
             flash("wrong prose status")
         print(prose)
@@ -600,7 +631,9 @@ def accept_collection(collection_id):
         if coll["status"] == "Sent":
             modify_sent_collection_status(coll["offer_id"], "Accepted")
             flash("prose was accepted")
-            # !!! Sent message to user
+            message_text = "Ваш запрос на публикацию коллекции \"{0}\" был принят! " \
+                           "Напишите для уточнения деталей!".format(coll["collection_name"])
+            add_message(session["user_id"], coll["creator_id"], message_text)
         else:
             flash("wrong prose status")
         print(coll)
@@ -617,7 +650,9 @@ def refuse_collection(collection_id):
         if coll["status"] == "Sent":
             modify_sent_collection_status(coll["offer_id"], "Refused")
             flash("prose was refused")
-            # !!! Sent message to user
+            message_text = "Ваш запрос на публикацию коллекции \"{0}\" был отклонен! " \
+                           "Приносим свои извинения!".format(coll["collection_name"])
+            add_message(session["user_id"], coll["creator_id"], message_text)
         else:
             flash("wrong prose status")
         print(coll)
@@ -626,21 +661,19 @@ def refuse_collection(collection_id):
     return redirect(request.referrer)
 
 
-
 @app.route('/sent_colletions', methods=['GET', 'POST'])
 @is_logged_in
 def sent_collections():
     sent_collections = get_collections_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
-    sent_proses = get_proses_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
     return render_template("sent_collections.html",sent_collections=sent_collections)
 
 
 @app.route('/sent_proses', methods=['GET', 'POST'])
 @is_logged_in
 def sent_proses():
-    sent_collections = get_collections_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
     sent_proses = get_proses_to_publisher_by_status(session["user_id"], "Sent", session["user_id"])
     return render_template("sent_proses.html",sent_proses=sent_proses)
+
 
 # Получить какой-нибудь статический файл (js, css, ico...)
 @app.route('/static/<path:path>')
