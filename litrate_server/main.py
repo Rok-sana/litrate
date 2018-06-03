@@ -83,9 +83,9 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/menu")
-def menu():
-    return render_template("menu.html")
+@app.route("/messenger")
+def messenger():
+    return render_template("messenger.html")
 
 
 # Страница регистрации пользователя
