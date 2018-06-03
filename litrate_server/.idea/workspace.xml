@@ -14,10 +14,28 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="239" column="13" lean-forward="true" selection-start-line="239" selection-start-column="13" selection-end-line="239" selection-end-column="13" />
+            <state relative-caret-position="214">
+              <caret line="232" column="17" selection-start-line="232" selection-start-column="17" selection-end-line="232" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="composition_search.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/composition_search.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="109" selection-start-line="109" selection-end-line="109" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="poem_size_definer.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/poem_size/poem_size_definer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -26,8 +44,8 @@
       <file leaf-file-name="composition_work.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_queries/composition_work.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="9" column="12" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+            <state relative-caret-position="119">
+              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -35,22 +53,10 @@
       <file leaf-file-name="_formhelper.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/includes/_formhelper.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="103" column="186" selection-start-line="103" selection-start-column="186" selection-end-line="103" selection-end-column="186" />
+            <state relative-caret-position="1751">
+              <caret line="103" column="224" selection-start-line="103" selection-start-column="224" selection-end-line="103" selection-end-column="224" />
               <folding>
                 <element signature="e#1376#1410#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="poem_size_definer.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/poem_size/poem_size_definer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="144" column="31" lean-forward="true" selection-start-line="144" selection-start-column="31" selection-end-line="144" selection-end-column="31" />
-              <folding>
-                <element signature="e#2#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -143,7 +149,6 @@
         <option value="$PROJECT_DIR$/templates/composition.html" />
         <option value="$PROJECT_DIR$/templates/sent_proses.html" />
         <option value="$PROJECT_DIR$/templates/sent_collections.html" />
-        <option value="$PROJECT_DIR$/templates/composition_search.html" />
         <option value="$PROJECT_DIR$/static/style.css" />
         <option value="$PROJECT_DIR$/templates/user_search.html" />
         <option value="$PROJECT_DIR$/templates/collection_search.html" />
@@ -159,6 +164,7 @@
         <option value="$PROJECT_DIR$/db_queries/get_queries.py" />
         <option value="$PROJECT_DIR$/templates/includes/_formhelper.html" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/templates/composition_search.html" />
         <option value="$PROJECT_DIR$/poem_size/poem_size_definer.py" />
       </list>
     </option>
@@ -362,26 +368,26 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="-4" width="1305" height="772" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16398467" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16341145" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="R Packages" order="3" />
-      <window_info anchor="right" id="R Graphics" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5057648" side_tool="true" weight="0.33083832" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49423522" weight="0.27710843" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Python Console" order="8" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49423522" visible="true" weight="0.27586207" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3986207" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3986207" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="R Graphics" order="3" />
       <window_info anchor="bottom" id="Inspection Results" order="9" weight="0.32965517" />
+      <window_info anchor="right" id="R Packages" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32827586" />
@@ -399,6 +405,30 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4063">
+          <caret line="239" column="13" lean-forward="true" selection-start-line="239" selection-start-column="13" selection-end-line="239" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_queries/composition_work.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="12" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/includes/_formhelper.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1751">
+          <caret line="103" column="183" lean-forward="true" selection-start-line="103" selection-start-column="183" selection-end-line="103" selection-end-column="183" />
+          <folding>
+            <element signature="e#1376#1410#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/menu.html" />
     <entry file="file://$PROJECT_DIR$/data/user_2/poem/6" />
     <entry file="file://$PROJECT_DIR$/data/user_1/poem/3" />
@@ -440,19 +470,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/_messages.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/sent_proses.html" />
     <entry file="file://$PROJECT_DIR$/templates/sent_collections.html" />
     <entry file="file://$PROJECT_DIR$/templates/send_collection_to_publisher.html" />
-    <entry file="file://$PROJECT_DIR$/templates/composition_search.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="387">
@@ -501,9 +521,6 @@
         <state relative-caret-position="-1785" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/prose_adding.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/user_publisher_profile.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -543,9 +560,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142">
           <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -560,9 +574,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="51" column="41" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#98#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -573,42 +584,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/user_3/poem/16">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="239" column="13" lean-forward="true" selection-start-line="239" selection-start-column="13" selection-end-line="239" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="214">
+          <caret line="232" column="17" selection-start-line="232" selection-start-column="17" selection-end-line="232" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db_queries/composition_work.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" column="12" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+        <state relative-caret-position="119">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/includes/_formhelper.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="103" column="186" selection-start-line="103" selection-start-column="186" selection-end-line="103" selection-end-column="186" />
+        <state relative-caret-position="1751">
+          <caret line="103" column="224" selection-start-line="103" selection-start-column="224" selection-end-line="103" selection-end-column="224" />
           <folding>
             <element signature="e#1376#1410#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/composition_search.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="109" selection-start-line="109" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/poem_size/poem_size_definer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="144" column="31" lean-forward="true" selection-start-line="144" selection-start-column="31" selection-end-line="144" selection-end-column="31" />
+        <state relative-caret-position="34">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
           <folding>
-            <element signature="e#2#15#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>

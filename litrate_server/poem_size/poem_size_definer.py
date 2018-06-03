@@ -1,8 +1,6 @@
 import codecs
 import re
-from langdetect import detect
 import urllib.request
-import requests
 
 
 def get_word_accentuation(word):

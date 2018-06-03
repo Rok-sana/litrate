@@ -16,8 +16,6 @@
     <script src="/static/jquery.selectric.js"></script>
     <script src="/static/menu.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-        <script type="text/javascript" src="/static/ResizeSensor.js"></script>
-        <script type="text/javascript" src="/static/theia-sticky-sidebar.js"></script>
         <script type="text/javascript" src="/static/test.js"></script>
 {% endblock %}
 
@@ -53,7 +51,7 @@
         padding: 8px 0 8px 10px;
 }
       .leftSidebar {
-				width: *;
+				width: 320px;
 				float: right;
 				padding: 0 30px 0 0;
 				position: relative;
@@ -124,6 +122,8 @@
 
 {% block scripts %}
     <script src="/static/jquery.selectric.js"></script>
+    <script type="text/javascript" src="/static/ResizeSensor.js"></script>
+    <script type="text/javascript" src="/static/theia-sticky-sidebar.js"></script>
     <script>
     //Выбор тип
         function type(){
