@@ -52,7 +52,8 @@ def get_creator_non_sent_collections(creator_id, publisher_id, curr_user_id):
     collections = get_creator_collections(creator_id, curr_user_id)
     correct_collections = []
     for collection in collections:
-        if not find_collection_to_publisher(collection["collections_id"], publisher_id):
+        print(collection)
+        if not find_collection_to_publisher(collection["collection_id"], publisher_id):
             correct_collections.append(collection)
     return correct_collections
 

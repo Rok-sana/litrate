@@ -1,6 +1,6 @@
 import codecs
 import re
-import urllib.request
+import requests
 
 
 def get_word_accentuation(word):
@@ -61,6 +61,8 @@ def get_normalized_lines(text):
         normalized_lines.append([])
         for word in line:
             normalized_lines[len(normalized_lines) - 1] += get_word_accentuation(find_word(word))
+        print(line)
+        print(normalized_lines[len(normalized_lines) - 1])
     return normalized_lines
 
 

@@ -643,8 +643,10 @@ def accept_collection(collection_id):
         if coll["status"] == "Sent":
             modify_sent_collection_status(coll["offer_id"], "Accepted")
             flash("prose was accepted")
+            print(coll)
+            coll = get_collection(coll["collection_id"], session["user_id"])
             message_text = "Ваш запрос на публикацию коллекции \"{0}\" был принят! " \
-                           "Напишите для уточнения деталей!".format(coll["collection_name"])
+                           "Напишите для уточнения деталей!".format(coll["collection_id"])
             add_message(session["user_id"], coll["creator_id"], message_text)
         else:
             flash("wrong prose status")
@@ -657,6 +659,7 @@ def accept_collection(collection_id):
 @app.route('/define_poem_size/<int:poem_id>', methods=['GET', 'POST'])
 def define_size(poem_id):
     poem = get_composition(poem_id, session["user_id"])
+    print(poem)
     if poem:
         file_path = "data/user_" + str(poem.creator_id) + "/poem/" + str(poem_id)
         poem_size = define_poem_size(file_path)
@@ -674,8 +677,9 @@ def refuse_collection(collection_id):
         if coll["status"] == "Sent":
             modify_sent_collection_status(coll["offer_id"], "Refused")
             flash("prose was refused")
+            coll = get_collection(coll["collection_id"], session["user_id"])
             message_text = "Ваш запрос на публикацию коллекции \"{0}\" был отклонен! " \
-                           "Приносим свои извинения!".format(coll["collection_name"])
+                           "Приносим свои извинения!".format(coll["collection_id"])
             add_message(session["user_id"], coll["creator_id"], message_text)
         else:
             flash("wrong prose status")
